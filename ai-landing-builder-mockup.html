@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rep QR Landing Builder Mockup</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --border: #e5e7eb;
+        --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        --text: #0f172a;
+        --muted: #64748b;
+        --accent: #2563eb;
+        --accent-soft: #eff6ff;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --radius: 16px;
+        --radius-sm: 10px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .header {
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 28px;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      .logo {
+        font-weight: 800;
+        font-size: 20px;
+        letter-spacing: -0.02em;
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pill {
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .btn {
+        border: none;
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .journey {
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        padding: 14px 28px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .journey-track {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+      }
+
+      .journey-step {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 10px;
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        gap: 8px;
+        align-items: center;
+        background: #fff;
+      }
+
+      .journey-step .dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        font-weight: 700;
+        background: #e2e8f0;
+        color: #475569;
+      }
+
+      .journey-step.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .journey-step.active .dot {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .journey-step.completed .dot {
+        background: var(--success);
+        color: #fff;
+      }
+
+      .journey-step small {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .journey-meta {
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 260px 1.2fr 1fr;
+        gap: 24px;
+        padding: 24px 28px 32px;
+        flex: 1;
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: var(--shadow);
+        min-height: 0;
+      }
+
+      .panel h2 {
+        font-size: 16px;
+        margin: 0 0 4px;
+      }
+
+      .panel small {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .step {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 10px;
+        align-items: start;
+        background: #fff;
+      }
+
+      .step.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .step .index {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .step small {
+        display: block;
+        margin-top: 4px;
+      }
+
+      .ai-flow {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 16px;
+        min-height: 0;
+      }
+
+      .flow-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .flow-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px 14px;
+        background: #fff;
+      }
+
+      .flow-card.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .flow-card h3 {
+        margin: 0 0 6px;
+        font-size: 14px;
+      }
+
+      .flow-card ul {
+        margin: 6px 0 0 16px;
+        padding: 0;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .flow-tags {
+        margin-top: 8px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .flow-tags .tag {
+        background: #e2e8f0;
+        color: #334155;
+      }
+
+      .layout-builder {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        background: #fff;
+        display: grid;
+        gap: 12px;
+      }
+
+      .layout-builder h3 {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      .layout-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .layout-tab {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #f8fafc;
+        color: #334155;
+      }
+
+      .layout-tab.active {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .template-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .template-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        display: grid;
+        gap: 6px;
+        background: #fff;
+      }
+
+      .template-card.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .template-card .template-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .template-card .template-meta {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .template-card .template-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .template-config {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        background: #f8fafc;
+        display: grid;
+        gap: 10px;
+      }
+
+      .config-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid var(--border);
+        font-size: 12px;
+      }
+
+      .config-row .config-meta {
+        color: var(--muted);
+      }
+
+      .config-section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-top: 4px;
+      }
+
+      .config-pill {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 6px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        color: #334155;
+      }
+
+      .config-pill.ai {
+        background: #ecfdf3;
+        color: var(--success);
+      }
+
+      .config-pill.optional {
+        background: #fff7ed;
+        color: var(--warning);
+      }
+
+      .form-builder {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px;
+        background: #fff;
+        display: grid;
+        gap: 6px;
+      }
+
+      .form-field {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 8px;
+        font-size: 11px;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .template-toggle {
+        display: none;
+      }
+
+      .template-toggle.active {
+        display: grid;
+      }
+
+      .layout-map {
+        display: grid;
+        gap: 8px;
+      }
+
+      .layout-map-group {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        background: #fff;
+        display: grid;
+        gap: 8px;
+      }
+
+      .layout-map-group.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+      }
+
+      .layout-map-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .layout-row {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 12px;
+      }
+
+      .layout-row strong {
+        font-size: 12px;
+      }
+
+      .layout-row .row-meta {
+        color: var(--muted);
+      }
+
+      .layout-insights {
+        display: grid;
+        gap: 8px;
+      }
+
+      .layout-insights .tag {
+        background: #f1f5f9;
+      }
+
+      .status-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .status-card {
+        flex: 1 1 160px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        padding: 12px;
+        background: #fff;
+      }
+
+      .status-title {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 6px;
+        font-weight: 600;
+      }
+
+      .status-value {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .chat {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      .chat-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 6px;
+      }
+
+      .bubble {
+        max-width: 85%;
+        padding: 12px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+      }
+
+      .bubble.ai {
+        background: var(--accent-soft);
+        color: var(--text);
+      }
+
+      .bubble.user {
+        background: #0f172a;
+        color: #fff;
+        margin-left: auto;
+      }
+
+      .chat-input {
+        display: flex;
+        gap: 8px;
+        border-top: 1px solid var(--border);
+        padding-top: 12px;
+      }
+
+      .chat-input input {
+        flex: 1;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      .preview {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 12px;
+        min-height: 0;
+      }
+
+      .preview-frame {
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+        padding: 16px;
+        min-height: 640px;
+        display: none;
+        align-content: start;
+      }
+
+      .preview-frame.active {
+        display: grid;
+      }
+
+      .landing-page {
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+        display: grid;
+        gap: 0;
+      }
+
+      .landing-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid #eef2f7;
+        background: #ffffff;
+        font-size: 12px;
+        color: #64748b;
+      }
+
+      .landing-hero {
+        padding: 28px 24px;
+        display: grid;
+        gap: 16px;
+        background: linear-gradient(120deg, #0f172a 0%, #1e3a8a 100%);
+        color: #fff;
+      }
+
+      .hero-video {
+        height: 180px;
+        border-radius: 14px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        color: #e2e8f0;
+        gap: 6px;
+      }
+
+      .hero-video span {
+        font-size: 18px;
+      }
+
+      .landing-hero h3 {
+        font-size: 22px;
+        margin: 0;
+      }
+
+      .landing-hero p {
+        margin: 0;
+        color: #e2e8f0;
+      }
+
+      .landing-hero .hero-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        width: fit-content;
+      }
+
+      .landing-hero .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        border: none;
+      }
+
+      .landing-section {
+        padding: 20px 24px;
+        border-bottom: 1px solid #eef2f7;
+      }
+
+      .landing-section:last-child {
+        border-bottom: none;
+      }
+
+      .landing-section h4 {
+        margin: 0 0 8px;
+        font-size: 14px;
+      }
+
+      .landing-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .landing-note {
+        font-size: 11px;
+        color: #94a3b8;
+        margin-top: 4px;
+      }
+
+      .landing-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .landing-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 12px;
+        color: #475569;
+        background: #ffffff;
+      }
+
+      .landing-form {
+        display: grid;
+        gap: 10px;
+      }
+
+      .landing-input {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 12px;
+        background: #f8fafc;
+        color: #334155;
+      }
+
+      .landing-list {
+        margin: 0;
+        padding-left: 16px;
+        color: #64748b;
+        font-size: 12px;
+        display: grid;
+        gap: 4px;
+      }
+
+      .preview-list {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0 0;
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .preview-list li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .preview-list input[type="checkbox"] {
+        accent-color: var(--accent);
+        width: 14px;
+        height: 14px;
+      }
+
+      .preview-section {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        background: #fff;
+      }
+
+      .preview-section h4 {
+        margin: 0 0 6px;
+        font-size: 13px;
+      }
+
+      .preview-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .preview-meta small {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .tech-edit {
+        border: 1px solid rgba(37, 99, 235, 0.5);
+        background: rgba(37, 99, 235, 0.08);
+        color: #1d4ed8;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .tech-edit::before {
+        content: "⟡";
+        font-size: 12px;
+      }
+
+      .tech-edit:hover {
+        background: rgba(37, 99, 235, 0.16);
+      }
+
+      .simple-layout {
+        display: grid;
+        grid-template-columns: 340px 1fr;
+        gap: 24px;
+        padding: 24px 28px 32px;
+        flex: 1;
+        align-items: start;
+      }
+
+      .wizard-panel {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      .wizard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .step-card {
+        display: none;
+        gap: 12px;
+      }
+
+      .step-card.active {
+        display: grid;
+      }
+
+      .step-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .step-card label {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .option-grid {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .option-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        background: #fff;
+        text-align: left;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .option-card small {
+        display: block;
+        color: var(--muted);
+        font-weight: 500;
+        margin-top: 2px;
+        font-size: 11px;
+      }
+
+      .option-card.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .input-row {
+        display: grid;
+        gap: 4px;
+        font-size: 12px;
+      }
+
+      .input-row input,
+      .input-row select {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .toggle-row {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .wizard-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 2px;
+        border-top: 1px solid var(--border);
+        align-items: center;
+      }
+
+      .wizard-actions .btn {
+        min-width: 96px;
+      }
+
+      .wizard-actions .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .wizard-hint {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .ai-assist {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 10px;
+        background: var(--accent-soft);
+        color: var(--text);
+        font-size: 11px;
+        line-height: 1.4;
+        height: auto;
+      }
+
+      .preview-cta {
+        margin-top: 10px;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+
+      .tag-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        background: #f1f5f9;
+        color: #334155;
+      }
+
+      .tag.success {
+        background: #ecfdf3;
+        color: var(--success);
+      }
+
+      .tag.warning {
+        background: #fff7ed;
+        color: var(--warning);
+      }
+
+      .footer-cta {
+        border-top: 1px solid var(--border);
+        padding: 16px 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: #fff;
+      }
+
+      .footer-cta .note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media (max-width: 1100px) {
+        .layout,
+        .simple-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="logo">REP<span>QR</span> Rep QR Builder</div>
+        <div class="header-actions">
+          <span class="pill">New Landing Page</span>
+          <button class="btn ghost">Save Draft</button>
+          <button class="btn primary">Publish</button>
+        </div>
+      </header>
+
+      <main class="simple-layout">
+        <section class="panel wizard-panel">
+          <div class="wizard-header">
+            <div>
+              <h2>Rep QR Guided Setup</h2>
+              <small>Answer a few questions and watch the preview update.</small>
+            </div>
+            <span class="pill" data-step-label>Step 1 of 4</span>
+          </div>
+          <div class="ai-assist">
+            Rep QR is making choices for you as you go. You can always change or fine-tune later.
+          </div>
+
+          <div class="step-card active" data-step="0">
+            <h3>Choose a template</h3>
+            <div class="option-grid">
+              <button class="option-card active" data-template="spotlight-basic">
+                <strong>Spotlight Basic</strong>
+                <small>Short page · fast to launch</small>
+              </button>
+              <button class="option-card" data-template="professional-spotlight">
+                <strong>Professional Spotlight</strong>
+                <small>More credibility and detail</small>
+              </button>
+              <button class="option-card" data-template="realtor-max">
+                <strong>Realtor (Max Detail)</strong>
+                <small>Property-heavy layout</small>
+              </button>
+            </div>
+            <div class="form-builder template-toggle active" data-template="spotlight-basic">
+              <strong>Spotlight sections</strong>
+              <div class="form-field">
+                <span>Hero + Headline</span>
+                <span><input type="checkbox" checked data-target="spotlight-hero" /></span>
+              </div>
+              <div class="form-field">
+                <span>Quick Inquiry Bar</span>
+                <span><input type="checkbox" checked data-target="spotlight-inquiry" /></span>
+              </div>
+              <div class="form-field">
+                <span>Lead Capture Form</span>
+                <span><input type="checkbox" checked data-target="spotlight-form" /></span>
+              </div>
+              <div class="form-field">
+                <span>About Us</span>
+                <span><input type="checkbox" checked data-target="spotlight-about" /></span>
+              </div>
+              <div class="form-field">
+                <span>Key Features</span>
+                <span><input type="checkbox" checked data-target="spotlight-features" /></span>
+              </div>
+              <div class="form-field">
+                <span>Business Hours</span>
+                <span><input type="checkbox" checked data-target="spotlight-hours" /></span>
+              </div>
+            </div>
+            <div class="form-builder template-toggle" data-template="professional-spotlight">
+              <strong>Professional sections</strong>
+              <div class="form-field">
+                <span>Hero + Headline</span>
+                <span><input type="checkbox" checked data-target="professional-hero" /></span>
+              </div>
+              <div class="form-field">
+                <span>Advisor Introduction Video</span>
+                <span><input type="checkbox" checked data-target="professional-video" /></span>
+              </div>
+              <div class="form-field">
+                <span>Credentials</span>
+                <span><input type="checkbox" checked data-target="professional-credentials" /></span>
+              </div>
+              <div class="form-field">
+                <span>About Us</span>
+                <span><input type="checkbox" checked data-target="professional-about" /></span>
+              </div>
+              <div class="form-field">
+                <span>Key Features</span>
+                <span><input type="checkbox" checked data-target="professional-features" /></span>
+              </div>
+              <div class="form-field">
+                <span>Customer Reviews</span>
+                <span><input type="checkbox" checked data-target="professional-reviews" /></span>
+              </div>
+              <div class="form-field">
+                <span>FAQ</span>
+                <span><input type="checkbox" checked data-target="professional-faq" /></span>
+              </div>
+              <div class="form-field">
+                <span>Lead Capture Form</span>
+                <span><input type="checkbox" checked data-target="professional-form" /></span>
+              </div>
+            </div>
+            <div class="form-builder template-toggle" data-template="realtor-max">
+              <strong>Realtor sections</strong>
+              <div class="form-field">
+                <span>Hero + Headline</span>
+                <span><input type="checkbox" checked data-target="realtor-hero" /></span>
+              </div>
+              <div class="form-field">
+                <span>Photo Gallery</span>
+                <span><input type="checkbox" checked data-target="realtor-gallery" /></span>
+              </div>
+              <div class="form-field">
+                <span>Property Details</span>
+                <span><input type="checkbox" checked data-target="realtor-details" /></span>
+              </div>
+              <div class="form-field">
+                <span>Video Walkthrough</span>
+                <span><input type="checkbox" checked data-target="realtor-video" /></span>
+              </div>
+              <div class="form-field">
+                <span>Key Features</span>
+                <span><input type="checkbox" checked data-target="realtor-features" /></span>
+              </div>
+              <div class="form-field">
+                <span>Address + Map</span>
+                <span><input type="checkbox" checked data-target="realtor-address" /></span>
+              </div>
+              <div class="form-field">
+                <span>Customer Reviews</span>
+                <span><input type="checkbox" checked data-target="realtor-reviews" /></span>
+              </div>
+              <div class="form-field">
+                <span>Lead Capture Form</span>
+                <span><input type="checkbox" checked data-target="realtor-form" /></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card" data-step="1">
+            <h3>Goal + headline</h3>
+            <div class="option-grid">
+              <button class="option-card active" data-goal="book">Book calls</button>
+              <button class="option-card" data-goal="sell">Sell a service</button>
+              <button class="option-card" data-goal="list">Capture leads</button>
+            </div>
+            <div class="input-row">
+              <label>Headline</label>
+              <input type="text" id="headlineInput" value="Fast, premium facility walkthroughs." />
+            </div>
+            <div class="input-row">
+              <label>Subheadline</label>
+              <input type="text" id="subheadlineInput" value="Book a free 30-minute on-site quote today." />
+            </div>
+            <div class="input-row">
+              <label>CTA Button</label>
+              <input type="text" id="ctaInput" value="Book Now" />
+            </div>
+          </div>
+
+          <div class="step-card" data-step="2">
+            <h3>Lead capture form</h3>
+            <div class="option-grid">
+              <button class="option-card active" data-form-mode="template">
+                <strong>Use a template (recommended)</strong>
+                <small>Rep QR picks a proven form layout.</small>
+              </button>
+              <button class="option-card" data-form-mode="custom">
+                <strong>Create your own form</strong>
+                <small>Build custom fields and rules.</small>
+              </button>
+            </div>
+            <div class="input-row">
+              <label>Form template</label>
+              <select id="formTemplate">
+                <option>Fast Booking</option>
+                <option>Professional Inquiry</option>
+                <option>Listing Inquiry</option>
+              </select>
+            </div>
+            <div class="form-builder">
+              <div class="form-field">
+                <span>Name</span>
+                <span class="config-pill ai">Required</span>
+              </div>
+              <div class="form-field">
+                <span>Email</span>
+                <span class="config-pill ai">Required</span>
+              </div>
+              <div class="form-field">
+                <span>Phone</span>
+                <span class="config-pill">Optional</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card" data-step="3">
+            <h3>Media + proof</h3>
+            <div class="toggle-row">
+              <label><input type="checkbox" id="videoToggle" checked /> Include hero video</label>
+              <label><input type="checkbox" id="galleryToggle" /> Include photo gallery</label>
+              <label><input type="checkbox" id="reviewsToggle" checked /> Show reviews</label>
+            </div>
+          </div>
+
+          <div class="wizard-actions">
+            <button class="btn ghost" id="backBtn">Back</button>
+            <div class="wizard-hint">Rep QR saves your choices automatically.</div>
+            <button class="btn primary" id="nextBtn">Next</button>
+          </div>
+        </section>
+
+        <section class="panel preview">
+          <div>
+            <h2>Live Preview</h2>
+            <small>Updates as you answer questions</small>
+          </div>
+          <div class="preview-frame active" data-template="spotlight-basic">
+            <div class="landing-page">
+              <div class="landing-nav">
+                <span>Ridgeview Facilities</span>
+                <span>repqr.page/rv-facilities</span>
+              </div>
+              <section class="landing-hero" data-section="spotlight-hero">
+                <span class="hero-pill">Rep QR Spotlight</span>
+                <h3 data-preview="headline">Fast, premium facility walkthroughs.</h3>
+                <p data-preview="subheadline">Book a free 30-minute on-site quote today.</p>
+                <div class="hero-video">
+                  <span>▶</span>
+                  Video Placeholder · 16:9
+                </div>
+                <button class="hero-cta" data-preview="cta">Book Now</button>
+                <div class="landing-note">Rep QR pulled your brand voice and images.</div>
+              </section>
+              <section class="landing-section" data-preview-section="video">
+                <div class="landing-head">
+                  <h4>Featured Video</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-card">Rep QR pulled your intro video · 0:45</div>
+              </section>
+              <section class="landing-section" data-section="spotlight-inquiry">
+                <div class="landing-head">
+                  <h4>Quick Inquiry</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-card">Ask a question or request a fast quote.</div>
+                <div class="landing-note">Rep QR generated this prompt from your goal.</div>
+              </section>
+              <section class="landing-section" data-section="spotlight-about">
+                <div class="landing-head">
+                  <h4>About Us</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p style="margin: 0; color: #64748b; font-size: 12px;">
+                  Ridgeview is a commercial facilities partner serving 120+ locations with
+                  certified staff and rapid response times.
+                </p>
+                <div class="landing-note">Rep QR pulled this from your signup bio.</div>
+              </section>
+              <section class="landing-section" data-section="spotlight-features">
+                <div class="landing-head">
+                  <h4>Key Features & Benefits</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>24-hour turnaround · licensed and insured</li>
+                  <li>Dedicated account manager + monthly reporting</li>
+                  <li>Premium finishes with zero downtime</li>
+                </ul>
+                <div class="landing-note">Rep QR summarized your services.</div>
+              </section>
+              <section class="landing-section" data-preview-section="reviews" data-section="spotlight-reviews">
+                <div class="landing-head">
+                  <h4>Customer Reviews</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-grid">
+                  <div class="landing-card">“Top-tier service every visit.”</div>
+                  <div class="landing-card">“Quick response and clear reporting.”</div>
+                </div>
+                <div class="landing-note">Rep QR imported 3 reviews from your profile.</div>
+              </section>
+              <section class="landing-section" data-section="spotlight-form">
+                <div class="landing-head">
+                  <h4>Request a walkthrough</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div style="font-size: 11px; color: #64748b;">
+                  Form template: <span data-preview="formTemplate">Fast Booking</span>
+                </div>
+                <div class="landing-form">
+                  <input class="landing-input" placeholder="Name" />
+                  <input class="landing-input" placeholder="Email" />
+                  <input class="landing-input" placeholder="Phone" />
+                </div>
+                <div class="landing-note">Rep QR prefilled required fields.</div>
+              </section>
+              <section class="landing-section" data-section="spotlight-hours">
+                <div class="landing-head">
+                  <h4>Business Hours</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p style="margin: 0; color: #64748b; font-size: 12px;">
+                  Mon–Fri 8:00 AM – 6:00 PM · Sat 10:00 AM – 2:00 PM
+                </p>
+                <div class="landing-note">Rep QR imported your hours from profile.</div>
+              </section>
+            </div>
+          </div>
+          <div class="preview-frame" data-template="professional-spotlight">
+            <div class="landing-page">
+              <div class="landing-nav">
+                <span>Elevate Advisory Group</span>
+                <span>repqr.page/elevate-consult</span>
+              </div>
+              <section class="landing-hero" data-section="professional-hero">
+                <span class="hero-pill">Rep QR Professional</span>
+                <h3 data-preview="headline">Trusted advisors for high-value decisions.</h3>
+                <p data-preview="subheadline">Schedule a consultation and get a tailored plan.</p>
+                <div class="hero-video">
+                  <span>▶</span>
+                  Video Placeholder · 16:9
+                </div>
+                <button class="hero-cta" data-preview="cta">Schedule Consultation</button>
+              </section>
+              <section class="landing-section" data-preview-section="video" data-section="professional-video">
+                <div class="landing-head">
+                  <h4>Advisor Introduction</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-card">Rep QR pulled your 1-minute intro video.</div>
+              </section>
+              <section class="landing-section" data-section="professional-credentials">
+                <div class="landing-head">
+                  <h4>Credentials</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>Board-certified · 12 years experience</li>
+                  <li>250+ clients · 4.9 average rating</li>
+                </ul>
+                <div class="landing-note">Rep QR pulled certifications and awards.</div>
+              </section>
+              <section class="landing-section" data-preview-section="reviews" data-section="professional-reviews">
+                <div class="landing-head">
+                  <h4>Client Reviews</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-grid">
+                  <div class="landing-card">“A clear plan in 30 days.”</div>
+                  <div class="landing-card">“Highly strategic and responsive.”</div>
+                </div>
+                <div class="landing-note">Rep QR imported 5 reviews from your profile.</div>
+              </section>
+              <section class="landing-section" data-section="professional-about">
+                <div class="landing-head">
+                  <h4>About the Firm</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p style="margin: 0; color: #64748b; font-size: 12px;">
+                  Elevate Advisory Group helps executives make confident, data-backed decisions
+                  with tailored strategies and measurable outcomes.
+                </p>
+                <div class="landing-note">Rep QR pulled your bio and expertise.</div>
+              </section>
+              <section class="landing-section" data-section="professional-features">
+                <div class="landing-head">
+                  <h4>Key Capabilities</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>Strategic roadmap + quarterly planning</li>
+                  <li>Risk analysis and scenario modeling</li>
+                  <li>Executive coaching + team alignment</li>
+                </ul>
+                <div class="landing-note">Rep QR summarized your services.</div>
+              </section>
+              <section class="landing-section" data-section="professional-faq">
+                <div class="landing-head">
+                  <h4>FAQ</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>Typical engagement: 4–8 weeks</li>
+                  <li>Remote and on-site options available</li>
+                </ul>
+                <div class="landing-note">Rep QR drafted common questions.</div>
+              </section>
+              <section class="landing-section" data-section="professional-form">
+                <div class="landing-head">
+                  <h4>Start a conversation</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div style="font-size: 11px; color: #64748b;">
+                  Form template: <span data-preview="formTemplate">Professional Inquiry</span>
+                </div>
+                <div class="landing-form">
+                  <input class="landing-input" placeholder="Name" />
+                  <input class="landing-input" placeholder="Email" />
+                  <input class="landing-input" placeholder="Budget" />
+                </div>
+                <div class="landing-note">Rep QR selected fields for professional leads.</div>
+              </section>
+            </div>
+          </div>
+          <div class="preview-frame" data-template="realtor-max">
+            <div class="landing-page">
+              <div class="landing-nav">
+                <span>Harbor Point Realty</span>
+                <span>repqr.page/hp-8431</span>
+              </div>
+              <section class="landing-hero" data-section="realtor-hero">
+                <span class="hero-pill">Rep QR Realtor</span>
+                <h3 data-preview="headline">Modern 4 bed, 3 bath with pool.</h3>
+                <p data-preview="subheadline">Tour this property today and request details.</p>
+                <div class="hero-video">
+                  <span>▶</span>
+                  Video Placeholder · 16:9
+                </div>
+                <button class="hero-cta" data-preview="cta">Request a Tour</button>
+              </section>
+              <section class="landing-section" data-preview-section="gallery" data-section="realtor-gallery">
+                <div class="landing-head">
+                  <h4>Photo Gallery</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-grid">
+                  <div class="landing-card">18 photos · Updated 2 days ago</div>
+                  <div class="landing-card">Virtual tour available</div>
+                </div>
+                <div class="landing-note">Rep QR pulled your listing images.</div>
+              </section>
+              <section class="landing-section" data-section="realtor-details">
+                <div class="landing-head">
+                  <h4>Property Details</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>3,100 sqft · Built 2019 · 2-car garage</li>
+                  <li>4 bed · 3 bath · $849,000</li>
+                </ul>
+                <div class="landing-note">Rep QR imported listing details.</div>
+              </section>
+              <section class="landing-section" data-preview-section="video" data-section="realtor-video">
+                <div class="landing-head">
+                  <h4>Video Walkthrough</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-card">Rep QR pulled your latest walkthrough.</div>
+              </section>
+              <section class="landing-section" data-section="realtor-features">
+                <div class="landing-head">
+                  <h4>Property Highlights</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <ul class="landing-list">
+                  <li>Resort-style pool · smart home upgrades</li>
+                  <li>Open kitchen · private backyard</li>
+                </ul>
+                <div class="landing-note">Rep QR summarized listing features.</div>
+              </section>
+              <section class="landing-section" data-section="realtor-address">
+                <div class="landing-head">
+                  <h4>Address & Map</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-card">8431 Harbor Point Dr · Dallas, TX</div>
+                <div class="landing-note">Rep QR imported the address.</div>
+              </section>
+              <section class="landing-section" data-section="realtor-reviews">
+                <div class="landing-head">
+                  <h4>Client Reviews</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div class="landing-grid">
+                  <div class="landing-card">“Sold in 9 days above asking.”</div>
+                  <div class="landing-card">“Incredible market insight.”</div>
+                </div>
+                <div class="landing-note">Rep QR imported 4 reviews.</div>
+              </section>
+              <section class="landing-section" data-section="realtor-form">
+                <div class="landing-head">
+                  <h4>Listing inquiry</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <div style="font-size: 11px; color: #64748b;">
+                  Form template: <span data-preview="formTemplate">Listing Inquiry</span>
+                </div>
+                <div class="landing-form">
+                  <input class="landing-input" placeholder="Name" />
+                  <input class="landing-input" placeholder="Email" />
+                  <input class="landing-input" placeholder="Phone" />
+                </div>
+                <div class="landing-note">Rep QR selected listing lead fields.</div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      const steps = Array.from(document.querySelectorAll(".step-card"));
+      const stepLabel = document.querySelector("[data-step-label]");
+      const backBtn = document.getElementById("backBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      const templateButtons = document.querySelectorAll(".option-card[data-template]");
+      const goalButtons = document.querySelectorAll(".option-card[data-goal]");
+      const previewFrames = document.querySelectorAll(".preview-frame");
+
+      const headlineInput = document.getElementById("headlineInput");
+      const subheadlineInput = document.getElementById("subheadlineInput");
+      const ctaInput = document.getElementById("ctaInput");
+      const formTemplate = document.getElementById("formTemplate");
+      const videoToggle = document.getElementById("videoToggle");
+      const galleryToggle = document.getElementById("galleryToggle");
+      const reviewsToggle = document.getElementById("reviewsToggle");
+
+      const formModeButtons = document.querySelectorAll("[data-form-mode]");
+      const templateToggles = document.querySelectorAll(
+        ".template-toggle input[type='checkbox'][data-target]"
+      );
+      const templateToggleGroups = document.querySelectorAll(".template-toggle");
+
+      const state = {
+        step: 0,
+        template: "spotlight-basic",
+      };
+
+      const updatePreviewText = () => {
+        const activeFrame = document.querySelector(
+          `.preview-frame[data-template="${state.template}"]`
+        );
+
+        if (activeFrame) {
+          activeFrame.querySelectorAll("[data-preview='headline']").forEach((el) => {
+            el.textContent = headlineInput.value;
+          });
+          activeFrame.querySelectorAll("[data-preview='subheadline']").forEach((el) => {
+            el.textContent = subheadlineInput.value;
+          });
+          activeFrame.querySelectorAll("[data-preview='cta']").forEach((el) => {
+            el.textContent = ctaInput.value;
+          });
+
+          const activeFormMode =
+            document.querySelector("[data-form-mode].active")?.dataset.formMode || "template";
+          const modeLabel = activeFormMode === "custom" ? "Custom Form" : formTemplate.value;
+          activeFrame.querySelectorAll("[data-preview='formTemplate']").forEach((el) => {
+            el.textContent = modeLabel;
+          });
+
+          activeFrame
+            .querySelectorAll("[data-preview-section='video']")
+            .forEach((section) => {
+              section.style.display = videoToggle.checked ? "" : "none";
+            });
+          activeFrame
+            .querySelectorAll("[data-preview-section='gallery']")
+            .forEach((section) => {
+              section.style.display = galleryToggle.checked ? "" : "none";
+            });
+          activeFrame
+            .querySelectorAll("[data-preview-section='reviews']")
+            .forEach((section) => {
+              section.style.display = reviewsToggle.checked ? "" : "none";
+            });
+        }
+      };
+
+      const updateTemplateSections = () => {
+        templateToggles.forEach((toggle) => {
+          const target = toggle.dataset.target;
+          const section = document.querySelector(`[data-section="${target}"]`);
+          if (section) {
+            section.style.display = toggle.checked ? "" : "none";
+          }
+        });
+      };
+
+      const setTemplate = (template) => {
+        state.template = template;
+        templateButtons.forEach((btn) =>
+          btn.classList.toggle("active", btn.dataset.template === template)
+        );
+        previewFrames.forEach((frame) => {
+          frame.classList.toggle("active", frame.dataset.template === template);
+        });
+        templateToggleGroups.forEach((group) => {
+          group.classList.toggle("active", group.dataset.template === template);
+        });
+        updatePreviewText();
+        updateTemplateSections();
+      };
+
+      const showStep = (index) => {
+        state.step = Math.max(0, Math.min(index, steps.length - 1));
+        steps.forEach((step, idx) => step.classList.toggle("active", idx === state.step));
+        stepLabel.textContent = `Step ${state.step + 1} of ${steps.length}`;
+        backBtn.disabled = state.step === 0;
+        nextBtn.textContent = state.step === steps.length - 1 ? "Publish" : "Next";
+      };
+
+      templateButtons.forEach((button) => {
+        button.addEventListener("click", () => setTemplate(button.dataset.template));
+      });
+
+      goalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          goalButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+
+      [headlineInput, subheadlineInput, ctaInput].forEach((input) =>
+        input.addEventListener("input", updatePreviewText)
+      );
+      formTemplate.addEventListener("change", updatePreviewText);
+      [videoToggle, galleryToggle, reviewsToggle].forEach((input) =>
+        input.addEventListener("change", updatePreviewText)
+      );
+
+      formModeButtons.forEach((button) =>
+        button.addEventListener("click", () => {
+          formModeButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+          updatePreviewText();
+        })
+      );
+
+      templateToggles.forEach((toggle) =>
+        toggle.addEventListener("change", updateTemplateSections)
+      );
+
+      backBtn.addEventListener("click", () => showStep(state.step - 1));
+      nextBtn.addEventListener("click", () => showStep(state.step + 1));
+
+      showStep(0);
+      updatePreviewText();
+      updateTemplateSections();
+    </script>
+  </body>
+</html>
