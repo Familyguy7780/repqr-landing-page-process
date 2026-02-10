@@ -701,6 +701,87 @@
         margin-bottom: 8px;
       }
 
+      .event-preview-videos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 8px;
+      }
+      .event-preview-video-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px;
+        background: var(--bg);
+      }
+      .event-preview-video-card .hero-video {
+        height: 80px;
+      }
+      .events-v2-preview-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .events-v2-preview-header select {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        font-size: 12px;
+      }
+      .preview-url-bar {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .coach-why {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 10px;
+        font-style: italic;
+      }
+      .coach-write-it {
+        font-size: 12px;
+        margin: 0 0 12px;
+        padding: 10px 12px;
+        background: var(--accent-soft);
+        border-radius: var(--radius-sm);
+      }
+      .coach-write-it ul { margin: 6px 0 0 14px; }
+      .coach-chips {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      .input-hint {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .copy-quality-meter {
+        font-size: 12px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .copy-quality-meter meter { width: 80px; }
+      .entrypoint-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+      .entrypoint-label { font-weight: 600; }
+      .entrypoint-dest { color: var(--muted); }
+      .entrypoint-metrics { margin-left: auto; font-size: 11px; color: var(--muted); }
+      .ep-video-row { margin-bottom: 12px; }
+      .ep-video-row label { display: block; font-size: 12px; margin-bottom: 4px; }
+      .ep-video-row input, .ep-video-row select { margin-right: 8px; margin-bottom: 4px; }
       .landing-note {
         font-size: 11px;
         color: #94a3b8;
@@ -819,7 +900,7 @@
 
       .simple-layout {
         display: grid;
-        grid-template-columns: 340px 1fr;
+        grid-template-columns: 440px 1fr;
         gap: 24px;
         padding: 24px 28px 32px;
         flex: 1;
@@ -909,6 +990,51 @@
         font-size: 12px;
         color: var(--muted);
       }
+
+      .step-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0 0 10px;
+        line-height: 1.4;
+      }
+      .step-included-head {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+        margin: 12px 0 6px;
+      }
+      .step-offerings-list {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .sponsor-callout-inline {
+        font-size: 11px;
+        color: var(--muted);
+        background: var(--accent-soft);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-top: 12px;
+      }
+      .everything-you-need-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-top: 8px;
+        margin-bottom: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      }
+      .products-link-block .btn { display: inline-block; text-decoration: none; }
+      .step-card textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font-size: 12px; font-family: inherit; box-sizing: border-box; }
+      .tier-badge { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 6px; display: block; }
+      .tier-badge.coming-soon { color: var(--muted); }
+      .option-card[disabled] { opacity: 0.7; cursor: not-allowed; }
+      .event-tier-choice { display: none; }
+      .event-tier-choice.visible { display: block; }
 
       .wizard-actions {
         display: flex;
@@ -1004,6 +1130,7 @@
       <header class="header">
         <div class="logo">REP<span>QR</span> Rep QR Builder</div>
         <div class="header-actions">
+          <a href="events.html" class="btn ghost" style="text-decoration: none;">Launch Events</a>
           <span class="pill">New Landing Page</span>
           <button class="btn ghost">Save Draft</button>
           <button class="btn primary">Publish</button>
@@ -1023,6 +1150,7 @@
             Rep QR is making choices for you as you go. You can always change or fine-tune later.
           </div>
 
+          <div id="wizard-content-default">
           <div class="step-card active" data-step="0">
             <h3>Choose a template</h3>
             <div class="option-grid">
@@ -1037,6 +1165,10 @@
               <button class="option-card" data-template="realtor-max">
                 <strong>Realtor (Max Detail)</strong>
                 <small>Property-heavy layout</small>
+              </button>
+              <button class="option-card" data-template="events">
+                <strong>Events</strong>
+                <small>Event page · videos, QR, NFC</small>
               </button>
             </div>
             <div class="form-builder template-toggle active" data-template="spotlight-basic">
@@ -1136,9 +1268,26 @@
                 <span><input type="checkbox" checked data-target="realtor-form" /></span>
               </div>
             </div>
+            <div class="event-tier-choice" id="event-tier-choice" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+              <p class="step-included-head" style="margin: 0 0 10px;">Choose your event setup</p>
+              <div class="option-grid" id="event-tier-grid">
+                <button type="button" class="option-card event-tier-card" data-event-tier="quick" id="event-tier-quick">
+                  <strong>Quick launch</strong>
+                  <small>Get live fast with one video and a link</small>
+                </button>
+                <button type="button" class="option-card event-tier-card" data-event-tier="ready" id="event-tier-ready">
+                  <strong>Event ready</strong>
+                  <small>Everything most events need — RSVP, videos, sponsors</small>
+                </button>
+                <button type="button" class="option-card event-tier-card" data-event-tier="full" id="event-tier-full">
+                  <strong>Full event builder</strong>
+                  <small>All audiences, automation, and post-event options</small>
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div class="step-card" data-step="1">
+          <div class="step-card" data-wizard="landing" data-step="1">
             <h3>Goal + headline</h3>
             <div class="option-grid">
               <button class="option-card active" data-goal="book">Book calls</button>
@@ -1159,7 +1308,7 @@
             </div>
           </div>
 
-          <div class="step-card" data-step="2">
+          <div class="step-card" data-wizard="landing" data-step="2">
             <h3>Lead capture form</h3>
             <div class="option-grid">
               <button class="option-card active" data-form-mode="template">
@@ -1195,12 +1344,290 @@
             </div>
           </div>
 
-          <div class="step-card" data-step="3">
+          <div class="step-card" data-wizard="landing" data-step="3">
             <h3>Media + proof</h3>
             <div class="toggle-row">
               <label><input type="checkbox" id="videoToggle" checked /> Include hero video</label>
               <label><input type="checkbox" id="galleryToggle" /> Include photo gallery</label>
               <label><input type="checkbox" id="reviewsToggle" checked /> Show reviews</label>
+            </div>
+          </div>
+
+          <!-- Event steps (shown when template = events) -->
+          <div class="step-card" data-wizard="events" data-event-step-id="basics">
+            <h3>Basics and your message</h3>
+            <p class="step-subtitle">Rep QR will use this for your event page and communications.</p>
+            <div class="input-row">
+              <label>Event name</label>
+              <input type="text" id="event-name" placeholder="e.g. Annual Gala 2026" />
+            </div>
+            <div class="input-row">
+              <label>Event date</label>
+              <input type="date" id="event-date" />
+            </div>
+            <div class="input-row">
+              <label>Venue or location (optional)</label>
+              <input type="text" id="event-venue" placeholder="e.g. Downtown Convention Center" />
+            </div>
+            <div class="input-row">
+              <label id="event-message-label">Message or theme</label>
+              <textarea id="event-message" placeholder="e.g. Our mission is to end food insecurity in the city." rows="3" style="resize: vertical;"></textarea>
+            </div>
+            <div class="event-basics-extra" id="event-basics-extra" style="display: none;">
+              <p class="step-included-head" style="margin-top: 16px;">Page identity (Event ready)</p>
+              <div class="input-row">
+                <label>Page URL / slug</label>
+                <input type="text" id="event-slug" placeholder="e.g. gala-2026" />
+              </div>
+              <div class="input-row">
+                <label>Subheadline</label>
+                <input type="text" id="event-subheadline" placeholder="Short line under your headline" />
+              </div>
+              <div class="input-row">
+                <label>Logo URL (optional)</label>
+                <input type="text" id="event-logo-url" placeholder="https://..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="toggles">
+            <h3>Page behavior</h3>
+            <p class="step-subtitle">Turn on what you need. One page can evolve over time.</p>
+            <div class="toggle-row">
+              <label><input type="checkbox" id="event-rsvp-on" /> RSVP enabled</label>
+              <label><input type="checkbox" id="event-email-capture-on" checked /> Email capture enabled</label>
+              <label><input type="checkbox" id="event-sms-optin-on" /> SMS opt-in enabled</label>
+            </div>
+            <div class="toggle-row" style="margin-top: 10px;">
+              <label><input type="checkbox" id="event-live-mode-on" /> Live event mode</label>
+              <label><input type="checkbox" id="event-post-event-mode-on" /> Post-event mode</label>
+              <label><input type="checkbox" id="event-ai-chat-on" /> AI chat agent</label>
+            </div>
+            <div class="toggle-row" style="margin-top: 10px;">
+              <label><input type="checkbox" id="event-photo-upload-on" /> Photo upload section</label>
+              <label><input type="checkbox" id="event-prize-giveaway-on" /> Prize / giveaway section</label>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="videos">
+            <h3>How many videos?</h3>
+            <div class="event-videos-quick" id="event-videos-quick" style="display: none;">
+              <p class="step-subtitle">One video, one link. Get your QR and go live.</p>
+              <div class="input-row">
+                <label>Video label</label>
+                <input type="text" id="event-quick-video-label" placeholder="e.g. Welcome video" />
+              </div>
+              <div class="input-row">
+                <label>Button text</label>
+                <input type="text" id="event-quick-cta" placeholder="e.g. Learn more" />
+              </div>
+            </div>
+            <div class="event-videos-full" id="event-videos-full">
+              <p class="step-subtitle">Print as many QR codes as you need. Labels below are optional.</p>
+              <div class="input-row">
+                <label>Number of videos</label>
+                <input type="number" id="event-video-count" min="1" max="999" value="1" />
+              </div>
+              <div class="input-row">
+                <label>Video labels (optional)</label>
+                <div id="event-video-labels"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="audience">
+            <h3>Audience sections</h3>
+            <p class="step-subtitle">Choose which sections appear on your event page.</p>
+            <div class="toggle-row">
+              <label><input type="checkbox" id="event-audience-attendee" checked /> Attendee — RSVP, check-in</label>
+              <label><input type="checkbox" id="event-audience-sponsor" checked /> Sponsor — logo grid, CTA</label>
+              <label><input type="checkbox" id="event-audience-donor" /> Donor — goal, levels, thank-you</label>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="contact">
+            <h3>Contact and consent</h3>
+            <p class="step-subtitle">What to collect and how to follow up.</p>
+            <div class="input-row">
+              <label>Fields to collect</label>
+              <div class="toggle-row">
+                <label><input type="checkbox" checked /> Name</label>
+                <label><input type="checkbox" checked /> Email</label>
+                <label><input type="checkbox" id="event-contact-phone" /> Phone</label>
+              </div>
+            </div>
+            <div class="toggle-row" style="margin-top: 10px;">
+              <label><input type="checkbox" id="event-consent-sms" /> SMS opt-in</label>
+              <label><input type="checkbox" id="event-consent-email" checked /> Email opt-in</label>
+            </div>
+            <div class="input-row" style="margin-top: 10px;">
+              <label>Relationship to event (optional dropdown)</label>
+              <p class="step-subtitle" style="margin: 4px 0 0;">Attendee, Sponsor, Donor — for routing and segments.</p>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="automation">
+            <h3>Automation rules</h3>
+            <p class="step-subtitle">Trigger emails or SMS when someone RSVPs, donates, or checks in. (Full builder)</p>
+            <div class="toggle-row">
+              <label><input type="checkbox" id="event-auto-rsvp" /> Send confirmation when someone RSVPs</label>
+              <label><input type="checkbox" id="event-auto-checkin" /> Send thank-you when someone checks in</label>
+              <label><input type="checkbox" id="event-auto-donate" /> Send receipt when someone donates</label>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="postevent">
+            <h3>Post-event</h3>
+            <p class="step-subtitle">What happens after the event — thank-you page, follow-up, and analytics.</p>
+            <div class="toggle-row">
+              <label><input type="checkbox" id="event-post-thankyou" checked /> Show thank-you page after event</label>
+              <label><input type="checkbox" id="event-post-followup" /> Send post-event follow-up email</label>
+              <label><input type="checkbox" id="event-post-analytics" checked /> Include basic analytics</label>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="products">
+            <h3>Products and shipping</h3>
+            <p class="step-subtitle">Need physical products with your QR code? Order below and enter your shipping address in one place.</p>
+            <div class="products-link-block" style="margin-bottom: 20px;">
+              <a href="#" class="btn primary" id="event-products-link">Buy products and enter shipping →</a>
+            </div>
+            <div class="products-marketing">
+              <p class="step-included-head">Our products</p>
+              <ul class="step-offerings-list">
+                <li><strong>NFC cards and key chains</strong> — Tap-to-connect cards and key chains with your QR or NFC. Perfect for handouts, goodie bags, and sponsor giveaways.</li>
+                <li><strong>Brochures</strong> — Printed collateral with your QR code. Event programs, one-pagers, or leave-behinds.</li>
+                <li><strong>Laser-engraved stainless steel cups</strong> — High-end, durable cups with your QR code permanently engraved. Great for VIP gifts, sponsor recognition, or event merch.</li>
+              </ul>
+              <p class="step-included-head" style="margin-top: 16px;">More ideas we can add</p>
+              <p class="step-subtitle" style="margin-bottom: 6px;">Other products we could offer here (tell us what you’d use):</p>
+              <ul class="step-offerings-list">
+                <li>Branded stickers and decals</li>
+                <li>Tote bags or drawstring bags with QR</li>
+                <li>Lanyards and badge holders</li>
+                <li>Bottle openers or coasters (metal or acrylic)</li>
+                <li>Pens and notepads with QR</li>
+                <li>Custom pins or magnets</li>
+              </ul>
+              <p class="step-subtitle" style="margin-top: 12px; margin-bottom: 0;">We’ll ship everything to your event. Add items above when you’re ready.</p>
+            </div>
+          </div>
+
+          <div class="step-card" data-wizard="events" data-event-step-id="done">
+            <h3>You're all set</h3>
+            <p class="step-subtitle">Rep QR has your event. Next steps:</p>
+            <ul class="step-offerings-list">
+              <li>We'll send you a link to set up your first video and landing page.</li>
+              <li>Download or print QR codes from the Events dashboard.</li>
+              <li>Order NFC items or cups? Use the link in the previous step — we'll ship to your address.</li>
+            </ul>
+            <p class="step-included-head" style="margin-top: 14px;">What we'll need from you when you get your setup link</p>
+            <ul class="step-offerings-list">
+              <li><strong>Your logo</strong> — for the landing page and materials.</li>
+              <li><strong>Sponsor names and logos</strong> — plus links if you have them.</li>
+              <li><strong>Attendee and sponsor contacts</strong> — for email/SMS and coordination.</li>
+              <li><strong>Video files or links</strong> — for each video slot.</li>
+            </ul>
+          </div>
+
+          </div>
+          <!-- Events v2: 8-step wizard (shown when template = Events) -->
+          <div id="wizard-content-events-v2" class="events-v2-wizard" style="display: none;">
+            <div class="step-card events-v2-step active" data-events-v2-step="0">
+              <h3>Template & setup type</h3>
+              <p class="coach-why">Why it matters: This sets the layout, sections, and automation defaults.</p>
+              <p class="step-subtitle">You chose Events. How do you want to set up?</p>
+              <div class="option-grid" id="events-v2-setup-type">
+                <button type="button" class="option-card" data-setup-type="quick_launch">Quick Launch</button>
+                <button type="button" class="option-card" data-setup-type="event_ready">Event Ready</button>
+                <button type="button" class="option-card" data-setup-type="full_builder">Full Event Builder</button>
+              </div>
+              <div class="coach-chips" data-coach-chips="setup">Examples: Charity Gala · Golf Tournament · Networking Mixer</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="1">
+              <h3>Brand & naming</h3>
+              <p class="coach-why">Why it matters: This is what guests see first and how they find your page.</p>
+              <div class="coach-write-it" data-coach-writeit="naming">
+                <strong>Write it like this:</strong>
+                <ul><li>Include year + event type (e.g. Annual Gala 2026)</li><li>Tagline: benefit or theme in one line</li><li>Event link: short, no spaces (e.g. gala-2026)</li></ul>
+              </div>
+              <div class="input-row"><label>Internal name (dashboard)</label><input type="text" id="ep-internal-name" placeholder="My Event Draft" /></div>
+              <div class="input-row"><label>Public event title (H1)</label><input type="text" id="ep-public-title" placeholder="Oilman's Golf Classic 2026" /></div>
+              <div class="input-row"><label>Tagline (subheadline)</label><input type="text" id="ep-tagline" placeholder="Play, sponsor, and support a great cause." /></div>
+              <div class="input-row"><label>Event link (URL)</label><input type="text" id="ep-event-link" placeholder="oilman-golf-classic-2026" /><small class="input-hint">This becomes: repqr.page/event/<span id="ep-link-preview">your-link</span></small></div>
+              <div class="input-row"><label>Host / org name (optional)</label><input type="text" id="ep-host-org" placeholder="" /></div>
+              <div class="coach-chips" data-coach-chips="naming">Oilman's Golf Classic 2026 · Annual Gala · Tech Mixer 2026</div>
+              <div class="copy-quality-meter" id="ep-quality-naming" data-quality-fields="ep-public-title,ep-tagline,ep-event-link" style="display: none;"><span>Copy quality:</span> <meter min="0" max="3" value="0" title="Clarity, specificity, benefit"></meter></div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="2">
+              <h3>Event details (when & where)</h3>
+              <p class="coach-why">Why it matters: Guests need to know when and where to show up.</p>
+              <div class="input-row"><label>Event type</label><select id="ep-event-type"><option value="charity">Charity</option><option value="sports">Sports</option><option value="business">Business</option><option value="community">Community</option><option value="education">Education</option><option value="other">Other</option></select></div>
+              <div class="input-row"><label>Theme / purpose (optional)</label><input type="text" id="ep-theme" placeholder="" /></div>
+              <div class="input-row"><label>Start date & time</label><input type="datetime-local" id="ep-start-datetime" /></div>
+              <div class="input-row"><label>End date & time (optional)</label><input type="datetime-local" id="ep-end-datetime" /></div>
+              <div class="input-row"><label>Format</label><select id="ep-format"><option value="in_person">In person</option><option value="virtual">Virtual</option><option value="hybrid">Hybrid</option></select></div>
+              <div class="input-row"><label>Venue name</label><input type="text" id="ep-venue-name" placeholder="e.g. Downtown Convention Center" /></div>
+              <div class="input-row"><label>City, State</label><input type="text" id="ep-venue-city-state" placeholder="Odessa, TX" /></div>
+              <div class="coach-chips" data-coach-chips="details">Odessa, TX · Fort Worth, TX · Online</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="3">
+              <h3>Videos (1–6) + CTA per video</h3>
+              <p class="coach-why">Why it matters: Each video can have its own QR code and call-to-action.</p>
+              <div class="coach-write-it" data-coach-writeit="videos">
+                <strong>Write it like this:</strong>
+                <ul><li>Give each video a clear title (Welcome, Sponsor Message, Donation Ask)</li><li>Match CTA to purpose: Donate → "Donate to the Cause", Sponsor → "Become a Sponsor"</li></ul>
+              </div>
+              <div class="input-row"><label>Number of videos</label><input type="number" id="ep-video-count" min="1" max="6" value="1" /></div>
+              <div id="ep-videos-list"></div>
+              <div class="coach-chips" data-coach-chips="videos">Welcome · Sponsor reel · Donation ask · Thank you</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="4">
+              <h3>Sections & audience tracks</h3>
+              <p class="coach-why">Why it matters: Turn on only what you'll use — fewer sections can increase conversions.</p>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-attendees" checked /> Attendees (RSVP + check-in)</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-sponsors" checked /> Sponsors (logo grid + CTA)</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-donors" /> Donors (goal + donate)</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-volunteers" /> Volunteers / Staff</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-schedule" /> Schedule / Agenda</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-prizes" /> Prizes / Giveaway</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-gallery" /> Gallery (post-event)</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-faq" /> FAQ</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-contact" checked /> Contact</label></div>
+              <div class="coach-chips" data-coach-chips="sections">Golf: Sponsors + Prizes · Charity: Donors + Sponsors</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="5">
+              <h3>Forms & consent</h3>
+              <p class="coach-why">Why it matters: You need consent and clear fields for automation and follow-up.</p>
+              <div class="coach-write-it" data-coach-writeit="consent">
+                <strong>Write it like this:</strong>
+                <ul><li>Use clear opt-in text (e.g. "Send me event updates by email")</li><li>Keep SMS consent separate and explicit</li></ul>
+              </div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-form-rsvp" /> RSVP form</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-form-contact" checked /> Contact form</label></div>
+              <div class="input-row"><label>Fields to collect</label><div class="toggle-row"><label><input type="checkbox" id="ep-field-first" checked /> First name</label><label><input type="checkbox" id="ep-field-last" checked /> Last name</label><label><input type="checkbox" id="ep-field-email" checked /> Email</label><label><input type="checkbox" id="ep-field-phone" /> Phone</label></div></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-consent-email" checked /> Email opt-in</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-consent-sms" /> SMS opt-in</label></div>
+              <div class="coach-chips" data-coach-chips="forms">Event updates · Sponsor follow-up</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="6">
+              <h3>Live flow & automations</h3>
+              <p class="coach-why">Why it matters: Set when to send confirmations and reminders.</p>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-rsvp" /> On RSVP: send confirmation</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-reminder-24" /> 24h before: reminder</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-reminder-1" /> 1h before: we're live</label></div>
+              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-event-end" /> Event end: thanks + next steps</label></div>
+              <div class="coach-chips" data-coach-chips="automation">Confirmation · Reminder · Thank you</div>
+            </div>
+            <div class="step-card events-v2-step" data-events-v2-step="7">
+              <h3>QR + NFC + physical upgrades</h3>
+              <p class="coach-why">Why it matters: Each entrypoint can send people to a specific video or form.</p>
+              <div class="entrypoint-list" id="ep-entrypoints-list"></div>
+              <p class="step-subtitle">Physical items (NFC cards, keychains, QR cups) — assign destination below; purchase can be done via Rep QR when ready.</p>
+              <div class="input-row"><label>NFC metal cards (qty)</label><input type="number" id="ep-phys-cards" min="0" value="0" /></div>
+              <div class="input-row"><label>NFC keychains (qty)</label><input type="number" id="ep-phys-keychains" min="0" value="0" /></div>
+              <div class="input-row"><label>Stainless QR cups (qty)</label><input type="number" id="ep-phys-cups" min="0" value="0" /></div>
+              <div class="coach-chips" data-coach-chips="entrypoints">Main QR · RSVP QR · Donate QR</div>
             </div>
           </div>
 
@@ -1497,11 +1924,233 @@
               </section>
             </div>
           </div>
+          <div class="preview-frame" data-template="events">
+            <div class="events-v2-preview-header">
+              <label>View as:</label>
+              <select id="events-v2-preview-mode" aria-label="Preview mode">
+                <option value="pre">Pre-event</option>
+                <option value="live">Live</option>
+                <option value="post">Post-event</option>
+              </select>
+              <span class="preview-url-bar" id="events-v2-preview-url">repqr.page/event/<span id="ep-preview-slug">your-link</span></span>
+            </div>
+            <div class="landing-page event-preview-page" id="events-v2-preview-page">
+              <div class="landing-nav" data-event-section="nav">
+                <span data-ep-preview="navTitle">My Event</span>
+                <span data-ep-preview="slug">repqr.page/event</span>
+              </div>
+              <!-- Hero: always shown; content from Basics -->
+              <section class="landing-hero" data-event-section="hero" data-ep-section="hero">
+                <span class="hero-pill">Rep QR Events</span>
+                <h3 data-ep-preview="headline">My Event</h3>
+                <p data-preview="eventSubheadline" class="event-hero-sub" style="display: none;">Short line under your headline</p>
+                <p data-ep-preview="tagline">Your message or theme will appear here.</p>
+                <p data-ep-preview="dateVenue" style="font-size: 12px; color: var(--muted); margin-top: 8px;"></p>
+                <div class="hero-video">
+                  <span>▶</span>
+                  <span data-ep-preview="videoHeroLabel">Video</span> · 16:9
+                </div>
+                <button class="hero-cta" type="button" data-ep-preview="heroCta">Learn more</button>
+              </section>
+              <!-- Attendee: RSVP, check-in — shown when section enabled -->
+              <section class="landing-section" data-event-section="attendee" data-ep-section="attendees">
+                <div class="landing-head">
+                  <h4>Attendees</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note" data-preview="attendeeRsvpNote">RSVP and check-in · Your QR codes in dashboard.</p>
+                <div class="landing-form event-preview-form" data-preview="attendeeRsvpForm" style="display: none;">
+                  <input class="landing-input" placeholder="Name" />
+                  <input class="landing-input" placeholder="Email" />
+                  <button type="button" class="btn primary">RSVP</button>
+                </div>
+              </section>
+              <!-- Sponsor: logo grid, CTA -->
+              <section class="landing-section" data-event-section="sponsor" data-ep-section="sponsors">
+                <div class="landing-head">
+                  <h4>Sponsors</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note">Sponsor logo grid and CTA · Become a sponsor.</p>
+                <div class="landing-card" style="padding: 12px;">Sponsor logos will appear here</div>
+              </section>
+              <!-- Donor: goal, levels -->
+              <section class="landing-section" data-event-section="donor" data-ep-section="donors">
+                <div class="landing-head">
+                  <h4>Donate</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note">Donation goal and levels · Thank-you automation.</p>
+                <div class="landing-card" style="padding: 12px;">Progress bar and levels</div>
+              </section>
+              <!-- Video modules: 1–6 cards -->
+              <section class="landing-section" data-event-section="videos" data-ep-section="videos">
+                <div class="landing-head">
+                  <h4>Videos</h4>
+                </div>
+                <div class="event-preview-videos" id="event-preview-videos">
+                  <div class="event-preview-video-card">
+                    <div class="hero-video" style="min-height: 80px;"><span>▶</span> <span data-preview="eventVideo1Label">Video 1</span></div>
+                    <button type="button" class="btn primary" style="margin-top: 8px;" data-preview="eventVideo1Cta">Watch</button>
+                  </div>
+                </div>
+              </section>
+              <!-- Photo upload: when toggle on -->
+              <section class="landing-section" data-event-section="photo">
+                <div class="landing-head">
+                  <h4>Photo upload</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note">Attendees can upload photos from the event.</p>
+              </section>
+              <!-- Prize / giveaway: when toggle on -->
+              <section class="landing-section" data-event-section="prize">
+                <div class="landing-head">
+                  <h4>Prize & giveaway</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note">Claim prize or enter giveaway.</p>
+              </section>
+              <!-- Contact & consent -->
+              <section class="landing-section" data-event-section="contact" data-ep-section="contact">
+                <div class="landing-head">
+                  <h4>Contact & consent</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note">Name, Email, Phone · SMS/Email opt-in.</p>
+                <div class="landing-form">
+                  <input class="landing-input" placeholder="Name" />
+                  <input class="landing-input" placeholder="Email" />
+                  <input class="landing-input" placeholder="Phone (optional)" />
+                  <label style="font-size: 11px;"><input type="checkbox" /> Email updates</label>
+                  <label style="font-size: 11px;"><input type="checkbox" /> SMS updates</label>
+                </div>
+              </section>
+              <!-- Post-event -->
+              <section class="landing-section" data-event-section="postevent" data-ep-section="postevent">
+                <div class="landing-head">
+                  <h4>After the event</h4>
+                  <button class="tech-edit" type="button">Edit</button>
+                </div>
+                <p class="landing-note" data-preview="posteventNote">Thank-you page · Follow-up email · Analytics.</p>
+              </section>
+            </div>
+          </div>
         </section>
       </main>
     </div>
     <script>
-      const steps = Array.from(document.querySelectorAll(".step-card"));
+      // ---------- Events v2: EventPageConfig (single source of truth) ----------
+      function createDefaultEventPageConfig() {
+        return {
+          id: null,
+          templateId: "events",
+          setupType: "event_ready",
+          coachModeEnabled: true,
+          previewMode: "pre",
+          identity: {
+            internalName: "",
+            publicTitle: "",
+            tagline: "",
+            hostOrgName: "",
+            eventLinkSlug: "",
+            hashtag: "",
+            brand: { primaryColor: "#2563eb", secondaryColor: "#1e40af", fontPreset: "default", logoUrl: "" },
+            heroBackground: "gradient"
+          },
+          event: {
+            eventType: "other",
+            theme: "",
+            startDateTime: "",
+            endDateTime: "",
+            timezone: "",
+            format: "in_person",
+            venue: { name: "", address1: "", city: "", state: "", zip: "", room: "", virtualLink: "" }
+          },
+          sections: [
+            { type: "hero", enabled: true, config: {} },
+            { type: "attendees", enabled: true, config: {} },
+            { type: "sponsors", enabled: true, config: {} },
+            { type: "donors", enabled: false, config: {} },
+            { type: "volunteers", enabled: false, config: {} },
+            { type: "videos", enabled: true, config: {} },
+            { type: "schedule", enabled: false, config: {} },
+            { type: "prizes", enabled: false, config: {} },
+            { type: "gallery", enabled: false, config: {} },
+            { type: "faq", enabled: false, config: {} },
+            { type: "contact", enabled: true, config: {} }
+          ],
+          videos: [{ id: "v1", internalName: "Video 1", publicTitle: "Welcome", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-main" }],
+          forms: {
+            rsvp: { enabled: false, fields: { firstName: true, lastName: true, email: true, phone: false }, consent: { smsOptInEnabled: false, emailOptInEnabled: true } },
+            sponsor: { enabled: false, fields: {}, consent: {} },
+            donation: { enabled: false, fields: {}, consent: {} },
+            volunteer: { enabled: false, fields: {}, consent: {} },
+            contact: { enabled: true, fields: { firstName: true, lastName: true, email: true, phone: true }, consent: { smsOptInEnabled: false, emailOptInEnabled: true } }
+          },
+          automation: { enabled: false, timeline: [] },
+          entrypoints: [{ id: "ep-main", type: "qr", label: "Main Event", destination: "event_page", activeModes: ["pre", "live", "post"], quantity: 1 }],
+          postEvent: { galleryEnabled: false, winnersEnabled: false, surveyEnabled: false, recapVideoId: null }
+        };
+      }
+      function applyEventPreset(config, setupType) {
+        const c = JSON.parse(JSON.stringify(config));
+        c.setupType = setupType;
+        if (setupType === "quick_launch") {
+          c.videos = [{ id: "v1", internalName: "Video 1", publicTitle: "Welcome", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "external", label: "Learn more", destination: "" }, qrLabel: "event-main" }];
+          c.sections.forEach(s => { s.enabled = ["hero", "videos", "contact"].includes(s.type); });
+          c.forms.rsvp.enabled = false; c.forms.contact.enabled = true;
+        } else if (setupType === "event_ready") {
+          c.videos = c.videos.slice(0, 3); if (c.videos.length < 3) { for (let i = c.videos.length; i < 3; i++) c.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) }); }
+          c.sections.forEach(s => { s.enabled = ["hero", "attendees", "sponsors", "videos", "contact"].includes(s.type); });
+          c.forms.rsvp.enabled = true; c.forms.contact.enabled = true;
+        } else {
+          c.sections.forEach(s => { s.enabled = ["hero", "attendees", "sponsors", "donors", "volunteers", "videos", "schedule", "prizes", "gallery", "contact"].includes(s.type); });
+          c.forms.rsvp.enabled = true; c.forms.contact.enabled = true; c.automation.enabled = true;
+        }
+        return c;
+      }
+      const EVENT_PRESETS = { quick_launch: "Quick Launch", event_ready: "Event Ready", full_builder: "Full Event Builder" };
+      let eventPageConfig = createDefaultEventPageConfig();
+
+      const templateCard = document.querySelector(".step-card[data-step='0']");
+      const landingSteps = Array.from(document.querySelectorAll(".step-card[data-wizard='landing']"));
+      const eventStepById = (id) => document.querySelector(".step-card[data-wizard='events'][data-event-step-id='" + id + "']");
+      const eventStepListQuick = [
+        templateCard,
+        eventStepById("basics"),
+        eventStepById("videos"),
+        eventStepById("products"),
+        eventStepById("done"),
+      ].filter(Boolean);
+      const eventStepListReady = [
+        templateCard,
+        eventStepById("basics"),
+        eventStepById("toggles"),
+        eventStepById("videos"),
+        eventStepById("audience"),
+        eventStepById("contact"),
+        eventStepById("products"),
+        eventStepById("done"),
+      ].filter(Boolean);
+      const eventStepListFull = [
+        templateCard,
+        eventStepById("basics"),
+        eventStepById("toggles"),
+        eventStepById("videos"),
+        eventStepById("audience"),
+        eventStepById("contact"),
+        eventStepById("automation"),
+        eventStepById("postevent"),
+        eventStepById("products"),
+        eventStepById("done"),
+      ].filter(Boolean);
+      const landingStepList = [templateCard, ...landingSteps];
+      const eventStepList = eventStepListQuick;
+      const wizardContentDefault = document.getElementById("wizard-content-default");
+      const wizardContentEventsV2 = document.getElementById("wizard-content-events-v2");
+      const eventV2StepList = Array.from(document.querySelectorAll(".events-v2-step")).sort((a, b) => parseInt(a.dataset.eventsV2Step, 10) - parseInt(b.dataset.eventsV2Step, 10));
+      const steps = landingStepList;
       const stepLabel = document.querySelector("[data-step-label]");
       const backBtn = document.getElementById("backBtn");
       const nextBtn = document.getElementById("nextBtn");
@@ -1527,12 +2176,305 @@
       const state = {
         step: 0,
         template: "spotlight-basic",
+        eventTier: null,
       };
+
+      const eventTierChoiceEl = document.getElementById("event-tier-choice");
+      const eventTierGrid = document.getElementById("event-tier-grid");
+      const eventTierQuick = document.getElementById("event-tier-quick");
+
+      const getCurrentStepList = () => {
+        if (state.template === "events") return eventV2StepList;
+        return landingStepList;
+      };
+
+      const updateEventTierUI = () => {
+        if (!eventTierChoiceEl) return;
+        eventTierChoiceEl.classList.toggle("visible", state.template === "events");
+        if (state.template !== "events") {
+          state.eventTier = null;
+          return;
+        }
+        eventTierGrid.querySelectorAll(".event-tier-card").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.eventTier === state.eventTier);
+        });
+        const quickWrap = document.getElementById("event-videos-quick");
+        const fullWrap = document.getElementById("event-videos-full");
+        const msgLabel = document.getElementById("event-message-label");
+        const basicsExtra = document.getElementById("event-basics-extra");
+        if (state.eventTier === "quick") {
+          if (quickWrap) quickWrap.style.display = "";
+          if (fullWrap) fullWrap.style.display = "none";
+          if (msgLabel) msgLabel.textContent = "Hero headline";
+          if (basicsExtra) basicsExtra.style.display = "none";
+        } else if (state.eventTier === "ready" || state.eventTier === "full") {
+          if (quickWrap) quickWrap.style.display = "none";
+          if (fullWrap) fullWrap.style.display = "";
+          if (msgLabel) msgLabel.textContent = "Message or theme";
+          if (basicsExtra) basicsExtra.style.display = "";
+        }
+      };
+
+      const updateEventPreview = (frame) => {
+        if (!frame || state.template !== "events") return;
+        const tier = state.eventTier || "quick";
+        const getVal = (id, def = "") => (document.getElementById(id) && document.getElementById(id).value) || def;
+        const getCheck = (id) => !!(document.getElementById(id) && document.getElementById(id).checked);
+
+        const eventName = getVal("event-name", "My Event");
+        const eventDate = getVal("event-date");
+        const eventVenue = getVal("event-venue");
+        const eventMessage = getVal("event-message", "Your message or theme will appear here.");
+        const eventSlug = getVal("event-slug");
+        const eventSubheadline = getVal("event-subheadline");
+        const eventLogo = getVal("event-logo-url");
+        const rsvpOn = getCheck("event-rsvp-on");
+        const audienceAttendee = getCheck("event-audience-attendee");
+        const audienceSponsor = getCheck("event-audience-sponsor");
+        const audienceDonor = getCheck("event-audience-donor");
+        const postThankyou = getCheck("event-post-thankyou");
+        const postFollowup = getCheck("event-post-followup");
+        const postAnalytics = getCheck("event-post-analytics");
+        const photoUploadOn = getCheck("event-photo-upload-on");
+        const prizeGiveawayOn = getCheck("event-prize-giveaway-on");
+
+        frame.querySelectorAll("[data-preview='eventNavTitle']").forEach((el) => { el.textContent = eventName; });
+        frame.querySelectorAll("[data-preview='eventSlug']").forEach((el) => {
+          el.textContent = eventSlug ? "repqr.page/" + eventSlug.replace(/^\/*/, "") : "repqr.page/event";
+        });
+
+        const headline = tier === "quick" ? (getVal("event-message") || eventName) : eventName;
+        frame.querySelectorAll("[data-preview='eventHeadline']").forEach((el) => { el.textContent = headline || "My Event"; });
+        frame.querySelectorAll("[data-preview='eventMessage']").forEach((el) => {
+          el.textContent = tier === "quick" ? (eventName || "") : (eventMessage || "Your message or theme will appear here.");
+        });
+        const dateVenue = [eventDate, eventVenue].filter(Boolean).join(" · ");
+        frame.querySelectorAll("[data-preview='eventDateVenue']").forEach((el) => { el.textContent = dateVenue; });
+
+        const subheadEl = frame.querySelector("[data-preview='eventSubheadline']");
+        if (subheadEl) {
+          subheadEl.textContent = eventSubheadline || "";
+          subheadEl.style.display = tier !== "quick" && eventSubheadline ? "" : "none";
+        }
+
+        const firstWizardLabel = document.querySelector(".event-video-label-input");
+        const heroVideoLabel = tier === "quick"
+          ? (getVal("event-quick-video-label") || "Video")
+          : (firstWizardLabel && firstWizardLabel.value) || "Video 1";
+        frame.querySelectorAll("[data-preview='eventVideoHeroLabel']").forEach((el) => { el.textContent = heroVideoLabel; });
+
+        const ctaText = tier === "quick" ? (getVal("event-quick-cta") || "Learn more") : "Watch";
+        frame.querySelectorAll("[data-preview='eventCta']").forEach((el) => { el.textContent = ctaText; });
+
+        const videosContainer = frame.querySelector("#event-preview-videos");
+        if (videosContainer) {
+          const countInput = document.getElementById("event-video-count");
+          const n = tier === "quick" ? 1 : Math.max(1, parseInt(countInput && countInput.value, 10) || 1);
+          const labels = tier === "quick"
+            ? [getVal("event-quick-video-label") || "Video 1"]
+            : Array.from(document.querySelectorAll(".event-video-label-input")).map((inp) => inp.value || ("Video " + (inp.dataset.videoIndex + 1)));
+          while (labels.length < n) labels.push("Video " + (labels.length + 1));
+          videosContainer.innerHTML = labels.slice(0, n).map((label, i) =>
+            `<div class="event-preview-video-card">
+              <div class="hero-video" style="min-height: 80px;"><span>▶</span> <span>${label || "Video " + (i + 1)}</span></div>
+              <button type="button" class="btn primary" style="margin-top: 8px;">${i === 0 && tier === "quick" ? (getVal("event-quick-cta") || "Learn more") : "Watch"}</button>
+            </div>`
+          ).join("");
+        }
+
+        ["attendee", "sponsor", "donor", "photo", "prize", "contact", "postevent"].forEach((sectionKey) => {
+          const section = frame.querySelector(`[data-event-section="${sectionKey}"]`);
+          if (!section) return;
+          let show = false;
+          if (sectionKey === "attendee") show = (tier === "ready" || tier === "full") && audienceAttendee;
+          else if (sectionKey === "sponsor") show = (tier === "ready" || tier === "full") && audienceSponsor;
+          else if (sectionKey === "donor") show = (tier === "ready" || tier === "full") && audienceDonor;
+          else if (sectionKey === "photo") show = (tier === "ready" || tier === "full") && photoUploadOn;
+          else if (sectionKey === "prize") show = (tier === "ready" || tier === "full") && prizeGiveawayOn;
+          else if (sectionKey === "contact") show = tier === "ready" || tier === "full";
+          else if (sectionKey === "postevent") show = tier === "full" || postThankyou || postFollowup || postAnalytics;
+          section.style.display = show ? "" : "none";
+        });
+
+        const attendeeRsvpForm = frame.querySelector("[data-preview='attendeeRsvpForm']");
+        if (attendeeRsvpForm) attendeeRsvpForm.style.display = (tier === "ready" || tier === "full") && audienceAttendee && rsvpOn ? "" : "none";
+      };
+
+      function syncEventPageConfigToForm() {
+        const c = eventPageConfig;
+        const id = (x) => document.getElementById(x);
+        if (id("ep-internal-name")) id("ep-internal-name").value = c.identity.internalName || "";
+        if (id("ep-public-title")) id("ep-public-title").value = c.identity.publicTitle || "";
+        if (id("ep-tagline")) id("ep-tagline").value = c.identity.tagline || "";
+        if (id("ep-event-link")) id("ep-event-link").value = c.identity.eventLinkSlug || "";
+        if (id("ep-host-org")) id("ep-host-org").value = c.identity.hostOrgName || "";
+        if (id("ep-event-type")) id("ep-event-type").value = c.event.eventType || "other";
+        if (id("ep-theme")) id("ep-theme").value = c.event.theme || "";
+        if (id("ep-start-datetime")) id("ep-start-datetime").value = c.event.startDateTime || "";
+        if (id("ep-end-datetime")) id("ep-end-datetime").value = c.event.endDateTime || "";
+        if (id("ep-format")) id("ep-format").value = c.event.format || "in_person";
+        if (id("ep-venue-name")) id("ep-venue-name").value = c.event.venue.name || "";
+        if (id("ep-venue-city-state")) id("ep-venue-city-state").value = [c.event.venue.city, c.event.venue.state].filter(Boolean).join(", ");
+        if (id("ep-video-count")) id("ep-video-count").value = Math.min(6, Math.max(1, c.videos.length));
+        id("events-v2-setup-type")?.querySelectorAll(".option-card").forEach((btn) => btn.classList.toggle("active", btn.dataset.setupType === c.setupType));
+        ["attendees", "sponsors", "donors", "volunteers", "schedule", "prizes", "gallery", "faq", "contact"].forEach((type, i) => {
+          const el = document.getElementById("ep-sec-" + type);
+          if (el) el.checked = c.sections.find((s) => s.type === type)?.enabled ?? false;
+        });
+        if (id("ep-form-rsvp")) id("ep-form-rsvp").checked = c.forms.rsvp.enabled;
+        if (id("ep-form-contact")) id("ep-form-contact").checked = c.forms.contact.enabled;
+        if (id("ep-consent-email")) id("ep-consent-email").checked = c.forms.contact.consent.emailOptInEnabled;
+        if (id("ep-consent-sms")) id("ep-consent-sms").checked = c.forms.contact.consent.smsOptInEnabled;
+        if (id("ep-auto-rsvp")) id("ep-auto-rsvp").checked = c.automation.enabled;
+        buildEpVideosList();
+        buildEpEntrypointsList();
+        updateCopyQualityMeter();
+      }
+      function syncEventPageConfigFromForm() {
+        const c = eventPageConfig;
+        const val = (x) => (document.getElementById(x) && document.getElementById(x).value) || "";
+        const chk = (x) => !!(document.getElementById(x) && document.getElementById(x).checked);
+        c.identity.internalName = val("ep-internal-name");
+        c.identity.publicTitle = val("ep-public-title");
+        c.identity.tagline = val("ep-tagline");
+        c.identity.eventLinkSlug = (val("ep-event-link") || "").replace(/\s+/g, "-").toLowerCase();
+        c.identity.hostOrgName = val("ep-host-org");
+        c.event.eventType = val("ep-event-type") || "other";
+        c.event.theme = val("ep-theme");
+        c.event.startDateTime = val("ep-start-datetime");
+        c.event.endDateTime = val("ep-end-datetime");
+        c.event.format = val("ep-format") || "in_person";
+        c.event.venue.name = val("ep-venue-name");
+        const cityState = (val("ep-venue-city-state") || "").split(",").map((s) => s.trim());
+        c.event.venue.city = cityState[0] || "";
+        c.event.venue.state = cityState[1] || "";
+        const setupBtn = document.querySelector("#events-v2-setup-type .option-card.active");
+        if (setupBtn) c.setupType = setupBtn.dataset.setupType || "event_ready";
+        ["attendees", "sponsors", "donors", "volunteers", "schedule", "prizes", "gallery", "faq", "contact"].forEach((type) => {
+          const s = c.sections.find((x) => x.type === type);
+          if (s) s.enabled = chk("ep-sec-" + type);
+        });
+        c.forms.rsvp.enabled = chk("ep-form-rsvp");
+        c.forms.contact.enabled = chk("ep-form-contact");
+        c.forms.contact.consent.emailOptInEnabled = chk("ep-consent-email");
+        c.forms.contact.consent.smsOptInEnabled = chk("ep-consent-sms");
+        c.automation.enabled = chk("ep-auto-rsvp");
+        try { localStorage.setItem("repqr-events-v2-draft", JSON.stringify(eventPageConfig)); } catch (e) {}
+      }
+      function buildEpEntrypointsList() {
+        const container = document.getElementById("ep-entrypoints-list");
+        if (!container) return;
+        const list = eventPageConfig.entrypoints || [];
+        container.innerHTML = list.map((ep) => `
+          <div class="entrypoint-item">
+            <span class="entrypoint-label">${ep.label || ep.id}</span>
+            <span class="entrypoint-dest">→ ${ep.destination || "event_page"}</span>
+            <span class="entrypoint-metrics">Scans: — · Conversions: —</span>
+          </div>
+        `).join("") || "<p class=\"step-subtitle\">Main event QR is always created. Add more in Rep QR dashboard.</p>";
+      }
+      function updateCopyQualityMeter() {
+        const el = document.getElementById("ep-quality-naming");
+        if (!el) return;
+        const title = (document.getElementById("ep-public-title")?.value || "").trim();
+        const tagline = (document.getElementById("ep-tagline")?.value || "").trim();
+        const url = (document.getElementById("ep-event-link")?.value || "").trim();
+        let score = 0;
+        if (title.length >= 3) score++;
+        if (tagline.length >= 5) score++;
+        if (url.length >= 3) score++;
+        const meter = el.querySelector("meter");
+        if (meter) meter.value = score;
+        el.style.display = state.template === "events" ? "" : "none";
+      }
+      function buildEpVideosList() {
+        const container = document.getElementById("ep-videos-list");
+        if (!container) return;
+        const n = Math.min(6, Math.max(1, parseInt(document.getElementById("ep-video-count")?.value, 10) || 1));
+        while (eventPageConfig.videos.length < n) {
+          const i = eventPageConfig.videos.length;
+          eventPageConfig.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) });
+        }
+        eventPageConfig.videos = eventPageConfig.videos.slice(0, n);
+        const ctaTypes = ["rsvp", "donate", "sponsor", "contact", "external"];
+        container.innerHTML = eventPageConfig.videos.map((v, i) => {
+          const ctaType = (v.cta && v.cta.type) || "rsvp";
+          return `
+          <div class="ep-video-row" data-video-id="${v.id}">
+            <label>Video ${i + 1}</label>
+            <input type="text" placeholder="Title" data-ep-video-title="${v.id}" value="${(v.publicTitle || "").replace(/"/g, "&quot;")}" />
+            <select data-ep-video-cta-type="${v.id}">${ctaTypes.map((t) => `<option value="${t}" ${t === ctaType ? "selected" : ""}>${t === "rsvp" ? "RSVP" : t === "donate" ? "Donate" : t === "sponsor" ? "Sponsor" : t === "contact" ? "Contact" : "External link"}</option>`).join("")}</select>
+            <input type="text" placeholder="CTA label" data-ep-video-cta-label="${v.id}" value="${(v.cta?.label || "").replace(/"/g, "&quot;")}" />
+          </div>
+        `; }).join("");
+        container.querySelectorAll("[data-ep-video-title], [data-ep-video-cta-label], [data-ep-video-cta-type]").forEach((el) => {
+          const videoId = el.getAttribute("data-ep-video-title") || el.getAttribute("data-ep-video-cta-label") || el.getAttribute("data-ep-video-cta-type");
+          if (!videoId) return;
+          el.addEventListener("input", () => { syncEpVideoFromForm(videoId); renderEventsV2Preview(); });
+          el.addEventListener("change", () => { syncEpVideoFromForm(videoId); renderEventsV2Preview(); });
+        });
+      }
+      function syncEpVideoFromForm(videoId) {
+        const v = eventPageConfig.videos.find((x) => x.id === videoId);
+        if (!v) return;
+        const el = (attr) => document.querySelector(`[data-ep-video-${attr}="${videoId}"]`);
+        if (el("title")) v.publicTitle = el("title").value;
+        if (el("cta-label")) { v.cta = v.cta || {}; v.cta.label = el("cta-label").value; }
+        if (el("cta-type")) { v.cta = v.cta || {}; v.cta.type = el("cta-type").value; }
+      }
+      function renderEventsV2Preview() {
+        const frame = document.querySelector('.preview-frame[data-template="events"]');
+        if (!frame || state.template !== "events") return;
+        eventPageConfig.previewMode = document.getElementById("events-v2-preview-mode")?.value || "pre";
+        const mode = eventPageConfig.previewMode;
+        const c = eventPageConfig;
+        const slug = (c.identity.eventLinkSlug || "your-link").replace(/\s+/g, "-");
+        frame.querySelectorAll("[data-ep-preview='navTitle']").forEach((el) => { el.textContent = c.identity.publicTitle || "My Event"; });
+        frame.querySelectorAll("[data-ep-preview='slug']").forEach((el) => { el.textContent = "repqr.page/event/" + slug; });
+        const slugPreview = document.getElementById("ep-preview-slug");
+        if (slugPreview) slugPreview.textContent = slug;
+        const linkPreview = document.getElementById("ep-link-preview");
+        if (linkPreview) linkPreview.textContent = slug;
+        const urlBar = document.getElementById("events-v2-preview-url");
+        if (urlBar) urlBar.textContent = "repqr.page/event/" + slug;
+        frame.querySelectorAll("[data-ep-preview='headline']").forEach((el) => { el.textContent = c.identity.publicTitle || "My Event"; });
+        frame.querySelectorAll("[data-ep-preview='tagline']").forEach((el) => { el.textContent = c.identity.tagline || "Your message or theme."; });
+        const dateVenue = [c.event.startDateTime ? new Date(c.event.startDateTime).toLocaleDateString() : "", [c.event.venue.city, c.event.venue.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
+        frame.querySelectorAll("[data-ep-preview='dateVenue']").forEach((el) => { el.textContent = dateVenue; });
+        const v0 = c.videos[0];
+        frame.querySelectorAll("[data-ep-preview='videoHeroLabel']").forEach((el) => { el.textContent = (v0 && (v0.publicTitle || v0.internalName)) || "Video 1"; });
+        frame.querySelectorAll("[data-ep-preview='heroCta']").forEach((el) => { el.textContent = (v0 && v0.cta?.label) || "Learn more"; });
+        const sectionTypes = ["hero", "attendees", "sponsors", "donors", "videos", "contact", "postevent"];
+        sectionTypes.forEach((type) => {
+          const section = frame.querySelector(`[data-ep-section="${type}"]`);
+          if (!section) return;
+          let show = true;
+          if (type === "hero") show = true;
+          else if (type === "postevent") show = mode === "post";
+          else show = c.sections.find((s) => s.type === type)?.enabled ?? false;
+          section.style.display = show ? "" : "none";
+        });
+        updateCopyQualityMeter();
+        const videosContainer = frame.querySelector("#event-preview-videos");
+        if (videosContainer) {
+          videosContainer.innerHTML = c.videos.map((v, i) => `
+            <div class="event-preview-video-card">
+              <div class="hero-video" style="min-height: 80px;"><span>▶</span> ${v.publicTitle || v.internalName || "Video " + (i + 1)}</div>
+              <button type="button" class="btn primary" style="margin-top: 8px;">${v.cta?.label || "Watch"}</button>
+            </div>
+          `).join("");
+        }
+      }
 
       const updatePreviewText = () => {
         const activeFrame = document.querySelector(
           `.preview-frame[data-template="${state.template}"]`
         );
+
+        if (state.template === "events" && activeFrame) {
+          renderEventsV2Preview();
+          return;
+        }
 
         if (activeFrame) {
           activeFrame.querySelectorAll("[data-preview='headline']").forEach((el) => {
@@ -1582,6 +2524,18 @@
 
       const setTemplate = (template) => {
         state.template = template;
+        state.step = 0;
+        if (template !== "events") {
+          state.eventTier = null;
+          if (wizardContentDefault) wizardContentDefault.style.display = "";
+          if (wizardContentEventsV2) wizardContentEventsV2.style.display = "none";
+        } else {
+          if (wizardContentDefault) wizardContentDefault.style.display = "none";
+          if (wizardContentEventsV2) wizardContentEventsV2.style.display = "";
+          eventPageConfig = applyEventPreset(createDefaultEventPageConfig(), eventPageConfig.setupType || "event_ready");
+          syncEventPageConfigToForm();
+          renderEventsV2Preview();
+        }
         templateButtons.forEach((btn) =>
           btn.classList.toggle("active", btn.dataset.template === template)
         );
@@ -1591,21 +2545,80 @@
         templateToggleGroups.forEach((group) => {
           group.classList.toggle("active", group.dataset.template === template);
         });
+        updateEventTierUI();
+        showStep(0);
         updatePreviewText();
         updateTemplateSections();
       };
 
       const showStep = (index) => {
-        state.step = Math.max(0, Math.min(index, steps.length - 1));
-        steps.forEach((step, idx) => step.classList.toggle("active", idx === state.step));
-        stepLabel.textContent = `Step ${state.step + 1} of ${steps.length}`;
+        const stepList = getCurrentStepList();
+        state.step = Math.max(0, Math.min(index, stepList.length - 1));
+        stepList.forEach((s) => s.classList.remove("active"));
+        if (stepList[state.step]) stepList[state.step].classList.add("active");
+        stepLabel.textContent = `Step ${state.step + 1} of ${stepList.length}`;
         backBtn.disabled = state.step === 0;
-        nextBtn.textContent = state.step === steps.length - 1 ? "Publish" : "Next";
+        const isLast = state.step === stepList.length - 1;
+        nextBtn.textContent = isLast ? "Publish" : "Next";
+        if (state.template === "events" && state.step === 3) buildEpVideosList();
+        if (state.template !== "events") updateEventTierUI();
+        updatePreviewText();
       };
 
       templateButtons.forEach((button) => {
         button.addEventListener("click", () => setTemplate(button.dataset.template));
       });
+
+      document.getElementById("events-v2-preview-mode")?.addEventListener("change", function () {
+        eventPageConfig.previewMode = this.value;
+        renderEventsV2Preview();
+      });
+
+      document.getElementById("events-v2-setup-type")?.addEventListener("click", (e) => {
+        const btn = e.target.closest(".option-card[data-setup-type]");
+        if (!btn) return;
+        document.querySelectorAll("#events-v2-setup-type .option-card").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        eventPageConfig = applyEventPreset(createDefaultEventPageConfig(), btn.dataset.setupType);
+        syncEventPageConfigToForm();
+        renderEventsV2Preview();
+      });
+
+      ["ep-internal-name", "ep-public-title", "ep-tagline", "ep-event-link", "ep-host-org", "ep-event-type", "ep-theme", "ep-start-datetime", "ep-end-datetime", "ep-format", "ep-venue-name", "ep-venue-city-state"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
+      });
+      document.getElementById("ep-event-type")?.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
+      document.getElementById("ep-format")?.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
+      ["ep-sec-attendees", "ep-sec-sponsors", "ep-sec-donors", "ep-sec-volunteers", "ep-sec-schedule", "ep-sec-prizes", "ep-sec-gallery", "ep-sec-faq", "ep-sec-contact", "ep-form-rsvp", "ep-form-contact", "ep-consent-email", "ep-consent-sms", "ep-auto-rsvp", "ep-auto-reminder-24", "ep-auto-reminder-1", "ep-auto-event-end"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
+      });
+      document.getElementById("ep-video-count")?.addEventListener("change", function () {
+        const n = Math.min(6, Math.max(1, parseInt(this.value, 10) || 1));
+        this.value = n;
+        while (eventPageConfig.videos.length < n) {
+          const i = eventPageConfig.videos.length;
+          eventPageConfig.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) });
+        }
+        eventPageConfig.videos = eventPageConfig.videos.slice(0, n);
+        buildEpVideosList();
+        renderEventsV2Preview();
+      });
+
+      if (eventTierGrid) {
+        eventTierGrid.addEventListener("click", (e) => {
+          const card = e.target.closest(".event-tier-card");
+          if (!card || card.disabled) return;
+          state.eventTier = card.dataset.eventTier || null;
+          updateEventTierUI();
+          showStep(state.step);
+          updatePreviewText();
+        });
+      }
+
+      const eventQuickCta = document.getElementById("event-quick-cta");
+      if (eventQuickCta) eventQuickCta.addEventListener("input", updatePreviewText);
 
       goalButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -1634,12 +2647,83 @@
         toggle.addEventListener("change", updateTemplateSections)
       );
 
+      function renderEventVideoLabels() {
+        const container = document.getElementById("event-video-labels");
+        const countInput = document.getElementById("event-video-count");
+        if (!container || !countInput) return;
+        const n = Math.max(1, parseInt(countInput.value, 10) || 1);
+        container.innerHTML = Array.from({ length: n }, (_, i) =>
+          `<div class="input-row" style="margin-bottom: 6px;"><label>Video ${i + 1}</label><input type="text" class="event-video-label-input" data-video-index="${i}" placeholder="Label (optional)" style="font-size: 12px; padding: 6px 8px;" /></div>`
+        ).join("");
+        container.querySelectorAll(".event-video-label-input").forEach((input) => {
+          input.removeEventListener("input", _eventVideoLabelChange);
+          input.addEventListener("input", _eventVideoLabelChange);
+        });
+      }
+      function _eventVideoLabelChange() {
+        updatePreviewText();
+      }
+
+      document.getElementById("event-products-link").addEventListener("click", function (e) {
+        e.preventDefault();
+        alert("Rep QR will open the products and shipping page here. You can replace this link with your actual URL.");
+      });
+
+      const eventNameEl = document.getElementById("event-name");
+      const eventDateEl = document.getElementById("event-date");
+      const eventVenueEl = document.getElementById("event-venue");
+      const eventMessageEl = document.getElementById("event-message");
+      const eventVideoCountEl = document.getElementById("event-video-count");
+      const eventSlugEl = document.getElementById("event-slug");
+      const eventSubheadlineEl = document.getElementById("event-subheadline");
+      const eventQuickVideoLabelEl = document.getElementById("event-quick-video-label");
+      [eventNameEl, eventDateEl, eventVenueEl, eventMessageEl, eventSlugEl, eventSubheadlineEl, eventQuickVideoLabelEl].forEach((el) => {
+        if (el) el.addEventListener("input", updatePreviewText);
+      });
+      ["event-rsvp-on", "event-email-capture-on", "event-sms-optin-on", "event-live-mode-on", "event-post-event-mode-on", "event-ai-chat-on", "event-photo-upload-on", "event-prize-giveaway-on", "event-audience-attendee", "event-audience-sponsor", "event-audience-donor", "event-post-thankyou", "event-post-followup", "event-post-analytics"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("change", updatePreviewText);
+      });
+      if (eventVideoCountEl) {
+        eventVideoCountEl.addEventListener("change", function () {
+          const n = Math.max(1, parseInt(this.value, 10) || 1);
+          this.value = n;
+          renderEventVideoLabels();
+          updatePreviewText();
+        });
+      }
+
       backBtn.addEventListener("click", () => showStep(state.step - 1));
-      nextBtn.addEventListener("click", () => showStep(state.step + 1));
+      nextBtn.addEventListener("click", () => {
+        if (state.template === "events") {
+          const stepList = getCurrentStepList();
+          const isLast = state.step === stepList.length - 1;
+          if (isLast) {
+            syncEventPageConfigFromForm();
+            const c = eventPageConfig;
+            const hasTitle = (c.identity.publicTitle || "").trim().length >= 2;
+            const hasUrl = (c.identity.eventLinkSlug || "").trim().length >= 2;
+            const hasVideo = c.videos && c.videos.length >= 1;
+            const hasContact = c.forms.contact.enabled;
+            if (!hasTitle || !hasUrl || !hasVideo || !hasContact) {
+              alert("To publish: add a public title, event link (URL), at least one video, and keep Contact form enabled.");
+              return;
+            }
+            alert("Event saved. Your event link and QR set will be available in the Rep QR dashboard.");
+            return;
+          }
+        } else if (state.step === 0 && state.template === "events" && !state.eventTier) {
+          return;
+        }
+        showStep(state.step + 1);
+      });
 
       showStep(0);
       updatePreviewText();
       updateTemplateSections();
+      renderEventVideoLabels();
+      if (wizardContentDefault) wizardContentDefault.style.display = "";
+      if (wizardContentEventsV2) wizardContentEventsV2.style.display = "none";
     </script>
   </body>
 </html>

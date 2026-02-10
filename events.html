@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rep QR Events – Launch your event</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e5e7eb;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --success: #10b981;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    .page { min-height: 100vh; display: flex; flex-direction: column; }
+    .header {
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; gap: 16px;
+      position: sticky; top: 0; z-index: 5;
+    }
+    .logo { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+    .logo span { color: var(--accent); }
+    .pill { padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-soft); color: var(--accent); }
+    .btn { border: none; border-radius: 999px; padding: 10px 16px; font-weight: 600; cursor: pointer; font-size: 13px; }
+    .btn.primary { background: var(--accent); color: #fff; }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn.success { background: var(--success); color: #fff; }
+
+    .journey {
+      background: #fff; border-bottom: 1px solid var(--border); padding: 14px 28px;
+      display: grid; gap: 10px;
+    }
+    .journey-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+    .journey-step {
+      border: 1px solid var(--border); border-radius: 12px; padding: 8px 6px;
+      display: grid; grid-template-columns: 22px 1fr; gap: 6px; align-items: center; background: #fff; font-size: 11px;
+    }
+    .journey-step .dot {
+      width: 22px; height: 22px; border-radius: 8px; display: grid; place-items: center; font-size: 10px; font-weight: 700;
+      background: #e2e8f0; color: #475569;
+    }
+    .journey-step.active { border-color: var(--accent); background: var(--accent-soft); }
+    .journey-step.active .dot { background: var(--accent); color: #fff; }
+    .journey-step.completed .dot { background: var(--success); color: #fff; }
+    .journey-step span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .main { flex: 1; padding: 24px 28px 32px; max-width: 720px; margin: 0 auto; width: 100%; }
+    .panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+    .panel h2 { font-size: 18px; margin: 0 0 6px; }
+    .panel .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    .step-card { display: none; gap: 16px; }
+    .step-card.active { display: grid; }
+    .ai-assist { border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; background: var(--accent-soft); color: var(--text); font-size: 12px; line-height: 1.4; }
+    .option-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+    .option-card {
+      border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: #fff; text-align: left; cursor: pointer;
+      font-weight: 600; font-size: 13px;
+    }
+    .option-card small { display: block; color: var(--muted); font-weight: 500; margin-top: 4px; font-size: 11px; line-height: 1.3; }
+    .option-card.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+    .input-row { margin-bottom: 14px; }
+    .input-row label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+    .input-row input, .input-row textarea, .input-row select {
+      width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 14px; font-family: inherit;
+    }
+    .input-row textarea { min-height: 80px; resize: vertical; }
+    .offerings-list { margin: 0; padding-left: 18px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .video-labels { display: grid; gap: 8px; }
+    .video-label-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+    .video-label-row span { color: var(--muted); min-width: 80px; }
+    .video-label-row input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+    .wizard-actions { display: flex; justify-content: space-between; gap: 10px; padding: 16px 0; border-top: 1px solid var(--border); align-items: center; }
+    .wizard-actions .btn { min-width: 100px; }
+    #main-wizard-actions { position: sticky; bottom: 0; background: var(--bg); margin: 0 -28px; padding: 16px 28px; border-top: 1px solid var(--border); z-index: 4; }
+    .wizard-hint { font-size: 12px; color: var(--muted); }
+    .payment-breakdown { border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--bg); font-size: 13px; }
+    .payment-breakdown .row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .payment-breakdown .row.total { font-weight: 700; font-size: 16px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .summary-line { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    .sponsor-callout { background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; margin-top: 20px; }
+    .sponsor-callout .sponsor-title { font-size: 14px; font-weight: 700; margin: 0 0 6px; color: var(--text); }
+    .sponsor-callout .sponsor-p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .nfc-addon, .addon-block { border: 1px solid var(--border); border-radius: 12px; padding: 14px; background: #fff; margin-top: 12px; }
+    .nfc-addon label, .addon-block label { font-size: 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .nfc-addon input[type="number"], .addon-block input[type="number"] { width: 70px; border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; font-size: 13px; }
+    .addon-block input[type="text"], .addon-block input[type="number"] { width: 100%; max-width: 280px; }
+    .addon-block .input-row { margin-bottom: 10px; }
+    .addon-block .input-row:last-child { margin-bottom: 0; }
+    .repqr-welcome { background: linear-gradient(135deg, var(--accent-soft) 0%, #f0f9ff 100%); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px; }
+    .repqr-welcome .welcome-head { font-size: 20px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.02em; color: var(--text); }
+    .repqr-welcome .welcome-head span { color: var(--accent); }
+    .repqr-welcome .welcome-p { margin: 0 0 16px; font-size: 14px; line-height: 1.55; color: var(--text); }
+    .repqr-welcome .process-head { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 10px; }
+    .repqr-welcome .process-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.7; color: var(--muted); }
+    .repqr-welcome .process-list li { margin-bottom: 4px; }
+    .repqr-welcome .pick-line { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid rgba(37, 99, 235, 0.2); font-size: 14px; font-weight: 600; color: var(--text); }
+    .repqr-welcome .time-note { font-size: 12px; color: var(--muted); margin-top: 8px; font-weight: 500; }
+    @media (max-width: 900px) { .journey-track { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 600px) { .journey-track { grid-template-columns: 1fr 1fr; } .option-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="logo">REP<span>QR</span> Events</div>
+      <div class="header-actions">
+        <a href="index.html" class="btn ghost" style="text-decoration: none;">Landing builder</a>
+        <span class="pill" id="step-pill">Step 1 of 6</span>
+        <button class="btn ghost" id="save-draft-btn">Save draft</button>
+      </div>
+    </header>
+
+    <div class="journey">
+      <div class="journey-track" id="journey-track">
+        <div class="journey-step" data-step="0"><span class="dot">1</span><span>Template</span></div>
+        <div class="journey-step" data-step="1"><span class="dot">2</span><span>Basics & message</span></div>
+        <div class="journey-step" data-step="2"><span class="dot">3</span><span>Videos</span></div>
+        <div class="journey-step" data-step="3"><span class="dot">4</span><span>Products & shipping</span></div>
+        <div class="journey-step" data-step="4"><span class="dot">5</span><span>Payment</span></div>
+        <div class="journey-step" data-step="5"><span class="dot">6</span><span>Done</span></div>
+      </div>
+    </div>
+
+    <main class="main">
+      <div class="ai-assist">Rep QR is guiding you through event setup. You can change choices anytime before payment.</div>
+
+      <!-- Step 0: Template -->
+      <section class="panel step-card active" data-step="0">
+        <div class="repqr-welcome">
+          <h2 class="welcome-head">Let's launch your event — <span>Rep QR</span> has you covered</h2>
+          <p class="welcome-p">You're about to set up an event with video, QR codes, NFC, and automations—all in one place. We'll ask a few quick questions, then you'll have a ready-to-use event page, contact capture, and email and SMS flows. No guesswork.</p>
+          <p class="process-head">Here's how it works</p>
+          <ul class="process-list">
+            <li><strong>Pick your event type</strong> below — we'll tailor offerings and wording to match.</li>
+            <li><strong>Basics and your message</strong> — event name, date, your story, and what's included (email, SMS, analytics, sponsors).</li>
+            <li><strong>Choose how many videos</strong> — labels are tailored to your event type. Print as many QR codes as you want; no limit.</li>
+            <li><strong>Review and pay</strong> — simple pricing. You can change anything before you pay.</li>
+          </ul>
+          <p class="pick-line">Pick your event type below. Takes about 2 minutes.</p>
+          <p class="time-note">Not sure? Choose Custom and we'll walk you through from scratch.</p>
+        </div>
+        <h2>Choose your event type</h2>
+        <p class="subtitle">Rep QR will tailor the experience and offerings to your event.</p>
+        <div class="option-grid" id="template-grid">
+          <button type="button" class="option-card active" data-template="charity">
+            <strong>Charity</strong>
+            <small>Fundraisers, galas, cause campaigns, donor events</small>
+          </button>
+          <button type="button" class="option-card" data-template="sports">
+            <strong>Sports</strong>
+            <small>Tournaments, leagues, races, team events</small>
+          </button>
+          <button type="button" class="option-card" data-template="trade">
+            <strong>Trade</strong>
+            <small>Conferences, expos, trade shows, B2B</small>
+          </button>
+          <button type="button" class="option-card" data-template="property">
+            <strong>Property</strong>
+            <small>Open houses, listing events, real estate</small>
+          </button>
+          <button type="button" class="option-card" data-template="custom">
+            <strong>Custom</strong>
+            <small>Full walk-through — build from scratch</small>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 1: Basics & message -->
+      <section class="panel step-card" data-step="1">
+        <h2>Basics and your message</h2>
+        <p class="subtitle">Rep QR will use this for your event page and communications.</p>
+        <div class="input-row">
+          <label for="event-name">Event name</label>
+          <input type="text" id="event-name" placeholder="e.g. Annual Gala 2026" />
+        </div>
+        <div class="input-row">
+          <label for="event-date">Event date</label>
+          <input type="date" id="event-date" />
+        </div>
+        <div class="input-row">
+          <label for="event-venue">Venue or location (optional)</label>
+          <input type="text" id="event-venue" placeholder="e.g. Downtown Convention Center" />
+        </div>
+        <div class="input-row" id="custom-describe-wrap" style="display: none;">
+          <label for="custom-describe">Describe your event</label>
+          <textarea id="custom-describe" placeholder="Tell Rep QR what this event is about so we can suggest the right setup."></textarea>
+        </div>
+        <div class="input-row">
+          <label for="event-message">Message or theme</label>
+          <textarea id="event-message" placeholder="e.g. Our mission is to end food insecurity in the city. This gala funds 50,000 meals."></textarea>
+        </div>
+        <h3 style="font-size: 14px; margin: 20px 0 8px; color: var(--text);">What's included</h3>
+        <p class="subtitle" style="margin-bottom: 12px;">Every video comes with the following. Rep QR will set these up for your event.</p>
+        <ul class="offerings-list" id="offerings-list"></ul>
+        <div class="sponsor-callout">
+          <p class="sponsor-title">Sponsors</p>
+          <p class="sponsor-p">Every event includes as many sponsor placements as you need—logos, links, or a sponsor reel. Rep QR will set up your sponsor section with you after you create the event. No extra cost.</p>
+        </div>
+      </section>
+
+      <!-- Step 2: Videos -->
+      <section class="panel step-card" data-step="2">
+        <h2>How many videos?</h2>
+        <p class="subtitle">Print as many QR codes as you need — no limit. Each video includes email automation, SMS automation, and analytics. Labels below are tailored to your event type.</p>
+        <div class="input-row">
+          <label for="video-count">Number of videos</label>
+          <input type="number" id="video-count" min="1" max="999" value="1" />
+        </div>
+        <div class="input-row">
+          <label>Video labels (optional)</label>
+          <div class="video-labels" id="video-labels-container"></div>
+        </div>
+        <p class="summary-line" id="video-price-line">1 video = $299</p>
+      </section>
+
+      <!-- Step 3: Products & shipping -->
+      <section class="panel step-card" data-step="3">
+        <h2>Products & shipping</h2>
+        <p class="subtitle">Add NFC items and stainless steel cups. We need a shipping address to send anything you order.</p>
+        <p class="summary-line">Included: <strong id="nfc-included">25</strong> NFC items per video (Key Chains + Premium Metal Cards)</p>
+        <div class="nfc-addon">
+          <label>
+            I need more NFC items: <input type="number" id="nfc-extra" min="0" value="0" step="100" /> (in increments of 100)
+          </label>
+          <p class="summary-line" style="margin-top: 8px;">$50 per 100 additional NFC items</p>
+        </div>
+        <div class="addon-block">
+          <p class="sponsor-title" style="margin: 0 0 8px;">Stainless steel cups</p>
+          <p class="sponsor-p" style="margin-bottom: 10px;">Laser-engraved QR code on a stainless steel cup. Great for events and giveaways. Sold in bundles of 25 — minimum 25 cups; after 100 you can add in 25s.</p>
+          <div class="cup-bundles-row" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px;">
+            <label for="cup-bundles" style="margin: 0;">Number of 25-cup bundles:</label>
+            <input type="number" id="cup-bundles" min="0" value="0" step="1" style="width: 70px;" />
+            <span class="cup-total-copy" id="cup-total-copy" style="font-size: 13px; color: var(--muted);">0 cups</span>
+          </div>
+          <p class="summary-line" style="margin: 0;" id="cup-price-line">$18 per cup (laser-engraved QR code).</p>
+        </div>
+        <h3 style="font-size: 14px; margin: 20px 0 8px; color: var(--text);">Shipping address</h3>
+        <p class="subtitle" style="margin-bottom: 12px;">Where should we send NFC items and cups? (Required if you order any physical products.)</p>
+        <div class="addon-block">
+          <div class="input-row">
+            <label for="ship-line1">Street address</label>
+            <input type="text" id="ship-line1" placeholder="Street address" />
+          </div>
+          <div class="input-row">
+            <label for="ship-line2">Apt, suite, etc. (optional)</label>
+            <input type="text" id="ship-line2" placeholder="Apt, suite, unit" />
+          </div>
+          <div class="input-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label for="ship-city">City</label>
+              <input type="text" id="ship-city" placeholder="City" />
+            </div>
+            <div>
+              <label for="ship-state">State / Province</label>
+              <input type="text" id="ship-state" placeholder="State" />
+            </div>
+          </div>
+          <div class="input-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label for="ship-postal">Postal code</label>
+              <input type="text" id="ship-postal" placeholder="ZIP / Postal code" />
+            </div>
+            <div>
+              <label for="ship-country">Country</label>
+              <input type="text" id="ship-country" placeholder="Country" value="United States" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4: Payment -->
+      <section class="panel step-card" data-step="4">
+        <h2>Review and pay</h2>
+        <p class="subtitle">Confirm your event and complete payment. Rep QR will send your setup link next.</p>
+        <div class="payment-breakdown" id="payment-breakdown"></div>
+        <div class="wizard-actions" style="margin-top: 20px;">
+          <button type="button" class="btn ghost" id="back-from-pay">Back</button>
+          <button type="button" class="btn primary" id="pay-btn">Pay <span id="pay-total">$299</span></button>
+        </div>
+      </section>
+
+      <!-- Step 5: Confirmation -->
+      <section class="panel step-card" data-step="5">
+        <h2>You're all set</h2>
+        <p class="subtitle">Rep QR has created your event. Next steps:</p>
+        <ul class="offerings-list">
+          <li>We'll send you a link to set up your first video and landing page.</li>
+          <li>Download or print your QR codes from the Events dashboard.</li>
+          <li>Order additional NFC items or stainless steel cups? We'll ship them to the address you provided.</li>
+        </ul>
+        <div class="sponsor-callout" style="margin-top: 24px;">
+          <p class="sponsor-title">What we'll need from you when you get your setup link</p>
+          <p class="sponsor-p" style="margin-bottom: 12px;">To build your landing page, sponsor section, and communications, please have ready:</p>
+          <ul class="offerings-list" style="margin: 0; padding-left: 20px;">
+            <li><strong>Your logo</strong> — event or organization logo for the landing page and any materials.</li>
+            <li><strong>Sponsor names and logos</strong> — for each sponsor (plus links or sponsor reel if you have them).</li>
+            <li><strong>Attendee contacts</strong> — list of attendees or contacts for email/SMS flows and contact capture.</li>
+            <li><strong>Sponsor contacts</strong> — names and contact details for each sponsor so we can coordinate.</li>
+            <li><strong>Video files or links</strong> — the video for each slot you set up (we'll match them to your labels).</li>
+          </ul>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px;">
+          <button type="button" class="btn success" id="go-to-events">Go to Events dashboard</button>
+          <button type="button" class="btn ghost" id="start-over-btn">Start over</button>
+        </div>
+      </section>
+
+      <div class="wizard-actions" id="main-wizard-actions">
+        <button type="button" class="btn ghost" id="back-btn" style="visibility: hidden;">Back</button>
+        <div class="wizard-hint">Rep QR saves your choices as you go.</div>
+        <button type="button" class="btn primary" id="next-btn">Next</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/events-config.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>
