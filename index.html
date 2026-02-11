@@ -653,6 +653,19 @@
     #commandCenterScreen .ccDemoToggle{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--muted); }
     #commandCenterScreen .ccHeader .pill{ margin-right:8px; }
     #commandCenterScreen .ccHeader .btnPrimary:disabled{ cursor:not-allowed; }
+    #commandCenterScreen .ccUpgradesGrid{ display:grid; grid-template-columns: 1fr 1fr 1fr auto; gap:20px; align-items:start; }
+    @media (max-width: 900px){ #commandCenterScreen .ccUpgradesGrid{ grid-template-columns: 1fr; } }
+    #commandCenterScreen .ccUpgradeCard{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius2); padding:16px; }
+    #commandCenterScreen .ccUpgradeCard h3{ margin:0 0 6px; font-size:14px; font-weight:700; }
+    #commandCenterScreen .ccUpgradeCard .ccUpgradeDesc{ font-size:12px; color: var(--muted); margin:0 0 10px; line-height:1.4; }
+    #commandCenterScreen .ccUpgradeCard .ccBundleLabel{ font-size:11px; text-transform:uppercase; letter-spacing:.05em; color: var(--muted); margin-bottom:10px; }
+    #commandCenterScreen .ccUpgradeCard .ccUpgradeActions{ display:flex; gap:10px; align-items:center; margin-top:12px; }
+    #commandCenterScreen .ccUpgradeCard input[type="number"]{ width:56px; padding:8px 10px; border-radius: var(--radius2); border:1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.2); color: inherit; font-size:13px; }
+    #commandCenterScreen .ccUpgradesCartCard{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius2); padding:16px; min-width:240px; }
+    #commandCenterScreen .ccUpgradesCartCard h3{ margin:0 0 12px; font-size:14px; font-weight:700; }
+    #commandCenterScreen .ccUpgradesCartItem{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.08); font-size:13px; }
+    #commandCenterScreen .ccUpgradesCartItem button{ padding:4px 8px; font-size:11px; }
+    #commandCenterScreen .ccUpgradesCartTotal{ margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.12); font-weight:700; font-size:13px; }
     #commandCenterScreen .ccPreviewFrame{ border:1px solid rgba(255,255,255,.12); border-radius: var(--radius2); overflow:hidden; background: rgba(0,0,0,.2); padding:20px; margin-bottom:16px; }
     #toastContainer{ position:fixed; top:16px; right:16px; z-index:9999; display:flex; flex-direction:column; gap:8px; max-width:320px; pointer-events:none; }
     #toastContainer .toast{ padding:12px 16px; border-radius: var(--radius2); background: var(--card); border:1px solid var(--border); box-shadow: var(--shadow2); font-size:13px; color: var(--text); animation: toastIn .25s ease; }
@@ -913,7 +926,25 @@
 
 <script>
   const EVENT_CONFIG_KEY = "repqr:eventConfig";
+  const EVENT_UPGRADES_CART_KEY = "repqr:eventUpgradesCart";
   const DEMO_MODE = true;
+
+  var UPGRADES_PRODUCTS = [
+    { id: "nfc-keychains", title: "NFC Keychains", description: "Tap-to-connect keychain tags for check-in and links.", bundleSize: 25 },
+    { id: "nfc-metal-cards", title: "NFC Premium Metal Cards", description: "Premium metal cards with NFC for a high-end feel.", bundleSize: 25 },
+    { id: "qr-cups", title: "Lasered Stainless Steel QR Cups", description: "Durable stainless cups with lasered QR codes.", bundleSize: 25 }
+  ];
+
+  function getUpgradesCart(){
+    try {
+      const raw = localStorage.getItem(EVENT_UPGRADES_CART_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  }
+  function saveUpgradesCart(cart){
+    try { localStorage.setItem(EVENT_UPGRADES_CART_KEY, JSON.stringify(cart)); } catch (e) {}
+  }
 
   // --------- Helpers ----------
   const $ = (sel) => document.querySelector(sel);
@@ -1420,7 +1451,8 @@
       { key: "overview", label: "Overview" },
       { key: "assets", label: "Assets" },
       { key: "messaging", label: "Messaging" },
-      { key: "contacts", label: "Contacts" }
+      { key: "contacts", label: "Contacts" },
+      { key: "upgrades", label: "Event Upgrades" }
     ];
     if (sponsorsOn) navItems.push({ key: "sponsors", label: "Sponsors" });
     navItems.push({ key: "settings", label: "Settings" });
@@ -1554,6 +1586,39 @@
         '</tbody></table></div></div></div>';
       $("#contactsFile")?.addEventListener("change", function(){ $("#contactsFileName").textContent = this.files?.length ? this.files[0].name : ""; });
       $("#contactsPreviewImport")?.addEventListener("click", () => demoAction("import simulated"));
+    } else if (_ccActiveTab === "upgrades") {
+      const cart = getUpgradesCart();
+      const productCardsHtml = UPGRADES_PRODUCTS.map(p => '<div class="card ccCard ccUpgradeCard"><div class="cardBody" style="padding:0; border:none;"><h3>' + p.title + '</h3><p class="ccUpgradeDesc">' + p.description + '</p><div class="ccBundleLabel">Bundle: ' + p.bundleSize + ' units</div><div class="ccUpgradeActions"><input type="number" min="1" value="1" id="upgradeQty-' + p.id + '" /><button type="button" class="btn btnPrimary" data-add-bundle="' + p.id + '">Add Bundle</button></div></div></div>').join('');
+      const cartItems = cart.map((item, idx) => {
+        const prod = UPGRADES_PRODUCTS.find(pr => pr.id === item.productId);
+        const name = prod ? prod.title + ' (25-pack)' : item.productId;
+        return '<div class="ccUpgradesCartItem"><span>' + name + ' × ' + item.quantity + '</span><button type="button" class="btn btnDanger" data-cart-remove="' + idx + '">Remove</button></div>';
+      }).join('');
+      const totalBundles = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      const cartHtml = '<div class="card ccCard ccUpgradesCartCard"><div class="cardHead"><h3>Cart</h3></div><div class="cardBody">' + (cartItems || '<p style="margin:0;font-size:12px;color:var(--muted);">No items yet.</p>') + '<div class="ccUpgradesCartTotal">Total bundles: ' + totalBundles + '</div><button type="button" class="btn btnPrimary" id="upgradesPreviewOrder" style="margin-top:12px; width:100%;">Preview Order</button></div></div>';
+      content.innerHTML = '<div class="ccUpgradesGrid">' + productCardsHtml + cartHtml + '</div>';
+      UPGRADES_PRODUCTS.forEach(p => {
+        const btn = content.querySelector('[data-add-bundle="' + p.id + '"]');
+        const qtyEl = $("#upgradeQty-" + p.id);
+        if (btn && qtyEl) btn.addEventListener("click", () => {
+          const qty = Math.max(1, parseInt(qtyEl.value, 10) || 1);
+          const nextCart = getUpgradesCart();
+          const existing = nextCart.findIndex(i => i.productId === p.id);
+          if (existing >= 0) nextCart[existing].quantity += qty;
+          else nextCart.push({ productId: p.id, quantity: qty });
+          saveUpgradesCart(nextCart);
+          renderCommandCenter(_ccConfig);
+        });
+      });
+      content.querySelectorAll("[data-cart-remove]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.getAttribute("data-cart-remove"), 10);
+          const nextCart = getUpgradesCart().filter((_, i) => i !== idx);
+          saveUpgradesCart(nextCart);
+          renderCommandCenter(_ccConfig);
+        });
+      });
+      $("#upgradesPreviewOrder")?.addEventListener("click", () => { showToast("Demo: Order submitted"); });
     } else if (_ccActiveTab === "sponsors") {
       content.innerHTML = '<div class="card ccCard"><div class="cardHead"><h2>Sponsor list</h2></div><div class="cardBody"><ul style="margin:0;padding-left:18px;font-size:13px;">' +
         '<li>Acme Corp</li><li>TechStart Inc</li><li>Global Partners</li></ul></div></div>' +
