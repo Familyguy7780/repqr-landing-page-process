@@ -1,2729 +1,1667 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rep QR Landing Builder Mockup</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
-    <style>
-      :root {
-        --bg: #f8fafc;
-        --card: #ffffff;
-        --border: #e5e7eb;
-        --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-        --text: #0f172a;
-        --muted: #64748b;
-        --accent: #2563eb;
-        --accent-soft: #eff6ff;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --danger: #ef4444;
-        --radius: 16px;
-        --radius-sm: 10px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-      }
-
-      .page {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .header {
-        background: var(--card);
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 28px;
-        gap: 16px;
-        position: sticky;
-        top: 0;
-        z-index: 5;
-      }
-
-      .logo {
-        font-weight: 800;
-        font-size: 20px;
-        letter-spacing: -0.02em;
-      }
-
-      .logo span {
-        color: var(--accent);
-      }
-
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .pill {
-        padding: 6px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        background: var(--accent-soft);
-        color: var(--accent);
-      }
-
-      .btn {
-        border: none;
-        border-radius: 999px;
-        padding: 10px 16px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 13px;
-      }
-
-      .btn.primary {
-        background: var(--accent);
-        color: #fff;
-      }
-
-      .btn.ghost {
-        background: transparent;
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-
-      .journey {
-        background: #fff;
-        border-bottom: 1px solid var(--border);
-        padding: 14px 28px;
-        display: grid;
-        gap: 10px;
-      }
-
-      .journey-track {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-      }
-
-      .journey-step {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 8px 10px;
-        display: grid;
-        grid-template-columns: 24px 1fr;
-        gap: 8px;
-        align-items: center;
-        background: #fff;
-      }
-
-      .journey-step .dot {
-        width: 24px;
-        height: 24px;
-        border-radius: 8px;
-        display: grid;
-        place-items: center;
-        font-size: 12px;
-        font-weight: 700;
-        background: #e2e8f0;
-        color: #475569;
-      }
-
-      .journey-step.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      .journey-step.active .dot {
-        background: var(--accent);
-        color: #fff;
-      }
-
-      .journey-step.completed .dot {
-        background: var(--success);
-        color: #fff;
-      }
-
-      .journey-step small {
-        font-size: 11px;
-        color: var(--muted);
-      }
-
-      .journey-meta {
-        font-size: 12px;
-        color: var(--muted);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
-
-      .layout {
-        display: grid;
-        grid-template-columns: 260px 1.2fr 1fr;
-        gap: 24px;
-        padding: 24px 28px 32px;
-        flex: 1;
-      }
-
-      .panel {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 18px;
-        box-shadow: var(--shadow);
-        min-height: 0;
-      }
-
-      .panel h2 {
-        font-size: 16px;
-        margin: 0 0 4px;
-      }
-
-      .panel small {
-        color: var(--muted);
-        font-size: 12px;
-      }
-
-      .steps {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-top: 16px;
-      }
-
-      .step {
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 12px;
-        display: grid;
-        grid-template-columns: 32px 1fr;
-        gap: 10px;
-        align-items: start;
-        background: #fff;
-      }
-
-      .step.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      .step .index {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        background: var(--accent);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 14px;
-      }
-
-      .step small {
-        display: block;
-        margin-top: 4px;
-      }
-
-      .ai-flow {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 16px;
-        min-height: 0;
-      }
-
-      .flow-stack {
-        display: grid;
-        gap: 12px;
-      }
-
-      .flow-card {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px 14px;
-        background: #fff;
-      }
-
-      .flow-card.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      .flow-card h3 {
-        margin: 0 0 6px;
-        font-size: 14px;
-      }
-
-      .flow-card ul {
-        margin: 6px 0 0 16px;
-        padding: 0;
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .flow-tags {
-        margin-top: 8px;
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .flow-tags .tag {
-        background: #e2e8f0;
-        color: #334155;
-      }
-
-      .layout-builder {
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 14px;
-        background: #fff;
-        display: grid;
-        gap: 12px;
-      }
-
-      .layout-builder h3 {
-        margin: 0;
-        font-size: 15px;
-      }
-
-      .layout-tabs {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .layout-tab {
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 6px 12px;
-        font-size: 12px;
-        font-weight: 600;
-        background: #f8fafc;
-        color: #334155;
-      }
-
-      .layout-tab.active {
-        background: var(--accent-soft);
-        border-color: var(--accent);
-        color: var(--accent);
-      }
-
-      .template-grid {
-        display: grid;
-        gap: 8px;
-      }
-
-      .template-card {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 10px 12px;
-        display: grid;
-        gap: 6px;
-        background: #fff;
-      }
-
-      .template-card.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      .template-card .template-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .template-card .template-meta {
-        font-size: 12px;
-        color: var(--muted);
-      }
-
-      .template-card .template-tags {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .template-config {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px;
-        background: #f8fafc;
-        display: grid;
-        gap: 10px;
-      }
-
-      .config-row {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 10px;
-        align-items: center;
-        padding: 8px 10px;
-        border-radius: 10px;
-        background: #fff;
-        border: 1px solid var(--border);
-        font-size: 12px;
-      }
-
-      .config-row .config-meta {
-        color: var(--muted);
-      }
-
-      .config-section-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-top: 4px;
-      }
-
-      .config-pill {
-        font-size: 11px;
-        font-weight: 600;
-        padding: 3px 6px;
-        border-radius: 999px;
-        background: #e2e8f0;
-        color: #334155;
-      }
-
-      .config-pill.ai {
-        background: #ecfdf3;
-        color: var(--success);
-      }
-
-      .config-pill.optional {
-        background: #fff7ed;
-        color: var(--warning);
-      }
-
-      .form-builder {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 8px;
-        background: #fff;
-        display: grid;
-        gap: 6px;
-      }
-
-      .form-field {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 6px 8px;
-        font-size: 11px;
-      }
-
-      .form-actions {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .template-toggle {
-        display: none;
-      }
-
-      .template-toggle.active {
-        display: grid;
-      }
-
-      .layout-map {
-        display: grid;
-        gap: 8px;
-      }
-
-      .layout-map-group {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 10px;
-        background: #fff;
-        display: grid;
-        gap: 8px;
-      }
-
-      .layout-map-group.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-      }
-
-      .layout-map-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .layout-row {
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 10px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        font-size: 12px;
-      }
-
-      .layout-row strong {
-        font-size: 12px;
-      }
-
-      .layout-row .row-meta {
-        color: var(--muted);
-      }
-
-      .layout-insights {
-        display: grid;
-        gap: 8px;
-      }
-
-      .layout-insights .tag {
-        background: #f1f5f9;
-      }
-
-      .status-row {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .status-card {
-        flex: 1 1 160px;
-        border-radius: var(--radius-sm);
-        border: 1px solid var(--border);
-        padding: 12px;
-        background: #fff;
-      }
-
-      .status-title {
-        font-size: 12px;
-        color: var(--muted);
-        margin: 0 0 6px;
-        font-weight: 600;
-      }
-
-      .status-value {
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      .chat {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 16px;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        min-height: 0;
-        overflow: hidden;
-      }
-
-      .chat-scroll {
-        flex: 1;
-        overflow-y: auto;
-        padding-right: 6px;
-      }
-
-      .bubble {
-        max-width: 85%;
-        padding: 12px 14px;
-        border-radius: 16px;
-        font-size: 13px;
-        line-height: 1.4;
-        margin-bottom: 10px;
-      }
-
-      .bubble.ai {
-        background: var(--accent-soft);
-        color: var(--text);
-      }
-
-      .bubble.user {
-        background: #0f172a;
-        color: #fff;
-        margin-left: auto;
-      }
-
-      .chat-input {
-        display: flex;
-        gap: 8px;
-        border-top: 1px solid var(--border);
-        padding-top: 12px;
-      }
-
-      .chat-input input {
-        flex: 1;
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 10px 14px;
-        font-size: 13px;
-      }
-
-      .preview {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 12px;
-        min-height: 0;
-      }
-
-      .preview-frame {
-        border-radius: 18px;
-        border: 1px solid var(--border);
-        background: #f8fafc;
-        padding: 16px;
-        min-height: 640px;
-        display: none;
-        align-content: start;
-      }
-
-      .preview-frame.active {
-        display: grid;
-      }
-
-      .landing-page {
-        background: #ffffff;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-        overflow: hidden;
-        display: grid;
-        gap: 0;
-      }
-
-      .landing-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 14px 20px;
-        border-bottom: 1px solid #eef2f7;
-        background: #ffffff;
-        font-size: 12px;
-        color: #64748b;
-      }
-
-      .landing-hero {
-        padding: 28px 24px;
-        display: grid;
-        gap: 16px;
-        background: linear-gradient(120deg, #0f172a 0%, #1e3a8a 100%);
-        color: #fff;
-      }
-
-      .hero-video {
-        height: 180px;
-        border-radius: 14px;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        display: grid;
-        place-items: center;
-        font-size: 12px;
-        color: #e2e8f0;
-        gap: 6px;
-      }
-
-      .hero-video span {
-        font-size: 18px;
-      }
-
-      .landing-hero h3 {
-        font-size: 22px;
-        margin: 0;
-      }
-
-      .landing-hero p {
-        margin: 0;
-        color: #e2e8f0;
-      }
-
-      .landing-hero .hero-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 11px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.16);
-        width: fit-content;
-      }
-
-      .landing-hero .hero-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        border-radius: 999px;
-        background: #2563eb;
-        color: #fff;
-        font-weight: 600;
-        font-size: 12px;
-        border: none;
-      }
-
-      .landing-section {
-        padding: 20px 24px;
-        border-bottom: 1px solid #eef2f7;
-      }
-
-      .landing-section:last-child {
-        border-bottom: none;
-      }
-
-      .landing-section h4 {
-        margin: 0 0 8px;
-        font-size: 14px;
-      }
-
-      .landing-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 8px;
-      }
-
-      .event-preview-videos {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 12px;
-        margin-top: 8px;
-      }
-      .event-preview-video-card {
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 10px;
-        background: var(--bg);
-      }
-      .event-preview-video-card .hero-video {
-        height: 80px;
-      }
-      .events-v2-preview-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
-      }
-      .events-v2-preview-header select {
-        padding: 6px 10px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        font-size: 12px;
-      }
-      .preview-url-bar {
-        font-size: 11px;
-        color: var(--muted);
-      }
-      .coach-why {
-        font-size: 12px;
-        color: var(--muted);
-        margin: 0 0 10px;
-        font-style: italic;
-      }
-      .coach-write-it {
-        font-size: 12px;
-        margin: 0 0 12px;
-        padding: 10px 12px;
-        background: var(--accent-soft);
-        border-radius: var(--radius-sm);
-      }
-      .coach-write-it ul { margin: 6px 0 0 14px; }
-      .coach-chips {
-        font-size: 11px;
-        color: var(--muted);
-        margin-top: 10px;
-      }
-      .input-hint {
-        display: block;
-        font-size: 11px;
-        color: var(--muted);
-        margin-top: 4px;
-      }
-      .copy-quality-meter {
-        font-size: 12px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .copy-quality-meter meter { width: 80px; }
-      .entrypoint-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 10px;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        margin-bottom: 8px;
-        font-size: 12px;
-      }
-      .entrypoint-label { font-weight: 600; }
-      .entrypoint-dest { color: var(--muted); }
-      .entrypoint-metrics { margin-left: auto; font-size: 11px; color: var(--muted); }
-      .ep-video-row { margin-bottom: 12px; }
-      .ep-video-row label { display: block; font-size: 12px; margin-bottom: 4px; }
-      .ep-video-row input, .ep-video-row select { margin-right: 8px; margin-bottom: 4px; }
-      .landing-note {
-        font-size: 11px;
-        color: #94a3b8;
-        margin-top: 4px;
-      }
-
-      .landing-grid {
-        display: grid;
-        gap: 12px;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .landing-card {
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 12px;
-        font-size: 12px;
-        color: #475569;
-        background: #ffffff;
-      }
-
-      .landing-form {
-        display: grid;
-        gap: 10px;
-      }
-
-      .landing-input {
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 8px 10px;
-        font-size: 12px;
-        background: #f8fafc;
-        color: #334155;
-      }
-
-      .landing-list {
-        margin: 0;
-        padding-left: 16px;
-        color: #64748b;
-        font-size: 12px;
-        display: grid;
-        gap: 4px;
-      }
-
-      .preview-list {
-        list-style: none;
-        padding: 0;
-        margin: 8px 0 0;
-        display: grid;
-        gap: 6px;
-        font-size: 12px;
-        color: var(--muted);
-      }
-
-      .preview-list li {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .preview-list input[type="checkbox"] {
-        accent-color: var(--accent);
-        width: 14px;
-        height: 14px;
-      }
-
-      .preview-section {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 12px;
-        background: #fff;
-      }
-
-      .preview-section h4 {
-        margin: 0 0 6px;
-        font-size: 13px;
-      }
-
-      .preview-meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 6px;
-      }
-
-      .preview-meta small {
-        color: var(--muted);
-        font-size: 11px;
-      }
-
-      .tech-edit {
-        border: 1px solid rgba(37, 99, 235, 0.5);
-        background: rgba(37, 99, 235, 0.08);
-        color: #1d4ed8;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .tech-edit::before {
-        content: "⟡";
-        font-size: 12px;
-      }
-
-      .tech-edit:hover {
-        background: rgba(37, 99, 235, 0.16);
-      }
-
-      .simple-layout {
-        display: grid;
-        grid-template-columns: 440px 1fr;
-        gap: 24px;
-        padding: 24px 28px 32px;
-        flex: 1;
-        align-items: start;
-      }
-
-      .wizard-panel {
-        display: grid;
-        gap: 10px;
-        align-content: start;
-      }
-
-      .wizard-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .step-card {
-        display: none;
-        gap: 12px;
-      }
-
-      .step-card.active {
-        display: grid;
-      }
-
-      .step-card h3 {
-        margin: 0;
-        font-size: 16px;
-      }
-
-      .step-card label {
-        font-size: 11px;
-        color: var(--muted);
-      }
-
-      .option-grid {
-        display: grid;
-        gap: 8px;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .option-card {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 10px;
-        background: #fff;
-        text-align: left;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 12px;
-      }
-
-      .option-card small {
-        display: block;
-        color: var(--muted);
-        font-weight: 500;
-        margin-top: 2px;
-        font-size: 11px;
-      }
-
-      .option-card.active {
-        border-color: var(--accent);
-        background: var(--accent-soft);
-        color: var(--accent);
-      }
-
-      .input-row {
-        display: grid;
-        gap: 4px;
-        font-size: 12px;
-      }
-
-      .input-row input,
-      .input-row select {
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 8px 10px;
-        font-size: 12px;
-      }
-
-      .toggle-row {
-        display: grid;
-        gap: 6px;
-        font-size: 12px;
-        color: var(--muted);
-      }
-
-      .step-subtitle {
-        font-size: 12px;
-        color: var(--muted);
-        margin: 0 0 10px;
-        line-height: 1.4;
-      }
-      .step-included-head {
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--text);
-        margin: 12px 0 6px;
-      }
-      .step-offerings-list {
-        margin: 0;
-        padding-left: 18px;
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-      .sponsor-callout-inline {
-        font-size: 11px;
-        color: var(--muted);
-        background: var(--accent-soft);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 10px 12px;
-        margin-top: 12px;
-      }
-      .everything-you-need-card {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 14px 16px;
-        margin-top: 8px;
-        margin-bottom: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-      }
-      .products-link-block .btn { display: inline-block; text-decoration: none; }
-      .step-card textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font-size: 12px; font-family: inherit; box-sizing: border-box; }
-      .tier-badge { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-top: 6px; display: block; }
-      .tier-badge.coming-soon { color: var(--muted); }
-      .option-card[disabled] { opacity: 0.7; cursor: not-allowed; }
-      .event-tier-choice { display: none; }
-      .event-tier-choice.visible { display: block; }
-
-      .wizard-actions {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        padding-top: 2px;
-        border-top: 1px solid var(--border);
-        align-items: center;
-      }
-
-      .wizard-actions .btn {
-        min-width: 96px;
-      }
-
-      .wizard-actions .btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-
-      .wizard-hint {
-        font-size: 11px;
-        color: var(--muted);
-      }
-
-      .ai-assist {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 8px 10px;
-        background: var(--accent-soft);
-        color: var(--text);
-        font-size: 11px;
-        line-height: 1.4;
-        height: auto;
-      }
-
-      .preview-cta {
-        margin-top: 10px;
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-size: 12px;
-      }
-
-      .tag-row {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .tag {
-        border-radius: 999px;
-        padding: 4px 10px;
-        font-size: 11px;
-        font-weight: 600;
-        background: #f1f5f9;
-        color: #334155;
-      }
-
-      .tag.success {
-        background: #ecfdf3;
-        color: var(--success);
-      }
-
-      .tag.warning {
-        background: #fff7ed;
-        color: var(--warning);
-      }
-
-      .footer-cta {
-        border-top: 1px solid var(--border);
-        padding: 16px 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        background: #fff;
-      }
-
-      .footer-cta .note {
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      @media (max-width: 1100px) {
-        .layout,
-        .simple-layout {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <header class="header">
-        <div class="logo">REP<span>QR</span> Rep QR Builder</div>
-        <div class="header-actions">
-          <a href="events.html" class="btn ghost" style="text-decoration: none;">Launch Events</a>
-          <span class="pill">New Landing Page</span>
-          <button class="btn ghost">Save Draft</button>
-          <button class="btn primary">Publish</button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RepQR • Events Setup Prototype</title>
+  <style>
+    :root{
+      --bg: #0b0f19;
+      --panel: rgba(255,255,255,.04);
+      --panel2: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.10);
+      --border2: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.64);
+      --muted2: rgba(255,255,255,.48);
+      --accent: #6ee7ff;
+      --accent2: #a78bfa;
+      --danger: #ff5a7a;
+      --ok: #6ef7a6;
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --shadow2: 0 12px 24px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --ring: 0 0 0 4px rgba(110,231,255,.14);
+      --ring2: 0 0 0 4px rgba(167,139,250,.14);
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 800px at 10% 5%, rgba(110,231,255,.10), transparent 60%),
+        radial-gradient(900px 700px at 90% 15%, rgba(167,139,250,.12), transparent 55%),
+        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.06), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      font-family:var(--font);
+      letter-spacing:.2px;
+    }
+
+    .wrap{
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.92));
+      box-shadow: 0 16px 50px rgba(110,231,255,.18);
+    }
+    .brand h1{
+      font-size:16px;
+      margin:0;
+      line-height:1.2;
+      letter-spacing:.6px;
+    }
+    .brand small{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.4px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:18px;
+      align-items:start;
+    }
+    .registrationHero{
+      text-align:center;
+      padding:32px 24px 40px;
+      margin-bottom:8px;
+    }
+    .registrationHero h1{
+      margin:0 0 12px;
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-0.02em;
+      line-height:1.2;
+      color: rgba(255,255,255,.95);
+    }
+    .registrationHero .heroSub{
+      margin:0;
+      font-size:15px;
+      color: var(--muted);
+      max-width:480px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    /* Registration 2-panel layout */
+    .regTwoCol{
+      display:grid;
+      grid-template-columns: 30% 70%;
+      gap:20px;
+      align-items:start;
+    }
+    @media (max-width: 900px){ .regTwoCol{ grid-template-columns: 35% 65%; } }
+    @media (max-width: 640px){ .regTwoCol{ grid-template-columns: 1fr; } }
+
+    .stepRail{
+      position:relative;
+      padding-left:0;
+    }
+    .stepRail::before{
+      content:"";
+      position:absolute;
+      left:11px;
+      top:20px;
+      bottom:20px;
+      width:2px;
+      background: rgba(255,255,255,.1);
+      border-radius:1px;
+    }
+    .stepCard{
+      position:relative;
+      display:block;
+      width:100%;
+      text-align:left;
+      padding:14px 16px 14px 32px;
+      margin-bottom:8px;
+      border-radius: var(--radius2);
+      border:1px solid transparent;
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .stepCard:hover{
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.1);
+    }
+    .stepCard.active{
+      border-color: var(--accent);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 0 0 1px rgba(110,231,255,.15);
+    }
+    .stepCard .stepDot{
+      position:absolute;
+      left:10px;
+      top:50%;
+      transform: translateY(-50%);
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background: rgba(255,255,255,.2);
+    }
+    .stepCard .stepDot[data-status="in_progress"]{ background: var(--accent); box-shadow: 0 0 0 2px rgba(110,231,255,.3); }
+    .stepCard .stepDot[data-status="complete"]{ background: var(--ok); }
+    .stepCard .stepCardTitle{ font-size:13px; font-weight:700; margin:0 0 2px; color: rgba(255,255,255,.92); }
+    .stepCard .stepCardSubtitle{ font-size:11px; color: var(--muted); margin:0 0 6px; line-height:1.3; }
+    .stepCard .stepCardStatusLine{ font-size:11px; margin:0; color: var(--muted); }
+    .stepCard .stepCardStatusLine.complete{ color: var(--ok); }
+
+    .editorCol .card{ margin:0; }
+    .editorActions{ display:flex; justify-content:space-between; margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.08); }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+    .cardHead h2{
+      margin:0;
+      font-size:15px;
+      letter-spacing:.5px;
+    }
+    .cardHead p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.35;
+      max-width: 58ch;
+    }
+
+    .pill{
+      font-size:11px;
+      color: rgba(255,255,255,.84);
+      padding:7px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      white-space:nowrap;
+    }
+
+    .cardBody{padding:16px 18px 18px}
+
+    /* Accordion */
+    .section{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius2);
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .secHeader{
+      width:100%;
+      text-align:left;
+      appearance:none;
+      border:0;
+      background: transparent;
+      color: var(--text);
+      padding:14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor:pointer;
+    }
+    .secHeader .secTitle{ flex:1; min-width:0; }
+
+    .secHeader:hover{
+      background: rgba(255,255,255,.03);
+    }
+
+    .secTitle{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+    }
+    .secTitle strong{
+      font-size:13px;
+      letter-spacing:.4px;
+    }
+    .secTitle span{
+      font-size:12px;
+      color: var(--muted);
+    }
+
+    .secStatus{
+      width:10px;height:10px;
+      border-radius:50%;
+      flex:0 0 auto;
+    }
+    .secStatus[data-status="not_started"]{ background: rgba(255,255,255,.2); }
+    .secStatus[data-status="in_progress"]{ background: var(--accent); box-shadow: 0 0 8px rgba(110,231,255,.5); }
+    .secStatus[data-status="complete"]{ background: var(--ok); box-shadow: 0 0 8px rgba(110,247,166,.4); }
+
+    .secMissing{
+      font-size:12px;
+      color: var(--muted2);
+      margin-top:6px;
+      line-height:1.35;
+    }
+    .secMissing:empty{ display:none; }
+
+    .chev{
+      width:34px;height:34px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      display:grid;place-items:center;
+      transition: transform .15s ease;
+      flex: 0 0 auto;
+    }
+
+    .section[data-open="true"] .chev{
+      transform: rotate(180deg);
+    }
+
+    .secBody{
+      padding: 0 14px 14px;
+      display:none;
+    }
+    .section[data-open="true"] .secBody{display:block}
+
+    /* Form controls */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 560px){
+      .grid2{grid-template-columns:1fr}
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      color: var(--muted);
+      margin-bottom:7px;
+      letter-spacing:.25px;
+    }
+
+    .field{margin-bottom:12px}
+
+    input[type="text"], input[type="number"], input[type="date"], input[type="time"], select, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      box-shadow: none;
+      transition: border-color .12s ease, box-shadow .12s ease;
+    }
+    textarea{min-height:92px; resize: vertical}
+
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(110,231,255,.55);
+      box-shadow: var(--ring);
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .hint{
+      font-size:12px;
+      color: var(--muted2);
+      margin-top:6px;
+      line-height:1.35;
+    }
+
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin:12px 0;
+    }
+
+    /* Radios + toggles */
+    .radioGroup{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .radio{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      user-select:none;
+    }
+    .radio input{accent-color: #6ee7ff}
+    .radio span{
+      font-size:12.5px;
+      color: rgba(255,255,255,.86);
+      letter-spacing:.2px;
+    }
+
+    .toggle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      margin-bottom:10px;
+    }
+    .toggle strong{
+      font-size:12.5px;
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+    .toggle small{
+      display:block;
+      margin-top:3px;
+      color: var(--muted2);
+      font-size:12px;
+      line-height:1.35;
+    }
+
+    .switch{
+      width:44px;height:26px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      position:relative;
+      flex: 0 0 auto;
+      cursor:pointer;
+    }
+    .knob{
+      width:22px;height:22px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      position:absolute;
+      top:1px;left:1px;
+      transition: transform .14s ease;
+      box-shadow: 0 8px 16px rgba(0,0,0,.35);
+    }
+    .switch[data-on="true"]{
+      background: linear-gradient(135deg, rgba(110,231,255,.55), rgba(167,139,250,.55));
+      border-color: rgba(110,231,255,.55);
+      box-shadow: var(--ring2);
+    }
+    .switch[data-on="true"] .knob{transform: translateX(18px)}
+
+    /* Buttons */
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.90);
+      padding:12px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:.35px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .06s ease, border-color .12s ease, background .12s ease;
+    }
+    .btn:hover{background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.20)}
+    .btn:active{transform: translateY(1px)}
+    .btnPrimary{
+      border:1px solid rgba(110,231,255,.36);
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.18));
+      box-shadow: 0 18px 46px rgba(110,231,255,.10);
+    }
+    .btnPrimary:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+      transform:none;
+    }
+    .btnPrimary:disabled:hover{ background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.18)); border-color: rgba(110,231,255,.36); }
+
+    .btnDanger{
+      border:1px solid rgba(255,90,122,.35);
+      background: rgba(255,90,122,.08);
+    }
+
+    /* Ticket tier rows */
+    .tierRow{
+      display:grid;
+      grid-template-columns: 1.2fr .7fr .7fr auto;
+      gap:10px;
+      align-items:end;
+      margin-bottom:10px;
+    }
+    @media (max-width: 760px){
+      .tierRow{grid-template-columns:1fr 1fr; }
+      .tierRow .tierRemove{grid-column: 1 / -1; justify-self: end}
+    }
+
+    /* Preview */
+    .preview{
+      position: sticky;
+      top: 18px;
+    }
+    .preBox{
+      padding:14px;
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      overflow:auto;
+      max-height: 66vh;
+      font-size:12px;
+      color: rgba(255,255,255,.85);
+      line-height:1.45;
+      white-space: pre;
+    }
+
+    .mini{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .mini .pill{opacity:.95}
+
+    /* Guidance block */
+    .guidanceBlock{
+      padding:20px 22px 24px;
+      margin:0 18px 16px;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .guidanceBlock h3{
+      margin:0 0 16px;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:.3px;
+      color: rgba(255,255,255,.9);
+    }
+    .guidanceBlock p{
+      margin:0 0 12px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.4;
+    }
+    .guidanceBlock .guidanceStep{
+      margin-bottom:16px;
+      font-size:13px;
+    }
+    .guidanceBlock .guidanceStep:last-of-type{ margin-bottom:18px; }
+    .guidanceBlock .guidanceStep strong{ display:block; margin-bottom:4px; color: rgba(255,255,255,.9); }
+    .guidanceBlock .guidanceStep span{ color: var(--muted); font-size:12.5px; }
+    .guidanceBlock .guidanceClosing{ margin:0; font-size:12px; color: var(--muted); padding-top:4px; }
+    .flowIndicator{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      font-size:11px;
+      color: var(--muted2);
+      letter-spacing:.2px;
+    }
+    .flowIndicator span{ white-space:nowrap; }
+    .flowIndicator .arrow{ color: var(--accent); opacity:.8; }
+
+    /* Active section */
+    .section[data-open="true"]{
+      border-color: rgba(110,231,255,.25);
+      box-shadow: 0 0 0 1px rgba(110,231,255,.12);
+    }
+    .secConfiguring{
+      display:block;
+      font-size:11px;
+      color: var(--accent);
+      margin-top:4px;
+      letter-spacing:.2px;
+    }
+    .secCompleteLabel{
+      display:block;
+      font-size:11px;
+      color: var(--ok);
+      margin-top:4px;
+      letter-spacing:.2px;
+    }
+    .secConfiguring.hide, .secCompleteLabel.hide{ display:none !important; }
+
+    /* Progress line above buttons */
+    .progressLine{
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px solid rgba(255,255,255,.08);
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.4;
+    }
+    .progressLine .count{ font-weight:600; color: rgba(255,255,255,.85); }
+    .progressLine .next{ margin-top:4px; }
+
+    /* Command Center */
+    #commandCenterScreen .ccWrap{
+      max-width: 1200px;
+      margin: 28px auto;
+      padding: 0 18px 40px;
+    }
+    #commandCenterScreen .ccHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    #commandCenterScreen .ccHeader h1{ margin:0; font-size:18px; letter-spacing:.3px; }
+    #commandCenterScreen .ccHeader .ccActions{ display:flex; gap:10px; align-items:center; }
+    #commandCenterScreen .ccLayout{
+      display:flex;
+      gap:0;
+      min-height:70vh;
+    }
+    #commandCenterScreen .ccNav{
+      width: 200px;
+      flex-shrink:0;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      padding-right:12px;
+      border-right:1px solid rgba(255,255,255,.10);
+    }
+    #commandCenterScreen .ccNavBtn{
+      width:100%;
+      text-align:left;
+      padding:12px 14px;
+      border-radius: var(--radius2);
+      border:1px solid transparent;
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition: border-color .12s ease, background .12s ease;
+    }
+    #commandCenterScreen .ccNavBtn:hover{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.12);
+    }
+    #commandCenterScreen .ccNavBtn.active{
+      border-color: rgba(110,231,255,.35);
+      background: rgba(110,231,255,.1);
+      color: rgba(255,255,255,.95);
+    }
+    #commandCenterScreen .ccContent{
+      flex:1;
+      min-width:0;
+      padding-left:24px;
+    }
+    #commandCenterScreen .ccCard{ margin-bottom:16px; }
+    #commandCenterScreen .ccDisabled{ font-size:12px; color: var(--muted2); font-style:italic; padding:12px; }
+    #commandCenterScreen .ccContent{ transition: opacity .2s ease; }
+    #commandCenterScreen .ccStatGrid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:18px; }
+    @media (max-width: 700px){ #commandCenterScreen .ccStatGrid{ grid-template-columns: repeat(2, 1fr); } }
+    #commandCenterScreen .ccStatCard{ background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius2); padding:14px 16px; }
+    #commandCenterScreen .ccStatCard .ccStatValue{ font-size:22px; font-weight:800; letter-spacing:-0.02em; color: rgba(255,255,255,.95); }
+    #commandCenterScreen .ccStatCard .ccStatLabel{ font-size:11px; text-transform:uppercase; letter-spacing:.05em; color: var(--muted); margin-top:4px; }
+    #commandCenterScreen .ccActivityHeader{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+    #commandCenterScreen .ccPulse{ width:8px; height:8px; border-radius:50%; background: var(--ok); animation: ccPulse 1.5s ease-in-out infinite; }
+    @keyframes ccPulse{ 0%,100%{ opacity:1; box-shadow: 0 0 0 0 rgba(110,247,166,.4); } 50%{ opacity:.85; } 70%{ box-shadow: 0 0 0 6px rgba(110,247,166,0); } }
+    #commandCenterScreen .ccActivityItem{ font-size:12px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.06); color: var(--muted); }
+    #commandCenterScreen .ccActivityItem:last-child{ border-bottom:none; }
+    #commandCenterScreen .ccCallout{ font-size:12px; color: var(--muted); padding:10px 12px; background: rgba(255,255,255,.05); border-radius: var(--radius2); margin-bottom:12px; border:1px solid rgba(255,255,255,.08); }
+    #commandCenterScreen .ccChecklist{ margin:0; padding-left:20px; font-size:13px; color: rgba(255,255,255,.88); }
+    #commandCenterScreen .ccChecklist li{ margin-bottom:6px; }
+    #commandCenterScreen .ccDemoToggle{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--muted); }
+    #commandCenterScreen .ccHeader .pill{ margin-right:8px; }
+    #commandCenterScreen .ccHeader .btnPrimary:disabled{ cursor:not-allowed; }
+    #commandCenterScreen .ccPreviewFrame{ border:1px solid rgba(255,255,255,.12); border-radius: var(--radius2); overflow:hidden; background: rgba(0,0,0,.2); padding:20px; margin-bottom:16px; }
+    #toastContainer{ position:fixed; top:16px; right:16px; z-index:9999; display:flex; flex-direction:column; gap:8px; max-width:320px; pointer-events:none; }
+    #toastContainer .toast{ padding:12px 16px; border-radius: var(--radius2); background: var(--card); border:1px solid var(--border); box-shadow: var(--shadow2); font-size:13px; color: var(--text); animation: toastIn .25s ease; }
+    #commandCenterScreen .table th, #commandCenterScreen .table td{ padding:8px 10px; text-align:left; border-bottom:1px solid rgba(255,255,255,.08); }
+    #commandCenterScreen .table th{ color: var(--muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
+    @keyframes toastIn{ from{ opacity:0; transform: translateX(12px); } to{ opacity:1; transform: translateX(0); } }
+    .resumeStrip{
+      padding:10px 18px;
+      margin:0 0 12px;
+      border-radius: var(--radius2);
+      background: rgba(110,231,255,.08);
+      border:1px solid rgba(110,231,255,.2);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .resumeStrip.hide{ display:none !important; }
+  </style>
+</head>
+<body>
+  <div id="toastContainer"></div>
+  <div id="registrationScreen">
+  <div class="resumeStrip hide" id="resumeStrip">
+    <span style="font-size:12px; color: var(--muted);">You have a saved event setup.</span>
+    <button type="button" class="btn btnPrimary" id="resumeEventBtn">Resume Event</button>
+  </div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>RepQR • Events</h1>
+          <small>Event setup prototype (looks-only)</small>
         </div>
-      </header>
-
-      <main class="simple-layout">
-        <section class="panel wizard-panel">
-          <div class="wizard-header">
-            <div>
-              <h2>Rep QR Guided Setup</h2>
-              <small>Answer a few questions and watch the preview update.</small>
-            </div>
-            <span class="pill" data-step-label>Step 1 of 4</span>
-          </div>
-          <div class="ai-assist">
-            Rep QR is making choices for you as you go. You can always change or fine-tune later.
-          </div>
-
-          <div id="wizard-content-default">
-          <div class="step-card active" data-step="0">
-            <h3>Choose a template</h3>
-            <div class="option-grid">
-              <button class="option-card active" data-template="spotlight-basic">
-                <strong>Spotlight Basic</strong>
-                <small>Short page · fast to launch</small>
-              </button>
-              <button class="option-card" data-template="professional-spotlight">
-                <strong>Professional Spotlight</strong>
-                <small>More credibility and detail</small>
-              </button>
-              <button class="option-card" data-template="realtor-max">
-                <strong>Realtor (Max Detail)</strong>
-                <small>Property-heavy layout</small>
-              </button>
-              <button class="option-card" data-template="events">
-                <strong>Events</strong>
-                <small>Event page · videos, QR, NFC</small>
-              </button>
-            </div>
-            <div class="form-builder template-toggle active" data-template="spotlight-basic">
-              <strong>Spotlight sections</strong>
-              <div class="form-field">
-                <span>Hero + Headline</span>
-                <span><input type="checkbox" checked data-target="spotlight-hero" /></span>
-              </div>
-              <div class="form-field">
-                <span>Quick Inquiry Bar</span>
-                <span><input type="checkbox" checked data-target="spotlight-inquiry" /></span>
-              </div>
-              <div class="form-field">
-                <span>Lead Capture Form</span>
-                <span><input type="checkbox" checked data-target="spotlight-form" /></span>
-              </div>
-              <div class="form-field">
-                <span>About Us</span>
-                <span><input type="checkbox" checked data-target="spotlight-about" /></span>
-              </div>
-              <div class="form-field">
-                <span>Key Features</span>
-                <span><input type="checkbox" checked data-target="spotlight-features" /></span>
-              </div>
-              <div class="form-field">
-                <span>Business Hours</span>
-                <span><input type="checkbox" checked data-target="spotlight-hours" /></span>
-              </div>
-            </div>
-            <div class="form-builder template-toggle" data-template="professional-spotlight">
-              <strong>Professional sections</strong>
-              <div class="form-field">
-                <span>Hero + Headline</span>
-                <span><input type="checkbox" checked data-target="professional-hero" /></span>
-              </div>
-              <div class="form-field">
-                <span>Advisor Introduction Video</span>
-                <span><input type="checkbox" checked data-target="professional-video" /></span>
-              </div>
-              <div class="form-field">
-                <span>Credentials</span>
-                <span><input type="checkbox" checked data-target="professional-credentials" /></span>
-              </div>
-              <div class="form-field">
-                <span>About Us</span>
-                <span><input type="checkbox" checked data-target="professional-about" /></span>
-              </div>
-              <div class="form-field">
-                <span>Key Features</span>
-                <span><input type="checkbox" checked data-target="professional-features" /></span>
-              </div>
-              <div class="form-field">
-                <span>Customer Reviews</span>
-                <span><input type="checkbox" checked data-target="professional-reviews" /></span>
-              </div>
-              <div class="form-field">
-                <span>FAQ</span>
-                <span><input type="checkbox" checked data-target="professional-faq" /></span>
-              </div>
-              <div class="form-field">
-                <span>Lead Capture Form</span>
-                <span><input type="checkbox" checked data-target="professional-form" /></span>
-              </div>
-            </div>
-            <div class="form-builder template-toggle" data-template="realtor-max">
-              <strong>Realtor sections</strong>
-              <div class="form-field">
-                <span>Hero + Headline</span>
-                <span><input type="checkbox" checked data-target="realtor-hero" /></span>
-              </div>
-              <div class="form-field">
-                <span>Photo Gallery</span>
-                <span><input type="checkbox" checked data-target="realtor-gallery" /></span>
-              </div>
-              <div class="form-field">
-                <span>Property Details</span>
-                <span><input type="checkbox" checked data-target="realtor-details" /></span>
-              </div>
-              <div class="form-field">
-                <span>Video Walkthrough</span>
-                <span><input type="checkbox" checked data-target="realtor-video" /></span>
-              </div>
-              <div class="form-field">
-                <span>Key Features</span>
-                <span><input type="checkbox" checked data-target="realtor-features" /></span>
-              </div>
-              <div class="form-field">
-                <span>Address + Map</span>
-                <span><input type="checkbox" checked data-target="realtor-address" /></span>
-              </div>
-              <div class="form-field">
-                <span>Customer Reviews</span>
-                <span><input type="checkbox" checked data-target="realtor-reviews" /></span>
-              </div>
-              <div class="form-field">
-                <span>Lead Capture Form</span>
-                <span><input type="checkbox" checked data-target="realtor-form" /></span>
-              </div>
-            </div>
-            <div class="event-tier-choice" id="event-tier-choice" style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
-              <p class="step-included-head" style="margin: 0 0 10px;">Choose your event setup</p>
-              <div class="option-grid" id="event-tier-grid">
-                <button type="button" class="option-card event-tier-card" data-event-tier="quick" id="event-tier-quick">
-                  <strong>Quick launch</strong>
-                  <small>Get live fast with one video and a link</small>
-                </button>
-                <button type="button" class="option-card event-tier-card" data-event-tier="ready" id="event-tier-ready">
-                  <strong>Event ready</strong>
-                  <small>Everything most events need — RSVP, videos, sponsors</small>
-                </button>
-                <button type="button" class="option-card event-tier-card" data-event-tier="full" id="event-tier-full">
-                  <strong>Full event builder</strong>
-                  <small>All audiences, automation, and post-event options</small>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="landing" data-step="1">
-            <h3>Goal + headline</h3>
-            <div class="option-grid">
-              <button class="option-card active" data-goal="book">Book calls</button>
-              <button class="option-card" data-goal="sell">Sell a service</button>
-              <button class="option-card" data-goal="list">Capture leads</button>
-            </div>
-            <div class="input-row">
-              <label>Headline</label>
-              <input type="text" id="headlineInput" value="Fast, premium facility walkthroughs." />
-            </div>
-            <div class="input-row">
-              <label>Subheadline</label>
-              <input type="text" id="subheadlineInput" value="Book a free 30-minute on-site quote today." />
-            </div>
-            <div class="input-row">
-              <label>CTA Button</label>
-              <input type="text" id="ctaInput" value="Book Now" />
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="landing" data-step="2">
-            <h3>Lead capture form</h3>
-            <div class="option-grid">
-              <button class="option-card active" data-form-mode="template">
-                <strong>Use a template (recommended)</strong>
-                <small>Rep QR picks a proven form layout.</small>
-              </button>
-              <button class="option-card" data-form-mode="custom">
-                <strong>Create your own form</strong>
-                <small>Build custom fields and rules.</small>
-              </button>
-            </div>
-            <div class="input-row">
-              <label>Form template</label>
-              <select id="formTemplate">
-                <option>Fast Booking</option>
-                <option>Professional Inquiry</option>
-                <option>Listing Inquiry</option>
-              </select>
-            </div>
-            <div class="form-builder">
-              <div class="form-field">
-                <span>Name</span>
-                <span class="config-pill ai">Required</span>
-              </div>
-              <div class="form-field">
-                <span>Email</span>
-                <span class="config-pill ai">Required</span>
-              </div>
-              <div class="form-field">
-                <span>Phone</span>
-                <span class="config-pill">Optional</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="landing" data-step="3">
-            <h3>Media + proof</h3>
-            <div class="toggle-row">
-              <label><input type="checkbox" id="videoToggle" checked /> Include hero video</label>
-              <label><input type="checkbox" id="galleryToggle" /> Include photo gallery</label>
-              <label><input type="checkbox" id="reviewsToggle" checked /> Show reviews</label>
-            </div>
-          </div>
-
-          <!-- Event steps (shown when template = events) -->
-          <div class="step-card" data-wizard="events" data-event-step-id="basics">
-            <h3>Basics and your message</h3>
-            <p class="step-subtitle">Rep QR will use this for your event page and communications.</p>
-            <div class="input-row">
-              <label>Event name</label>
-              <input type="text" id="event-name" placeholder="e.g. Annual Gala 2026" />
-            </div>
-            <div class="input-row">
-              <label>Event date</label>
-              <input type="date" id="event-date" />
-            </div>
-            <div class="input-row">
-              <label>Venue or location (optional)</label>
-              <input type="text" id="event-venue" placeholder="e.g. Downtown Convention Center" />
-            </div>
-            <div class="input-row">
-              <label id="event-message-label">Message or theme</label>
-              <textarea id="event-message" placeholder="e.g. Our mission is to end food insecurity in the city." rows="3" style="resize: vertical;"></textarea>
-            </div>
-            <div class="event-basics-extra" id="event-basics-extra" style="display: none;">
-              <p class="step-included-head" style="margin-top: 16px;">Page identity (Event ready)</p>
-              <div class="input-row">
-                <label>Page URL / slug</label>
-                <input type="text" id="event-slug" placeholder="e.g. gala-2026" />
-              </div>
-              <div class="input-row">
-                <label>Subheadline</label>
-                <input type="text" id="event-subheadline" placeholder="Short line under your headline" />
-              </div>
-              <div class="input-row">
-                <label>Logo URL (optional)</label>
-                <input type="text" id="event-logo-url" placeholder="https://..." />
-              </div>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="toggles">
-            <h3>Page behavior</h3>
-            <p class="step-subtitle">Turn on what you need. One page can evolve over time.</p>
-            <div class="toggle-row">
-              <label><input type="checkbox" id="event-rsvp-on" /> RSVP enabled</label>
-              <label><input type="checkbox" id="event-email-capture-on" checked /> Email capture enabled</label>
-              <label><input type="checkbox" id="event-sms-optin-on" /> SMS opt-in enabled</label>
-            </div>
-            <div class="toggle-row" style="margin-top: 10px;">
-              <label><input type="checkbox" id="event-live-mode-on" /> Live event mode</label>
-              <label><input type="checkbox" id="event-post-event-mode-on" /> Post-event mode</label>
-              <label><input type="checkbox" id="event-ai-chat-on" /> AI chat agent</label>
-            </div>
-            <div class="toggle-row" style="margin-top: 10px;">
-              <label><input type="checkbox" id="event-photo-upload-on" /> Photo upload section</label>
-              <label><input type="checkbox" id="event-prize-giveaway-on" /> Prize / giveaway section</label>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="videos">
-            <h3>How many videos?</h3>
-            <div class="event-videos-quick" id="event-videos-quick" style="display: none;">
-              <p class="step-subtitle">One video, one link. Get your QR and go live.</p>
-              <div class="input-row">
-                <label>Video label</label>
-                <input type="text" id="event-quick-video-label" placeholder="e.g. Welcome video" />
-              </div>
-              <div class="input-row">
-                <label>Button text</label>
-                <input type="text" id="event-quick-cta" placeholder="e.g. Learn more" />
-              </div>
-            </div>
-            <div class="event-videos-full" id="event-videos-full">
-              <p class="step-subtitle">Print as many QR codes as you need. Labels below are optional.</p>
-              <div class="input-row">
-                <label>Number of videos</label>
-                <input type="number" id="event-video-count" min="1" max="999" value="1" />
-              </div>
-              <div class="input-row">
-                <label>Video labels (optional)</label>
-                <div id="event-video-labels"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="audience">
-            <h3>Audience sections</h3>
-            <p class="step-subtitle">Choose which sections appear on your event page.</p>
-            <div class="toggle-row">
-              <label><input type="checkbox" id="event-audience-attendee" checked /> Attendee — RSVP, check-in</label>
-              <label><input type="checkbox" id="event-audience-sponsor" checked /> Sponsor — logo grid, CTA</label>
-              <label><input type="checkbox" id="event-audience-donor" /> Donor — goal, levels, thank-you</label>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="contact">
-            <h3>Contact and consent</h3>
-            <p class="step-subtitle">What to collect and how to follow up.</p>
-            <div class="input-row">
-              <label>Fields to collect</label>
-              <div class="toggle-row">
-                <label><input type="checkbox" checked /> Name</label>
-                <label><input type="checkbox" checked /> Email</label>
-                <label><input type="checkbox" id="event-contact-phone" /> Phone</label>
-              </div>
-            </div>
-            <div class="toggle-row" style="margin-top: 10px;">
-              <label><input type="checkbox" id="event-consent-sms" /> SMS opt-in</label>
-              <label><input type="checkbox" id="event-consent-email" checked /> Email opt-in</label>
-            </div>
-            <div class="input-row" style="margin-top: 10px;">
-              <label>Relationship to event (optional dropdown)</label>
-              <p class="step-subtitle" style="margin: 4px 0 0;">Attendee, Sponsor, Donor — for routing and segments.</p>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="automation">
-            <h3>Automation rules</h3>
-            <p class="step-subtitle">Trigger emails or SMS when someone RSVPs, donates, or checks in. (Full builder)</p>
-            <div class="toggle-row">
-              <label><input type="checkbox" id="event-auto-rsvp" /> Send confirmation when someone RSVPs</label>
-              <label><input type="checkbox" id="event-auto-checkin" /> Send thank-you when someone checks in</label>
-              <label><input type="checkbox" id="event-auto-donate" /> Send receipt when someone donates</label>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="postevent">
-            <h3>Post-event</h3>
-            <p class="step-subtitle">What happens after the event — thank-you page, follow-up, and analytics.</p>
-            <div class="toggle-row">
-              <label><input type="checkbox" id="event-post-thankyou" checked /> Show thank-you page after event</label>
-              <label><input type="checkbox" id="event-post-followup" /> Send post-event follow-up email</label>
-              <label><input type="checkbox" id="event-post-analytics" checked /> Include basic analytics</label>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="products">
-            <h3>Products and shipping</h3>
-            <p class="step-subtitle">Need physical products with your QR code? Order below and enter your shipping address in one place.</p>
-            <div class="products-link-block" style="margin-bottom: 20px;">
-              <a href="#" class="btn primary" id="event-products-link">Buy products and enter shipping →</a>
-            </div>
-            <div class="products-marketing">
-              <p class="step-included-head">Our products</p>
-              <ul class="step-offerings-list">
-                <li><strong>NFC cards and key chains</strong> — Tap-to-connect cards and key chains with your QR or NFC. Perfect for handouts, goodie bags, and sponsor giveaways.</li>
-                <li><strong>Brochures</strong> — Printed collateral with your QR code. Event programs, one-pagers, or leave-behinds.</li>
-                <li><strong>Laser-engraved stainless steel cups</strong> — High-end, durable cups with your QR code permanently engraved. Great for VIP gifts, sponsor recognition, or event merch.</li>
-              </ul>
-              <p class="step-included-head" style="margin-top: 16px;">More ideas we can add</p>
-              <p class="step-subtitle" style="margin-bottom: 6px;">Other products we could offer here (tell us what you’d use):</p>
-              <ul class="step-offerings-list">
-                <li>Branded stickers and decals</li>
-                <li>Tote bags or drawstring bags with QR</li>
-                <li>Lanyards and badge holders</li>
-                <li>Bottle openers or coasters (metal or acrylic)</li>
-                <li>Pens and notepads with QR</li>
-                <li>Custom pins or magnets</li>
-              </ul>
-              <p class="step-subtitle" style="margin-top: 12px; margin-bottom: 0;">We’ll ship everything to your event. Add items above when you’re ready.</p>
-            </div>
-          </div>
-
-          <div class="step-card" data-wizard="events" data-event-step-id="done">
-            <h3>You're all set</h3>
-            <p class="step-subtitle">Rep QR has your event. Next steps:</p>
-            <ul class="step-offerings-list">
-              <li>We'll send you a link to set up your first video and landing page.</li>
-              <li>Download or print QR codes from the Events dashboard.</li>
-              <li>Order NFC items or cups? Use the link in the previous step — we'll ship to your address.</li>
-            </ul>
-            <p class="step-included-head" style="margin-top: 14px;">What we'll need from you when you get your setup link</p>
-            <ul class="step-offerings-list">
-              <li><strong>Your logo</strong> — for the landing page and materials.</li>
-              <li><strong>Sponsor names and logos</strong> — plus links if you have them.</li>
-              <li><strong>Attendee and sponsor contacts</strong> — for email/SMS and coordination.</li>
-              <li><strong>Video files or links</strong> — for each video slot.</li>
-            </ul>
-          </div>
-
-          </div>
-          <!-- Events v2: 8-step wizard (shown when template = Events) -->
-          <div id="wizard-content-events-v2" class="events-v2-wizard" style="display: none;">
-            <div class="step-card events-v2-step active" data-events-v2-step="0">
-              <h3>Template & setup type</h3>
-              <p class="coach-why">Why it matters: This sets the layout, sections, and automation defaults.</p>
-              <p class="step-subtitle">You chose Events. How do you want to set up?</p>
-              <div class="option-grid" id="events-v2-setup-type">
-                <button type="button" class="option-card" data-setup-type="quick_launch">Quick Launch</button>
-                <button type="button" class="option-card" data-setup-type="event_ready">Event Ready</button>
-                <button type="button" class="option-card" data-setup-type="full_builder">Full Event Builder</button>
-              </div>
-              <div class="coach-chips" data-coach-chips="setup">Examples: Charity Gala · Golf Tournament · Networking Mixer</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="1">
-              <h3>Brand & naming</h3>
-              <p class="coach-why">Why it matters: This is what guests see first and how they find your page.</p>
-              <div class="coach-write-it" data-coach-writeit="naming">
-                <strong>Write it like this:</strong>
-                <ul><li>Include year + event type (e.g. Annual Gala 2026)</li><li>Tagline: benefit or theme in one line</li><li>Event link: short, no spaces (e.g. gala-2026)</li></ul>
-              </div>
-              <div class="input-row"><label>Internal name (dashboard)</label><input type="text" id="ep-internal-name" placeholder="My Event Draft" /></div>
-              <div class="input-row"><label>Public event title (H1)</label><input type="text" id="ep-public-title" placeholder="Oilman's Golf Classic 2026" /></div>
-              <div class="input-row"><label>Tagline (subheadline)</label><input type="text" id="ep-tagline" placeholder="Play, sponsor, and support a great cause." /></div>
-              <div class="input-row"><label>Event link (URL)</label><input type="text" id="ep-event-link" placeholder="oilman-golf-classic-2026" /><small class="input-hint">This becomes: repqr.page/event/<span id="ep-link-preview">your-link</span></small></div>
-              <div class="input-row"><label>Host / org name (optional)</label><input type="text" id="ep-host-org" placeholder="" /></div>
-              <div class="coach-chips" data-coach-chips="naming">Oilman's Golf Classic 2026 · Annual Gala · Tech Mixer 2026</div>
-              <div class="copy-quality-meter" id="ep-quality-naming" data-quality-fields="ep-public-title,ep-tagline,ep-event-link" style="display: none;"><span>Copy quality:</span> <meter min="0" max="3" value="0" title="Clarity, specificity, benefit"></meter></div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="2">
-              <h3>Event details (when & where)</h3>
-              <p class="coach-why">Why it matters: Guests need to know when and where to show up.</p>
-              <div class="input-row"><label>Event type</label><select id="ep-event-type"><option value="charity">Charity</option><option value="sports">Sports</option><option value="business">Business</option><option value="community">Community</option><option value="education">Education</option><option value="other">Other</option></select></div>
-              <div class="input-row"><label>Theme / purpose (optional)</label><input type="text" id="ep-theme" placeholder="" /></div>
-              <div class="input-row"><label>Start date & time</label><input type="datetime-local" id="ep-start-datetime" /></div>
-              <div class="input-row"><label>End date & time (optional)</label><input type="datetime-local" id="ep-end-datetime" /></div>
-              <div class="input-row"><label>Format</label><select id="ep-format"><option value="in_person">In person</option><option value="virtual">Virtual</option><option value="hybrid">Hybrid</option></select></div>
-              <div class="input-row"><label>Venue name</label><input type="text" id="ep-venue-name" placeholder="e.g. Downtown Convention Center" /></div>
-              <div class="input-row"><label>City, State</label><input type="text" id="ep-venue-city-state" placeholder="Odessa, TX" /></div>
-              <div class="coach-chips" data-coach-chips="details">Odessa, TX · Fort Worth, TX · Online</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="3">
-              <h3>Videos (1–6) + CTA per video</h3>
-              <p class="coach-why">Why it matters: Each video can have its own QR code and call-to-action.</p>
-              <div class="coach-write-it" data-coach-writeit="videos">
-                <strong>Write it like this:</strong>
-                <ul><li>Give each video a clear title (Welcome, Sponsor Message, Donation Ask)</li><li>Match CTA to purpose: Donate → "Donate to the Cause", Sponsor → "Become a Sponsor"</li></ul>
-              </div>
-              <div class="input-row"><label>Number of videos</label><input type="number" id="ep-video-count" min="1" max="6" value="1" /></div>
-              <div id="ep-videos-list"></div>
-              <div class="coach-chips" data-coach-chips="videos">Welcome · Sponsor reel · Donation ask · Thank you</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="4">
-              <h3>Sections & audience tracks</h3>
-              <p class="coach-why">Why it matters: Turn on only what you'll use — fewer sections can increase conversions.</p>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-attendees" checked /> Attendees (RSVP + check-in)</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-sponsors" checked /> Sponsors (logo grid + CTA)</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-donors" /> Donors (goal + donate)</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-volunteers" /> Volunteers / Staff</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-schedule" /> Schedule / Agenda</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-prizes" /> Prizes / Giveaway</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-gallery" /> Gallery (post-event)</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-faq" /> FAQ</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-sec-contact" checked /> Contact</label></div>
-              <div class="coach-chips" data-coach-chips="sections">Golf: Sponsors + Prizes · Charity: Donors + Sponsors</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="5">
-              <h3>Forms & consent</h3>
-              <p class="coach-why">Why it matters: You need consent and clear fields for automation and follow-up.</p>
-              <div class="coach-write-it" data-coach-writeit="consent">
-                <strong>Write it like this:</strong>
-                <ul><li>Use clear opt-in text (e.g. "Send me event updates by email")</li><li>Keep SMS consent separate and explicit</li></ul>
-              </div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-form-rsvp" /> RSVP form</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-form-contact" checked /> Contact form</label></div>
-              <div class="input-row"><label>Fields to collect</label><div class="toggle-row"><label><input type="checkbox" id="ep-field-first" checked /> First name</label><label><input type="checkbox" id="ep-field-last" checked /> Last name</label><label><input type="checkbox" id="ep-field-email" checked /> Email</label><label><input type="checkbox" id="ep-field-phone" /> Phone</label></div></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-consent-email" checked /> Email opt-in</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-consent-sms" /> SMS opt-in</label></div>
-              <div class="coach-chips" data-coach-chips="forms">Event updates · Sponsor follow-up</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="6">
-              <h3>Live flow & automations</h3>
-              <p class="coach-why">Why it matters: Set when to send confirmations and reminders.</p>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-rsvp" /> On RSVP: send confirmation</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-reminder-24" /> 24h before: reminder</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-reminder-1" /> 1h before: we're live</label></div>
-              <div class="toggle-row"><label><input type="checkbox" id="ep-auto-event-end" /> Event end: thanks + next steps</label></div>
-              <div class="coach-chips" data-coach-chips="automation">Confirmation · Reminder · Thank you</div>
-            </div>
-            <div class="step-card events-v2-step" data-events-v2-step="7">
-              <h3>QR + NFC + physical upgrades</h3>
-              <p class="coach-why">Why it matters: Each entrypoint can send people to a specific video or form.</p>
-              <div class="entrypoint-list" id="ep-entrypoints-list"></div>
-              <p class="step-subtitle">Physical items (NFC cards, keychains, QR cups) — assign destination below; purchase can be done via Rep QR when ready.</p>
-              <div class="input-row"><label>NFC metal cards (qty)</label><input type="number" id="ep-phys-cards" min="0" value="0" /></div>
-              <div class="input-row"><label>NFC keychains (qty)</label><input type="number" id="ep-phys-keychains" min="0" value="0" /></div>
-              <div class="input-row"><label>Stainless QR cups (qty)</label><input type="number" id="ep-phys-cups" min="0" value="0" /></div>
-              <div class="coach-chips" data-coach-chips="entrypoints">Main QR · RSVP QR · Donate QR</div>
-            </div>
-          </div>
-
-          <div class="wizard-actions">
-            <button class="btn ghost" id="backBtn">Back</button>
-            <div class="wizard-hint">Rep QR saves your choices automatically.</div>
-            <button class="btn primary" id="nextBtn">Next</button>
-          </div>
-        </section>
-
-        <section class="panel preview">
-          <div>
-            <h2>Live Preview</h2>
-            <small>Updates as you answer questions</small>
-          </div>
-          <div class="preview-frame active" data-template="spotlight-basic">
-            <div class="landing-page">
-              <div class="landing-nav">
-                <span>Ridgeview Facilities</span>
-                <span>repqr.page/rv-facilities</span>
-              </div>
-              <section class="landing-hero" data-section="spotlight-hero">
-                <span class="hero-pill">Rep QR Spotlight</span>
-                <h3 data-preview="headline">Fast, premium facility walkthroughs.</h3>
-                <p data-preview="subheadline">Book a free 30-minute on-site quote today.</p>
-                <div class="hero-video">
-                  <span>▶</span>
-                  Video Placeholder · 16:9
-                </div>
-                <button class="hero-cta" data-preview="cta">Book Now</button>
-                <div class="landing-note">Rep QR pulled your brand voice and images.</div>
-              </section>
-              <section class="landing-section" data-preview-section="video">
-                <div class="landing-head">
-                  <h4>Featured Video</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-card">Rep QR pulled your intro video · 0:45</div>
-              </section>
-              <section class="landing-section" data-section="spotlight-inquiry">
-                <div class="landing-head">
-                  <h4>Quick Inquiry</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-card">Ask a question or request a fast quote.</div>
-                <div class="landing-note">Rep QR generated this prompt from your goal.</div>
-              </section>
-              <section class="landing-section" data-section="spotlight-about">
-                <div class="landing-head">
-                  <h4>About Us</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p style="margin: 0; color: #64748b; font-size: 12px;">
-                  Ridgeview is a commercial facilities partner serving 120+ locations with
-                  certified staff and rapid response times.
-                </p>
-                <div class="landing-note">Rep QR pulled this from your signup bio.</div>
-              </section>
-              <section class="landing-section" data-section="spotlight-features">
-                <div class="landing-head">
-                  <h4>Key Features & Benefits</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>24-hour turnaround · licensed and insured</li>
-                  <li>Dedicated account manager + monthly reporting</li>
-                  <li>Premium finishes with zero downtime</li>
-                </ul>
-                <div class="landing-note">Rep QR summarized your services.</div>
-              </section>
-              <section class="landing-section" data-preview-section="reviews" data-section="spotlight-reviews">
-                <div class="landing-head">
-                  <h4>Customer Reviews</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-grid">
-                  <div class="landing-card">“Top-tier service every visit.”</div>
-                  <div class="landing-card">“Quick response and clear reporting.”</div>
-                </div>
-                <div class="landing-note">Rep QR imported 3 reviews from your profile.</div>
-              </section>
-              <section class="landing-section" data-section="spotlight-form">
-                <div class="landing-head">
-                  <h4>Request a walkthrough</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div style="font-size: 11px; color: #64748b;">
-                  Form template: <span data-preview="formTemplate">Fast Booking</span>
-                </div>
-                <div class="landing-form">
-                  <input class="landing-input" placeholder="Name" />
-                  <input class="landing-input" placeholder="Email" />
-                  <input class="landing-input" placeholder="Phone" />
-                </div>
-                <div class="landing-note">Rep QR prefilled required fields.</div>
-              </section>
-              <section class="landing-section" data-section="spotlight-hours">
-                <div class="landing-head">
-                  <h4>Business Hours</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p style="margin: 0; color: #64748b; font-size: 12px;">
-                  Mon–Fri 8:00 AM – 6:00 PM · Sat 10:00 AM – 2:00 PM
-                </p>
-                <div class="landing-note">Rep QR imported your hours from profile.</div>
-              </section>
-            </div>
-          </div>
-          <div class="preview-frame" data-template="professional-spotlight">
-            <div class="landing-page">
-              <div class="landing-nav">
-                <span>Elevate Advisory Group</span>
-                <span>repqr.page/elevate-consult</span>
-              </div>
-              <section class="landing-hero" data-section="professional-hero">
-                <span class="hero-pill">Rep QR Professional</span>
-                <h3 data-preview="headline">Trusted advisors for high-value decisions.</h3>
-                <p data-preview="subheadline">Schedule a consultation and get a tailored plan.</p>
-                <div class="hero-video">
-                  <span>▶</span>
-                  Video Placeholder · 16:9
-                </div>
-                <button class="hero-cta" data-preview="cta">Schedule Consultation</button>
-              </section>
-              <section class="landing-section" data-preview-section="video" data-section="professional-video">
-                <div class="landing-head">
-                  <h4>Advisor Introduction</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-card">Rep QR pulled your 1-minute intro video.</div>
-              </section>
-              <section class="landing-section" data-section="professional-credentials">
-                <div class="landing-head">
-                  <h4>Credentials</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>Board-certified · 12 years experience</li>
-                  <li>250+ clients · 4.9 average rating</li>
-                </ul>
-                <div class="landing-note">Rep QR pulled certifications and awards.</div>
-              </section>
-              <section class="landing-section" data-preview-section="reviews" data-section="professional-reviews">
-                <div class="landing-head">
-                  <h4>Client Reviews</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-grid">
-                  <div class="landing-card">“A clear plan in 30 days.”</div>
-                  <div class="landing-card">“Highly strategic and responsive.”</div>
-                </div>
-                <div class="landing-note">Rep QR imported 5 reviews from your profile.</div>
-              </section>
-              <section class="landing-section" data-section="professional-about">
-                <div class="landing-head">
-                  <h4>About the Firm</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p style="margin: 0; color: #64748b; font-size: 12px;">
-                  Elevate Advisory Group helps executives make confident, data-backed decisions
-                  with tailored strategies and measurable outcomes.
-                </p>
-                <div class="landing-note">Rep QR pulled your bio and expertise.</div>
-              </section>
-              <section class="landing-section" data-section="professional-features">
-                <div class="landing-head">
-                  <h4>Key Capabilities</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>Strategic roadmap + quarterly planning</li>
-                  <li>Risk analysis and scenario modeling</li>
-                  <li>Executive coaching + team alignment</li>
-                </ul>
-                <div class="landing-note">Rep QR summarized your services.</div>
-              </section>
-              <section class="landing-section" data-section="professional-faq">
-                <div class="landing-head">
-                  <h4>FAQ</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>Typical engagement: 4–8 weeks</li>
-                  <li>Remote and on-site options available</li>
-                </ul>
-                <div class="landing-note">Rep QR drafted common questions.</div>
-              </section>
-              <section class="landing-section" data-section="professional-form">
-                <div class="landing-head">
-                  <h4>Start a conversation</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div style="font-size: 11px; color: #64748b;">
-                  Form template: <span data-preview="formTemplate">Professional Inquiry</span>
-                </div>
-                <div class="landing-form">
-                  <input class="landing-input" placeholder="Name" />
-                  <input class="landing-input" placeholder="Email" />
-                  <input class="landing-input" placeholder="Budget" />
-                </div>
-                <div class="landing-note">Rep QR selected fields for professional leads.</div>
-              </section>
-            </div>
-          </div>
-          <div class="preview-frame" data-template="realtor-max">
-            <div class="landing-page">
-              <div class="landing-nav">
-                <span>Harbor Point Realty</span>
-                <span>repqr.page/hp-8431</span>
-              </div>
-              <section class="landing-hero" data-section="realtor-hero">
-                <span class="hero-pill">Rep QR Realtor</span>
-                <h3 data-preview="headline">Modern 4 bed, 3 bath with pool.</h3>
-                <p data-preview="subheadline">Tour this property today and request details.</p>
-                <div class="hero-video">
-                  <span>▶</span>
-                  Video Placeholder · 16:9
-                </div>
-                <button class="hero-cta" data-preview="cta">Request a Tour</button>
-              </section>
-              <section class="landing-section" data-preview-section="gallery" data-section="realtor-gallery">
-                <div class="landing-head">
-                  <h4>Photo Gallery</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-grid">
-                  <div class="landing-card">18 photos · Updated 2 days ago</div>
-                  <div class="landing-card">Virtual tour available</div>
-                </div>
-                <div class="landing-note">Rep QR pulled your listing images.</div>
-              </section>
-              <section class="landing-section" data-section="realtor-details">
-                <div class="landing-head">
-                  <h4>Property Details</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>3,100 sqft · Built 2019 · 2-car garage</li>
-                  <li>4 bed · 3 bath · $849,000</li>
-                </ul>
-                <div class="landing-note">Rep QR imported listing details.</div>
-              </section>
-              <section class="landing-section" data-preview-section="video" data-section="realtor-video">
-                <div class="landing-head">
-                  <h4>Video Walkthrough</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-card">Rep QR pulled your latest walkthrough.</div>
-              </section>
-              <section class="landing-section" data-section="realtor-features">
-                <div class="landing-head">
-                  <h4>Property Highlights</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <ul class="landing-list">
-                  <li>Resort-style pool · smart home upgrades</li>
-                  <li>Open kitchen · private backyard</li>
-                </ul>
-                <div class="landing-note">Rep QR summarized listing features.</div>
-              </section>
-              <section class="landing-section" data-section="realtor-address">
-                <div class="landing-head">
-                  <h4>Address & Map</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-card">8431 Harbor Point Dr · Dallas, TX</div>
-                <div class="landing-note">Rep QR imported the address.</div>
-              </section>
-              <section class="landing-section" data-section="realtor-reviews">
-                <div class="landing-head">
-                  <h4>Client Reviews</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div class="landing-grid">
-                  <div class="landing-card">“Sold in 9 days above asking.”</div>
-                  <div class="landing-card">“Incredible market insight.”</div>
-                </div>
-                <div class="landing-note">Rep QR imported 4 reviews.</div>
-              </section>
-              <section class="landing-section" data-section="realtor-form">
-                <div class="landing-head">
-                  <h4>Listing inquiry</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <div style="font-size: 11px; color: #64748b;">
-                  Form template: <span data-preview="formTemplate">Listing Inquiry</span>
-                </div>
-                <div class="landing-form">
-                  <input class="landing-input" placeholder="Name" />
-                  <input class="landing-input" placeholder="Email" />
-                  <input class="landing-input" placeholder="Phone" />
-                </div>
-                <div class="landing-note">Rep QR selected listing lead fields.</div>
-              </section>
-            </div>
-          </div>
-          <div class="preview-frame" data-template="events">
-            <div class="events-v2-preview-header">
-              <label>View as:</label>
-              <select id="events-v2-preview-mode" aria-label="Preview mode">
-                <option value="pre">Pre-event</option>
-                <option value="live">Live</option>
-                <option value="post">Post-event</option>
-              </select>
-              <span class="preview-url-bar" id="events-v2-preview-url">repqr.page/event/<span id="ep-preview-slug">your-link</span></span>
-            </div>
-            <div class="landing-page event-preview-page" id="events-v2-preview-page">
-              <div class="landing-nav" data-event-section="nav">
-                <span data-ep-preview="navTitle">My Event</span>
-                <span data-ep-preview="slug">repqr.page/event</span>
-              </div>
-              <!-- Hero: always shown; content from Basics -->
-              <section class="landing-hero" data-event-section="hero" data-ep-section="hero">
-                <span class="hero-pill">Rep QR Events</span>
-                <h3 data-ep-preview="headline">My Event</h3>
-                <p data-preview="eventSubheadline" class="event-hero-sub" style="display: none;">Short line under your headline</p>
-                <p data-ep-preview="tagline">Your message or theme will appear here.</p>
-                <p data-ep-preview="dateVenue" style="font-size: 12px; color: var(--muted); margin-top: 8px;"></p>
-                <div class="hero-video">
-                  <span>▶</span>
-                  <span data-ep-preview="videoHeroLabel">Video</span> · 16:9
-                </div>
-                <button class="hero-cta" type="button" data-ep-preview="heroCta">Learn more</button>
-              </section>
-              <!-- Attendee: RSVP, check-in — shown when section enabled -->
-              <section class="landing-section" data-event-section="attendee" data-ep-section="attendees">
-                <div class="landing-head">
-                  <h4>Attendees</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note" data-preview="attendeeRsvpNote">RSVP and check-in · Your QR codes in dashboard.</p>
-                <div class="landing-form event-preview-form" data-preview="attendeeRsvpForm" style="display: none;">
-                  <input class="landing-input" placeholder="Name" />
-                  <input class="landing-input" placeholder="Email" />
-                  <button type="button" class="btn primary">RSVP</button>
-                </div>
-              </section>
-              <!-- Sponsor: logo grid, CTA -->
-              <section class="landing-section" data-event-section="sponsor" data-ep-section="sponsors">
-                <div class="landing-head">
-                  <h4>Sponsors</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note">Sponsor logo grid and CTA · Become a sponsor.</p>
-                <div class="landing-card" style="padding: 12px;">Sponsor logos will appear here</div>
-              </section>
-              <!-- Donor: goal, levels -->
-              <section class="landing-section" data-event-section="donor" data-ep-section="donors">
-                <div class="landing-head">
-                  <h4>Donate</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note">Donation goal and levels · Thank-you automation.</p>
-                <div class="landing-card" style="padding: 12px;">Progress bar and levels</div>
-              </section>
-              <!-- Video modules: 1–6 cards -->
-              <section class="landing-section" data-event-section="videos" data-ep-section="videos">
-                <div class="landing-head">
-                  <h4>Videos</h4>
-                </div>
-                <div class="event-preview-videos" id="event-preview-videos">
-                  <div class="event-preview-video-card">
-                    <div class="hero-video" style="min-height: 80px;"><span>▶</span> <span data-preview="eventVideo1Label">Video 1</span></div>
-                    <button type="button" class="btn primary" style="margin-top: 8px;" data-preview="eventVideo1Cta">Watch</button>
-                  </div>
-                </div>
-              </section>
-              <!-- Photo upload: when toggle on -->
-              <section class="landing-section" data-event-section="photo">
-                <div class="landing-head">
-                  <h4>Photo upload</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note">Attendees can upload photos from the event.</p>
-              </section>
-              <!-- Prize / giveaway: when toggle on -->
-              <section class="landing-section" data-event-section="prize">
-                <div class="landing-head">
-                  <h4>Prize & giveaway</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note">Claim prize or enter giveaway.</p>
-              </section>
-              <!-- Contact & consent -->
-              <section class="landing-section" data-event-section="contact" data-ep-section="contact">
-                <div class="landing-head">
-                  <h4>Contact & consent</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note">Name, Email, Phone · SMS/Email opt-in.</p>
-                <div class="landing-form">
-                  <input class="landing-input" placeholder="Name" />
-                  <input class="landing-input" placeholder="Email" />
-                  <input class="landing-input" placeholder="Phone (optional)" />
-                  <label style="font-size: 11px;"><input type="checkbox" /> Email updates</label>
-                  <label style="font-size: 11px;"><input type="checkbox" /> SMS updates</label>
-                </div>
-              </section>
-              <!-- Post-event -->
-              <section class="landing-section" data-event-section="postevent" data-ep-section="postevent">
-                <div class="landing-head">
-                  <h4>After the event</h4>
-                  <button class="tech-edit" type="button">Edit</button>
-                </div>
-                <p class="landing-note" data-preview="posteventNote">Thank-you page · Follow-up email · Analytics.</p>
-              </section>
-            </div>
-          </div>
-        </section>
-      </main>
+      </div>
+      <span class="pill">In-Person Events Only</span>
     </div>
-    <script>
-      // ---------- Events v2: EventPageConfig (single source of truth) ----------
-      function createDefaultEventPageConfig() {
-        return {
-          id: null,
-          templateId: "events",
-          setupType: "event_ready",
-          coachModeEnabled: true,
-          previewMode: "pre",
-          identity: {
-            internalName: "",
-            publicTitle: "",
-            tagline: "",
-            hostOrgName: "",
-            eventLinkSlug: "",
-            hashtag: "",
-            brand: { primaryColor: "#2563eb", secondaryColor: "#1e40af", fontPreset: "default", logoUrl: "" },
-            heroBackground: "gradient"
-          },
-          event: {
-            eventType: "other",
-            theme: "",
-            startDateTime: "",
-            endDateTime: "",
-            timezone: "",
-            format: "in_person",
-            venue: { name: "", address1: "", city: "", state: "", zip: "", room: "", virtualLink: "" }
-          },
-          sections: [
-            { type: "hero", enabled: true, config: {} },
-            { type: "attendees", enabled: true, config: {} },
-            { type: "sponsors", enabled: true, config: {} },
-            { type: "donors", enabled: false, config: {} },
-            { type: "volunteers", enabled: false, config: {} },
-            { type: "videos", enabled: true, config: {} },
-            { type: "schedule", enabled: false, config: {} },
-            { type: "prizes", enabled: false, config: {} },
-            { type: "gallery", enabled: false, config: {} },
-            { type: "faq", enabled: false, config: {} },
-            { type: "contact", enabled: true, config: {} }
-          ],
-          videos: [{ id: "v1", internalName: "Video 1", publicTitle: "Welcome", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-main" }],
-          forms: {
-            rsvp: { enabled: false, fields: { firstName: true, lastName: true, email: true, phone: false }, consent: { smsOptInEnabled: false, emailOptInEnabled: true } },
-            sponsor: { enabled: false, fields: {}, consent: {} },
-            donation: { enabled: false, fields: {}, consent: {} },
-            volunteer: { enabled: false, fields: {}, consent: {} },
-            contact: { enabled: true, fields: { firstName: true, lastName: true, email: true, phone: true }, consent: { smsOptInEnabled: false, emailOptInEnabled: true } }
-          },
-          automation: { enabled: false, timeline: [] },
-          entrypoints: [{ id: "ep-main", type: "qr", label: "Main Event", destination: "event_page", activeModes: ["pre", "live", "post"], quantity: 1 }],
-          postEvent: { galleryEnabled: false, winnersEnabled: false, surveyEnabled: false, recapVideoId: null }
-        };
-      }
-      function applyEventPreset(config, setupType) {
-        const c = JSON.parse(JSON.stringify(config));
-        c.setupType = setupType;
-        if (setupType === "quick_launch") {
-          c.videos = [{ id: "v1", internalName: "Video 1", publicTitle: "Welcome", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "external", label: "Learn more", destination: "" }, qrLabel: "event-main" }];
-          c.sections.forEach(s => { s.enabled = ["hero", "videos", "contact"].includes(s.type); });
-          c.forms.rsvp.enabled = false; c.forms.contact.enabled = true;
-        } else if (setupType === "event_ready") {
-          c.videos = c.videos.slice(0, 3); if (c.videos.length < 3) { for (let i = c.videos.length; i < 3; i++) c.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) }); }
-          c.sections.forEach(s => { s.enabled = ["hero", "attendees", "sponsors", "videos", "contact"].includes(s.type); });
-          c.forms.rsvp.enabled = true; c.forms.contact.enabled = true;
-        } else {
-          c.sections.forEach(s => { s.enabled = ["hero", "attendees", "sponsors", "donors", "volunteers", "videos", "schedule", "prizes", "gallery", "contact"].includes(s.type); });
-          c.forms.rsvp.enabled = true; c.forms.contact.enabled = true; c.automation.enabled = true;
-        }
-        return c;
-      }
-      const EVENT_PRESETS = { quick_launch: "Quick Launch", event_ready: "Event Ready", full_builder: "Full Event Builder" };
-      let eventPageConfig = createDefaultEventPageConfig();
 
-      const templateCard = document.querySelector(".step-card[data-step='0']");
-      const landingSteps = Array.from(document.querySelectorAll(".step-card[data-wizard='landing']"));
-      const eventStepById = (id) => document.querySelector(".step-card[data-wizard='events'][data-event-step-id='" + id + "']");
-      const eventStepListQuick = [
-        templateCard,
-        eventStepById("basics"),
-        eventStepById("videos"),
-        eventStepById("products"),
-        eventStepById("done"),
-      ].filter(Boolean);
-      const eventStepListReady = [
-        templateCard,
-        eventStepById("basics"),
-        eventStepById("toggles"),
-        eventStepById("videos"),
-        eventStepById("audience"),
-        eventStepById("contact"),
-        eventStepById("products"),
-        eventStepById("done"),
-      ].filter(Boolean);
-      const eventStepListFull = [
-        templateCard,
-        eventStepById("basics"),
-        eventStepById("toggles"),
-        eventStepById("videos"),
-        eventStepById("audience"),
-        eventStepById("contact"),
-        eventStepById("automation"),
-        eventStepById("postevent"),
-        eventStepById("products"),
-        eventStepById("done"),
-      ].filter(Boolean);
-      const landingStepList = [templateCard, ...landingSteps];
-      const eventStepList = eventStepListQuick;
-      const wizardContentDefault = document.getElementById("wizard-content-default");
-      const wizardContentEventsV2 = document.getElementById("wizard-content-events-v2");
-      const eventV2StepList = Array.from(document.querySelectorAll(".events-v2-step")).sort((a, b) => parseInt(a.dataset.eventsV2Step, 10) - parseInt(b.dataset.eventsV2Step, 10));
-      const steps = landingStepList;
-      const stepLabel = document.querySelector("[data-step-label]");
-      const backBtn = document.getElementById("backBtn");
-      const nextBtn = document.getElementById("nextBtn");
-
-      const templateButtons = document.querySelectorAll(".option-card[data-template]");
-      const goalButtons = document.querySelectorAll(".option-card[data-goal]");
-      const previewFrames = document.querySelectorAll(".preview-frame");
-
-      const headlineInput = document.getElementById("headlineInput");
-      const subheadlineInput = document.getElementById("subheadlineInput");
-      const ctaInput = document.getElementById("ctaInput");
-      const formTemplate = document.getElementById("formTemplate");
-      const videoToggle = document.getElementById("videoToggle");
-      const galleryToggle = document.getElementById("galleryToggle");
-      const reviewsToggle = document.getElementById("reviewsToggle");
-
-      const formModeButtons = document.querySelectorAll("[data-form-mode]");
-      const templateToggles = document.querySelectorAll(
-        ".template-toggle input[type='checkbox'][data-target]"
-      );
-      const templateToggleGroups = document.querySelectorAll(".template-toggle");
-
-      const state = {
-        step: 0,
-        template: "spotlight-basic",
-        eventTier: null,
-      };
-
-      const eventTierChoiceEl = document.getElementById("event-tier-choice");
-      const eventTierGrid = document.getElementById("event-tier-grid");
-      const eventTierQuick = document.getElementById("event-tier-quick");
-
-      const getCurrentStepList = () => {
-        if (state.template === "events") return eventV2StepList;
-        return landingStepList;
-      };
-
-      const updateEventTierUI = () => {
-        if (!eventTierChoiceEl) return;
-        eventTierChoiceEl.classList.toggle("visible", state.template === "events");
-        if (state.template !== "events") {
-          state.eventTier = null;
-          return;
-        }
-        eventTierGrid.querySelectorAll(".event-tier-card").forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.eventTier === state.eventTier);
-        });
-        const quickWrap = document.getElementById("event-videos-quick");
-        const fullWrap = document.getElementById("event-videos-full");
-        const msgLabel = document.getElementById("event-message-label");
-        const basicsExtra = document.getElementById("event-basics-extra");
-        if (state.eventTier === "quick") {
-          if (quickWrap) quickWrap.style.display = "";
-          if (fullWrap) fullWrap.style.display = "none";
-          if (msgLabel) msgLabel.textContent = "Hero headline";
-          if (basicsExtra) basicsExtra.style.display = "none";
-        } else if (state.eventTier === "ready" || state.eventTier === "full") {
-          if (quickWrap) quickWrap.style.display = "none";
-          if (fullWrap) fullWrap.style.display = "";
-          if (msgLabel) msgLabel.textContent = "Message or theme";
-          if (basicsExtra) basicsExtra.style.display = "";
-        }
-      };
-
-      const updateEventPreview = (frame) => {
-        if (!frame || state.template !== "events") return;
-        const tier = state.eventTier || "quick";
-        const getVal = (id, def = "") => (document.getElementById(id) && document.getElementById(id).value) || def;
-        const getCheck = (id) => !!(document.getElementById(id) && document.getElementById(id).checked);
-
-        const eventName = getVal("event-name", "My Event");
-        const eventDate = getVal("event-date");
-        const eventVenue = getVal("event-venue");
-        const eventMessage = getVal("event-message", "Your message or theme will appear here.");
-        const eventSlug = getVal("event-slug");
-        const eventSubheadline = getVal("event-subheadline");
-        const eventLogo = getVal("event-logo-url");
-        const rsvpOn = getCheck("event-rsvp-on");
-        const audienceAttendee = getCheck("event-audience-attendee");
-        const audienceSponsor = getCheck("event-audience-sponsor");
-        const audienceDonor = getCheck("event-audience-donor");
-        const postThankyou = getCheck("event-post-thankyou");
-        const postFollowup = getCheck("event-post-followup");
-        const postAnalytics = getCheck("event-post-analytics");
-        const photoUploadOn = getCheck("event-photo-upload-on");
-        const prizeGiveawayOn = getCheck("event-prize-giveaway-on");
-
-        frame.querySelectorAll("[data-preview='eventNavTitle']").forEach((el) => { el.textContent = eventName; });
-        frame.querySelectorAll("[data-preview='eventSlug']").forEach((el) => {
-          el.textContent = eventSlug ? "repqr.page/" + eventSlug.replace(/^\/*/, "") : "repqr.page/event";
-        });
-
-        const headline = tier === "quick" ? (getVal("event-message") || eventName) : eventName;
-        frame.querySelectorAll("[data-preview='eventHeadline']").forEach((el) => { el.textContent = headline || "My Event"; });
-        frame.querySelectorAll("[data-preview='eventMessage']").forEach((el) => {
-          el.textContent = tier === "quick" ? (eventName || "") : (eventMessage || "Your message or theme will appear here.");
-        });
-        const dateVenue = [eventDate, eventVenue].filter(Boolean).join(" · ");
-        frame.querySelectorAll("[data-preview='eventDateVenue']").forEach((el) => { el.textContent = dateVenue; });
-
-        const subheadEl = frame.querySelector("[data-preview='eventSubheadline']");
-        if (subheadEl) {
-          subheadEl.textContent = eventSubheadline || "";
-          subheadEl.style.display = tier !== "quick" && eventSubheadline ? "" : "none";
-        }
-
-        const firstWizardLabel = document.querySelector(".event-video-label-input");
-        const heroVideoLabel = tier === "quick"
-          ? (getVal("event-quick-video-label") || "Video")
-          : (firstWizardLabel && firstWizardLabel.value) || "Video 1";
-        frame.querySelectorAll("[data-preview='eventVideoHeroLabel']").forEach((el) => { el.textContent = heroVideoLabel; });
-
-        const ctaText = tier === "quick" ? (getVal("event-quick-cta") || "Learn more") : "Watch";
-        frame.querySelectorAll("[data-preview='eventCta']").forEach((el) => { el.textContent = ctaText; });
-
-        const videosContainer = frame.querySelector("#event-preview-videos");
-        if (videosContainer) {
-          const countInput = document.getElementById("event-video-count");
-          const n = tier === "quick" ? 1 : Math.max(1, parseInt(countInput && countInput.value, 10) || 1);
-          const labels = tier === "quick"
-            ? [getVal("event-quick-video-label") || "Video 1"]
-            : Array.from(document.querySelectorAll(".event-video-label-input")).map((inp) => inp.value || ("Video " + (inp.dataset.videoIndex + 1)));
-          while (labels.length < n) labels.push("Video " + (labels.length + 1));
-          videosContainer.innerHTML = labels.slice(0, n).map((label, i) =>
-            `<div class="event-preview-video-card">
-              <div class="hero-video" style="min-height: 80px;"><span>▶</span> <span>${label || "Video " + (i + 1)}</span></div>
-              <button type="button" class="btn primary" style="margin-top: 8px;">${i === 0 && tier === "quick" ? (getVal("event-quick-cta") || "Learn more") : "Watch"}</button>
-            </div>`
-          ).join("");
-        }
-
-        ["attendee", "sponsor", "donor", "photo", "prize", "contact", "postevent"].forEach((sectionKey) => {
-          const section = frame.querySelector(`[data-event-section="${sectionKey}"]`);
-          if (!section) return;
-          let show = false;
-          if (sectionKey === "attendee") show = (tier === "ready" || tier === "full") && audienceAttendee;
-          else if (sectionKey === "sponsor") show = (tier === "ready" || tier === "full") && audienceSponsor;
-          else if (sectionKey === "donor") show = (tier === "ready" || tier === "full") && audienceDonor;
-          else if (sectionKey === "photo") show = (tier === "ready" || tier === "full") && photoUploadOn;
-          else if (sectionKey === "prize") show = (tier === "ready" || tier === "full") && prizeGiveawayOn;
-          else if (sectionKey === "contact") show = tier === "ready" || tier === "full";
-          else if (sectionKey === "postevent") show = tier === "full" || postThankyou || postFollowup || postAnalytics;
-          section.style.display = show ? "" : "none";
-        });
-
-        const attendeeRsvpForm = frame.querySelector("[data-preview='attendeeRsvpForm']");
-        if (attendeeRsvpForm) attendeeRsvpForm.style.display = (tier === "ready" || tier === "full") && audienceAttendee && rsvpOn ? "" : "none";
-      };
-
-      function syncEventPageConfigToForm() {
-        const c = eventPageConfig;
-        const id = (x) => document.getElementById(x);
-        if (id("ep-internal-name")) id("ep-internal-name").value = c.identity.internalName || "";
-        if (id("ep-public-title")) id("ep-public-title").value = c.identity.publicTitle || "";
-        if (id("ep-tagline")) id("ep-tagline").value = c.identity.tagline || "";
-        if (id("ep-event-link")) id("ep-event-link").value = c.identity.eventLinkSlug || "";
-        if (id("ep-host-org")) id("ep-host-org").value = c.identity.hostOrgName || "";
-        if (id("ep-event-type")) id("ep-event-type").value = c.event.eventType || "other";
-        if (id("ep-theme")) id("ep-theme").value = c.event.theme || "";
-        if (id("ep-start-datetime")) id("ep-start-datetime").value = c.event.startDateTime || "";
-        if (id("ep-end-datetime")) id("ep-end-datetime").value = c.event.endDateTime || "";
-        if (id("ep-format")) id("ep-format").value = c.event.format || "in_person";
-        if (id("ep-venue-name")) id("ep-venue-name").value = c.event.venue.name || "";
-        if (id("ep-venue-city-state")) id("ep-venue-city-state").value = [c.event.venue.city, c.event.venue.state].filter(Boolean).join(", ");
-        if (id("ep-video-count")) id("ep-video-count").value = Math.min(6, Math.max(1, c.videos.length));
-        id("events-v2-setup-type")?.querySelectorAll(".option-card").forEach((btn) => btn.classList.toggle("active", btn.dataset.setupType === c.setupType));
-        ["attendees", "sponsors", "donors", "volunteers", "schedule", "prizes", "gallery", "faq", "contact"].forEach((type, i) => {
-          const el = document.getElementById("ep-sec-" + type);
-          if (el) el.checked = c.sections.find((s) => s.type === type)?.enabled ?? false;
-        });
-        if (id("ep-form-rsvp")) id("ep-form-rsvp").checked = c.forms.rsvp.enabled;
-        if (id("ep-form-contact")) id("ep-form-contact").checked = c.forms.contact.enabled;
-        if (id("ep-consent-email")) id("ep-consent-email").checked = c.forms.contact.consent.emailOptInEnabled;
-        if (id("ep-consent-sms")) id("ep-consent-sms").checked = c.forms.contact.consent.smsOptInEnabled;
-        if (id("ep-auto-rsvp")) id("ep-auto-rsvp").checked = c.automation.enabled;
-        buildEpVideosList();
-        buildEpEntrypointsList();
-        updateCopyQualityMeter();
-      }
-      function syncEventPageConfigFromForm() {
-        const c = eventPageConfig;
-        const val = (x) => (document.getElementById(x) && document.getElementById(x).value) || "";
-        const chk = (x) => !!(document.getElementById(x) && document.getElementById(x).checked);
-        c.identity.internalName = val("ep-internal-name");
-        c.identity.publicTitle = val("ep-public-title");
-        c.identity.tagline = val("ep-tagline");
-        c.identity.eventLinkSlug = (val("ep-event-link") || "").replace(/\s+/g, "-").toLowerCase();
-        c.identity.hostOrgName = val("ep-host-org");
-        c.event.eventType = val("ep-event-type") || "other";
-        c.event.theme = val("ep-theme");
-        c.event.startDateTime = val("ep-start-datetime");
-        c.event.endDateTime = val("ep-end-datetime");
-        c.event.format = val("ep-format") || "in_person";
-        c.event.venue.name = val("ep-venue-name");
-        const cityState = (val("ep-venue-city-state") || "").split(",").map((s) => s.trim());
-        c.event.venue.city = cityState[0] || "";
-        c.event.venue.state = cityState[1] || "";
-        const setupBtn = document.querySelector("#events-v2-setup-type .option-card.active");
-        if (setupBtn) c.setupType = setupBtn.dataset.setupType || "event_ready";
-        ["attendees", "sponsors", "donors", "volunteers", "schedule", "prizes", "gallery", "faq", "contact"].forEach((type) => {
-          const s = c.sections.find((x) => x.type === type);
-          if (s) s.enabled = chk("ep-sec-" + type);
-        });
-        c.forms.rsvp.enabled = chk("ep-form-rsvp");
-        c.forms.contact.enabled = chk("ep-form-contact");
-        c.forms.contact.consent.emailOptInEnabled = chk("ep-consent-email");
-        c.forms.contact.consent.smsOptInEnabled = chk("ep-consent-sms");
-        c.automation.enabled = chk("ep-auto-rsvp");
-        try { localStorage.setItem("repqr-events-v2-draft", JSON.stringify(eventPageConfig)); } catch (e) {}
-      }
-      function buildEpEntrypointsList() {
-        const container = document.getElementById("ep-entrypoints-list");
-        if (!container) return;
-        const list = eventPageConfig.entrypoints || [];
-        container.innerHTML = list.map((ep) => `
-          <div class="entrypoint-item">
-            <span class="entrypoint-label">${ep.label || ep.id}</span>
-            <span class="entrypoint-dest">→ ${ep.destination || "event_page"}</span>
-            <span class="entrypoint-metrics">Scans: — · Conversions: —</span>
-          </div>
-        `).join("") || "<p class=\"step-subtitle\">Main event QR is always created. Add more in Rep QR dashboard.</p>";
-      }
-      function updateCopyQualityMeter() {
-        const el = document.getElementById("ep-quality-naming");
-        if (!el) return;
-        const title = (document.getElementById("ep-public-title")?.value || "").trim();
-        const tagline = (document.getElementById("ep-tagline")?.value || "").trim();
-        const url = (document.getElementById("ep-event-link")?.value || "").trim();
-        let score = 0;
-        if (title.length >= 3) score++;
-        if (tagline.length >= 5) score++;
-        if (url.length >= 3) score++;
-        const meter = el.querySelector("meter");
-        if (meter) meter.value = score;
-        el.style.display = state.template === "events" ? "" : "none";
-      }
-      function buildEpVideosList() {
-        const container = document.getElementById("ep-videos-list");
-        if (!container) return;
-        const n = Math.min(6, Math.max(1, parseInt(document.getElementById("ep-video-count")?.value, 10) || 1));
-        while (eventPageConfig.videos.length < n) {
-          const i = eventPageConfig.videos.length;
-          eventPageConfig.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) });
-        }
-        eventPageConfig.videos = eventPageConfig.videos.slice(0, n);
-        const ctaTypes = ["rsvp", "donate", "sponsor", "contact", "external"];
-        container.innerHTML = eventPageConfig.videos.map((v, i) => {
-          const ctaType = (v.cta && v.cta.type) || "rsvp";
-          return `
-          <div class="ep-video-row" data-video-id="${v.id}">
-            <label>Video ${i + 1}</label>
-            <input type="text" placeholder="Title" data-ep-video-title="${v.id}" value="${(v.publicTitle || "").replace(/"/g, "&quot;")}" />
-            <select data-ep-video-cta-type="${v.id}">${ctaTypes.map((t) => `<option value="${t}" ${t === ctaType ? "selected" : ""}>${t === "rsvp" ? "RSVP" : t === "donate" ? "Donate" : t === "sponsor" ? "Sponsor" : t === "contact" ? "Contact" : "External link"}</option>`).join("")}</select>
-            <input type="text" placeholder="CTA label" data-ep-video-cta-label="${v.id}" value="${(v.cta?.label || "").replace(/"/g, "&quot;")}" />
-          </div>
-        `; }).join("");
-        container.querySelectorAll("[data-ep-video-title], [data-ep-video-cta-label], [data-ep-video-cta-type]").forEach((el) => {
-          const videoId = el.getAttribute("data-ep-video-title") || el.getAttribute("data-ep-video-cta-label") || el.getAttribute("data-ep-video-cta-type");
-          if (!videoId) return;
-          el.addEventListener("input", () => { syncEpVideoFromForm(videoId); renderEventsV2Preview(); });
-          el.addEventListener("change", () => { syncEpVideoFromForm(videoId); renderEventsV2Preview(); });
-        });
-      }
-      function syncEpVideoFromForm(videoId) {
-        const v = eventPageConfig.videos.find((x) => x.id === videoId);
-        if (!v) return;
-        const el = (attr) => document.querySelector(`[data-ep-video-${attr}="${videoId}"]`);
-        if (el("title")) v.publicTitle = el("title").value;
-        if (el("cta-label")) { v.cta = v.cta || {}; v.cta.label = el("cta-label").value; }
-        if (el("cta-type")) { v.cta = v.cta || {}; v.cta.type = el("cta-type").value; }
-      }
-      function renderEventsV2Preview() {
-        const frame = document.querySelector('.preview-frame[data-template="events"]');
-        if (!frame || state.template !== "events") return;
-        eventPageConfig.previewMode = document.getElementById("events-v2-preview-mode")?.value || "pre";
-        const mode = eventPageConfig.previewMode;
-        const c = eventPageConfig;
-        const slug = (c.identity.eventLinkSlug || "your-link").replace(/\s+/g, "-");
-        frame.querySelectorAll("[data-ep-preview='navTitle']").forEach((el) => { el.textContent = c.identity.publicTitle || "My Event"; });
-        frame.querySelectorAll("[data-ep-preview='slug']").forEach((el) => { el.textContent = "repqr.page/event/" + slug; });
-        const slugPreview = document.getElementById("ep-preview-slug");
-        if (slugPreview) slugPreview.textContent = slug;
-        const linkPreview = document.getElementById("ep-link-preview");
-        if (linkPreview) linkPreview.textContent = slug;
-        const urlBar = document.getElementById("events-v2-preview-url");
-        if (urlBar) urlBar.textContent = "repqr.page/event/" + slug;
-        frame.querySelectorAll("[data-ep-preview='headline']").forEach((el) => { el.textContent = c.identity.publicTitle || "My Event"; });
-        frame.querySelectorAll("[data-ep-preview='tagline']").forEach((el) => { el.textContent = c.identity.tagline || "Your message or theme."; });
-        const dateVenue = [c.event.startDateTime ? new Date(c.event.startDateTime).toLocaleDateString() : "", [c.event.venue.city, c.event.venue.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
-        frame.querySelectorAll("[data-ep-preview='dateVenue']").forEach((el) => { el.textContent = dateVenue; });
-        const v0 = c.videos[0];
-        frame.querySelectorAll("[data-ep-preview='videoHeroLabel']").forEach((el) => { el.textContent = (v0 && (v0.publicTitle || v0.internalName)) || "Video 1"; });
-        frame.querySelectorAll("[data-ep-preview='heroCta']").forEach((el) => { el.textContent = (v0 && v0.cta?.label) || "Learn more"; });
-        const sectionTypes = ["hero", "attendees", "sponsors", "donors", "videos", "contact", "postevent"];
-        sectionTypes.forEach((type) => {
-          const section = frame.querySelector(`[data-ep-section="${type}"]`);
-          if (!section) return;
-          let show = true;
-          if (type === "hero") show = true;
-          else if (type === "postevent") show = mode === "post";
-          else show = c.sections.find((s) => s.type === type)?.enabled ?? false;
-          section.style.display = show ? "" : "none";
-        });
-        updateCopyQualityMeter();
-        const videosContainer = frame.querySelector("#event-preview-videos");
-        if (videosContainer) {
-          videosContainer.innerHTML = c.videos.map((v, i) => `
-            <div class="event-preview-video-card">
-              <div class="hero-video" style="min-height: 80px;"><span>▶</span> ${v.publicTitle || v.internalName || "Video " + (i + 1)}</div>
-              <button type="button" class="btn primary" style="margin-top: 8px;">${v.cta?.label || "Watch"}</button>
+    <div class="layout">
+      <header class="registrationHero">
+        <h1>Welcome to Your Event Registration</h1>
+        <p class="heroSub">Let’s set up your in-person event. This only takes a few minutes.</p>
+      </header>
+      <div class="regTwoCol">
+        <div class="stepRail">
+          <button type="button" class="stepCard active" data-step="0">
+            <span class="stepDot" data-status="not_started" id="stepDot0"></span>
+            <strong class="stepCardTitle">Event Details</strong>
+            <span class="stepCardSubtitle">Define when and where your event happens.</span>
+            <p class="stepCardStatusLine" id="stepCard0Status">Missing: Event name, date, start time, timezone, location</p>
+          </button>
+          <button type="button" class="stepCard" data-step="1">
+            <span class="stepDot" data-status="not_started" id="stepDot1"></span>
+            <strong class="stepCardTitle">Attendance</strong>
+            <span class="stepCardSubtitle">Decide how guests register and pay.</span>
+            <p class="stepCardStatusLine" id="stepCard1Status">—</p>
+          </button>
+          <button type="button" class="stepCard" data-step="2">
+            <span class="stepDot" data-status="not_started" id="stepDot2"></span>
+            <strong class="stepCardTitle">Engagement</strong>
+            <span class="stepCardSubtitle">Choose how you'll capture guests and track attendance.</span>
+            <p class="stepCardStatusLine" id="stepCard2Status">—</p>
+          </button>
+          <button type="button" class="stepCard" data-step="3">
+            <span class="stepDot" data-status="complete" id="stepDot3"></span>
+            <strong class="stepCardTitle">System</strong>
+            <span class="stepCardSubtitle">Enable sponsors and automated messaging.</span>
+            <p class="stepCardStatusLine complete" id="stepCard3Status">✓ Section complete</p>
+          </button>
+        </div>
+        <div class="editorCol">
+          <div class="card">
+            <div class="cardHead" id="editorHead">
+              <div>
+                <h2 id="editorStepTitle">Event Details</h2>
+                <p id="editorStepSubtitle" style="margin:6px 0 0; font-size:12px; color: var(--muted);">Define when and where your event happens.</p>
+              </div>
+              <span class="pill" id="statusPill">Draft</span>
             </div>
-          `).join("");
+            <div class="cardBody" id="formRoot">
+              <div class="stepBody" data-step="0">
+              <div class="field">
+                <label for="eventName">Event Name (required)</label>
+                <input id="eventName" type="text" placeholder="e.g., Odessa Charity Golf Classic" />
+              </div>
+              <div class="grid2">
+                <div class="field">
+                  <label for="eventDate">Event Date (required)</label>
+                  <input id="eventDate" type="date" />
+                </div>
+                <div class="field">
+                  <label for="timezone">Timezone (required)</label>
+                  <select id="timezone">
+                    <option value="America/Chicago" selected>America/Chicago</option>
+                    <option value="America/Denver">America/Denver</option>
+                    <option value="America/Los_Angeles">America/Los_Angeles</option>
+                    <option value="America/New_York">America/New_York</option>
+                    <option value="UTC">UTC</option>
+                  </select>
+                </div>
+              </div>
+              <div class="grid2">
+                <div class="field">
+                  <label for="startTime">Start Time (required)</label>
+                  <input id="startTime" type="time" />
+                </div>
+                <div class="field">
+                  <label for="endTime">End Time (optional)</label>
+                  <input id="endTime" type="time" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="location">Location (required)</label>
+                <input id="location" type="text" placeholder="Venue name + address" />
+              </div>
+              <div class="field">
+                <label for="eventType">Event Type</label>
+                <select id="eventType">
+                  <option value="charity">Charity</option>
+                  <option value="sports">Sports</option>
+                  <option value="trade">Trade</option>
+                  <option value="property">Property</option>
+                  <option value="custom" selected>Custom</option>
+                </select>
+              </div>
+              </div>
+              <div class="stepBody" data-step="1" style="display:none;">
+              <div class="field">
+                <label>Attendance Model</label>
+                <div class="radioGroup" id="attendanceModel">
+                  <label class="radio"><input type="radio" name="model" value="free" checked /> <span>Free</span></label>
+                  <label class="radio"><input type="radio" name="model" value="paid" /> <span>Paid</span></label>
+                  <label class="radio"><input type="radio" name="model" value="donation" /> <span>Donation</span></label>
+                  <label class="radio"><input type="radio" name="model" value="invite_only" /> <span>Invite-only</span></label>
+                </div>
+              </div>
+
+              <div id="blockFree" class="field">
+                <label for="capacity">Capacity Limit (optional)</label>
+                <input id="capacity" type="number" min="0" placeholder="e.g., 200" />
+                <div class="hint">Leave blank if no capacity limit.</div>
+              </div>
+
+              <div id="blockPaid" style="display:none;">
+                <div class="divider"></div>
+                <div class="field">
+                  <label>Ticket Tiers</label>
+                  <div class="hint">At least one tier with name and price required.</div>
+                </div>
+
+                <div id="tiers"></div>
+
+                <div class="row">
+                  <button class="btn" type="button" id="addTierBtn">+ Add Tier</button>
+                </div>
+              </div>
+
+              <div id="blockDonation" style="display:none;">
+                <div class="divider"></div>
+                <div class="field">
+                  <label for="suggestedAmounts">Suggested Donation Amounts</label>
+                  <input id="suggestedAmounts" type="text" placeholder="e.g., 25, 50, 100" />
+                  <div class="hint">Comma-separated amounts. Attendees can pick one.</div>
+                </div>
+
+                <div class="toggle">
+                  <div>
+                    <strong>Allow Custom Amount</strong>
+                    <small>Let donors enter any amount.</small>
+                  </div>
+                  <div class="switch" id="allowCustom" data-on="true"><div class="knob"></div></div>
+                </div>
+              </div>
+
+              <div id="blockInvite" style="display:none;">
+                <div class="divider"></div>
+                <div class="toggle">
+                  <div>
+                    <strong>Invite Code Required</strong>
+                    <small>Only attendees with a code can RSVP.</small>
+                  </div>
+                  <div class="switch" id="codeRequired" data-on="false"><div class="knob"></div></div>
+                </div>
+
+                <div class="field" id="inviteCodeWrap" style="display:none;">
+                  <label for="inviteCode">Invite Code</label>
+                  <input id="inviteCode" type="text" placeholder="e.g., VIP2026" />
+                </div>
+              </div>
+
+</div>
+              </div>
+              <div class="stepBody" data-step="2" style="display:none;">
+              <div class="toggle">
+                <div>
+                  <strong>Collect Email</strong>
+                  <small>Recommended: confirmations and follow-ups.</small>
+                </div>
+                <div class="switch" id="collectEmail" data-on="true"><div class="knob"></div></div>
+              </div>
+              <div class="toggle">
+                <div>
+                  <strong>Collect Phone</strong>
+                  <small>Required if you want SMS engagement.</small>
+                </div>
+                <div class="switch" id="collectPhone" data-on="false"><div class="knob"></div></div>
+              </div>
+              <div class="toggle" id="smsToggleWrap" style="display:none;">
+                <div>
+                  <strong>Enable SMS</strong>
+                  <small>SMS requires attendee opt-in. RepQR handles consent at registration.</small>
+                </div>
+                <div class="switch" id="smsEnabled" data-on="false"><div class="knob"></div></div>
+              </div>
+              <div class="divider"></div>
+              <div class="toggle">
+                <div>
+                  <strong>QR Check-In</strong>
+                  <small>Track RSVPs vs actual attendance.</small>
+                </div>
+                <div class="switch" id="qrCheckin" data-on="true"><div class="knob"></div></div>
+              </div>
+              </div>
+              <div class="stepBody" data-step="3" style="display:none;">
+              <div class="toggle">
+                <div>
+                  <strong>Sponsors Enabled</strong>
+                  <small>Enable sponsor tracking and sponsor-focused engagement.</small>
+                </div>
+                <div class="switch" id="sponsorsEnabled" data-on="false"><div class="knob"></div></div>
+              </div>
+              <div class="toggle">
+                <div>
+                  <strong>Automation Enabled</strong>
+                  <small>Confirmations, reminders, thank-you, and post-event survey.</small>
+                </div>
+                <div class="switch" id="automationEnabled" data-on="true"><div class="knob"></div></div>
+              </div>
+              </div>
+            </div>
+            <div class="editorActions">
+              <button type="button" class="btn" id="editorBackBtn">Back</button>
+              <button type="button" class="btn btnPrimary" id="editorNextBtn">Next</button>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" type="button" id="resetBtn">Reset</button>
+            <button class="btn btnPrimary" type="button" id="submitBtn" disabled>Complete required sections</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
+  <div id="commandCenterScreen" style="display:none;"></div>
+
+<script>
+  const EVENT_CONFIG_KEY = "repqr:eventConfig";
+  const DEMO_MODE = true;
+
+  // --------- Helpers ----------
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+  function getStoredConfig(){
+    try {
+      const raw = localStorage.getItem(EVENT_CONFIG_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function saveConfig(cfg){
+    window.repqrEventConfig = cfg;
+    try { localStorage.setItem(EVENT_CONFIG_KEY, JSON.stringify(cfg)); } catch (e) {}
+  }
+
+  function showRegistration(){ $("#registrationScreen").style.display = ""; $("#commandCenterScreen").style.display = "none"; }
+  function showCommandCenter(){ $("#registrationScreen").style.display = "none"; $("#commandCenterScreen").style.display = ""; }
+
+  var _demoMode = true;
+
+  function getSampleConfig(){
+    return {
+      identity: { name: "Demo Charity Gala 2026", date: "2026-03-15", startTime: "18:00", endTime: "22:00", timezone: "America/Chicago", location: "Grand Ballroom, 123 Main St", type: "charity" },
+      attendance: { model: "free", capacity: 200, ticketTiers: [], donation: { suggestedAmounts: [], allowCustom: false }, invite: { codeRequired: false, code: "" } },
+      engagement: { collectEmail: true, collectPhone: true, smsEnabled: true, qrCheckin: true },
+      system: { sponsorsEnabled: false, automationEnabled: true, published: false },
+      eventAssets: { landingPageId: null, videoAssetId: null }
+    };
+  }
+
+  function isEventDetailsCompleteFromConfig(c){
+    const idn = c.identity || {};
+    return !!(idn.name && (idn.name + "").trim() && idn.date && idn.startTime && idn.timezone && (idn.location && (idn.location + "").trim()));
+  }
+  function isAttendanceCompleteFromConfig(c){
+    const att = c.attendance || {};
+    if (att.model === "paid") {
+      const tiers = att.ticketTiers || [];
+      return tiers.some(t => (t.name && (t.name + "").trim()) && Number(t.price) >= 0);
+    }
+    return true;
+  }
+  function isEngagementCompleteFromConfig(c){
+    const eng = c.engagement || {};
+    return !!(eng.collectEmail || eng.collectPhone);
+  }
+  function isPublishReady(c){
+    const assets = c.eventAssets || {};
+    return isEventDetailsCompleteFromConfig(c) && isAttendanceCompleteFromConfig(c) && isEngagementCompleteFromConfig(c) && !!(assets.landingPageId) && !!(assets.videoAssetId);
+  }
+
+  function showToast(msg){
+    const container = $("#toastContainer");
+    if (!container) return;
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.textContent = msg;
+    container.appendChild(el);
+    setTimeout(() => { el.style.opacity = "0"; setTimeout(() => el.remove(), 200); }, 2800);
+  }
+
+  function demoAction(label){
+    if (_demoMode) showToast("Demo: " + (label || "action simulated"));
+  }
+
+  function toggleSection(sectionEl){
+    const open = sectionEl.getAttribute("data-open") === "true";
+    sectionEl.setAttribute("data-open", String(!open));
+  }
+
+  function bindAccordion(){
+    $$(".secHeader").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-toggle");
+        const section = document.querySelector(target);
+        if(section) toggleSection(section);
+      });
+    });
+  }
+
+  function switchSet(el, on){
+    el.setAttribute("data-on", on ? "true" : "false");
+  }
+  function switchGet(el){
+    return el.getAttribute("data-on") === "true";
+  }
+  function bindSwitch(id, onChange){
+    const el = $("#" + id);
+    if (!el) return;
+    el.addEventListener("click", () => {
+      const next = !switchGet(el);
+      switchSet(el, next);
+      onChange?.(next);
+      syncUI();
+    });
+  }
+
+  // --------- Ticket tiers builder ----------
+  let tierId = 0;
+
+  function tierTemplate(id){
+    return `
+      <div class="tierRow" data-tier-id="${id}">
+        <div class="field" style="margin:0;">
+          <label>Tier Name</label>
+          <input type="text" data-tier-name placeholder="e.g., General Admission" />
+        </div>
+        <div class="field" style="margin:0;">
+          <label>Price</label>
+          <input type="number" min="0" data-tier-price placeholder="50" />
+        </div>
+        <div class="field" style="margin:0;">
+          <label>Qty</label>
+          <input type="number" min="0" data-tier-qty placeholder="100" />
+        </div>
+        <div class="tierRemove">
+          <button class="btn btnDanger" type="button" data-tier-remove>Remove</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function addTier(){
+    const id = ++tierId;
+    const wrap = $("#tiers");
+    const tmp = document.createElement("div");
+    tmp.innerHTML = tierTemplate(id);
+    const row = tmp.firstElementChild;
+    wrap.appendChild(row);
+
+    row.querySelector("[data-tier-remove]").addEventListener("click", () => {
+      row.remove();
+      syncUI();
+    });
+
+    row.querySelectorAll("input").forEach(inp => inp.addEventListener("input", syncUI));
+    syncUI();
+  }
+
+  // --------- State -> Config ----------
+  function getAttendanceModel(){
+    const r = document.querySelector('input[name="model"]:checked');
+    return r ? r.value : "free";
+  }
+
+  function getTicketTiers(){
+    return $$("#tiers .tierRow").map(row => {
+      const name = row.querySelector("[data-tier-name]")?.value?.trim() || "";
+      const price = Number(row.querySelector("[data-tier-price]")?.value || 0);
+      const quantity = Number(row.querySelector("[data-tier-qty]")?.value || 0);
+      return { name, price, quantity };
+    }).filter(t => t.name || t.price || t.quantity);
+  }
+
+  function hasPaidTierWithNameAndPrice(){
+    return $$("#tiers .tierRow").some(row => {
+      const name = (row.querySelector("[data-tier-name]")?.value || "").trim();
+      const price = Number(row.querySelector("[data-tier-price]")?.value || 0);
+      return name.length > 0 && Number.isFinite(price) && price >= 0;
+    });
+  }
+
+  function parseAmounts(s){
+    return (s || "")
+      .split(",")
+      .map(x => x.trim())
+      .filter(Boolean)
+      .map(x => Number(x))
+      .filter(n => Number.isFinite(n) && n >= 0);
+  }
+
+  function buildEventConfig(){
+    const model = getAttendanceModel();
+    const eventConfig = {
+      identity: {
+        name: $("#eventName").value.trim(),
+        date: $("#eventDate").value || "",
+        startTime: $("#startTime").value || "",
+        endTime: $("#endTime").value || "",
+        timezone: $("#timezone").value,
+        location: $("#location").value.trim(),
+        type: $("#eventType").value
+      },
+      attendance: {
+        model,
+        capacity: $("#capacity").value ? Number($("#capacity").value) : null,
+        ticketTiers: model === "paid" ? getTicketTiers() : [],
+        donation: {
+          suggestedAmounts: model === "donation" ? parseAmounts($("#suggestedAmounts").value) : [],
+          allowCustom: model === "donation" ? switchGet($("#allowCustom")) : false
+        },
+        invite: {
+          codeRequired: model === "invite_only" ? switchGet($("#codeRequired")) : false,
+          code: model === "invite_only" ? ($("#inviteCode").value.trim() || "") : ""
         }
+      },
+      engagement: {
+        collectEmail: switchGet($("#collectEmail")),
+        collectPhone: switchGet($("#collectPhone")),
+        smsEnabled: switchGet($("#collectPhone")) ? switchGet($("#smsEnabled")) : false,
+        qrCheckin: switchGet($("#qrCheckin"))
+      },
+      system: {
+        sponsorsEnabled: switchGet($("#sponsorsEnabled")),
+        automationEnabled: switchGet($("#automationEnabled"))
       }
+    };
+    return eventConfig;
+  }
 
-      const updatePreviewText = () => {
-        const activeFrame = document.querySelector(
-          `.preview-frame[data-template="${state.template}"]`
-        );
+  var SECTION_ORDER = ["secDetails", "secAttendance", "secEngagement", "secSystem"];
 
-        if (state.template === "events" && activeFrame) {
-          renderEventsV2Preview();
-          return;
+  function isEventDetailsComplete(){
+    const name = ($("#eventName").value || "").trim();
+    const date = $("#eventDate").value || "";
+    const startTime = $("#startTime").value || "";
+    const timezone = $("#timezone").value || "";
+    const location = ($("#location").value || "").trim();
+    return name.length > 0 && date.length > 0 && startTime.length > 0 && timezone.length > 0 && location.length > 0;
+  }
+
+  function isAttendanceComplete(){
+    const model = getAttendanceModel();
+    if (model === "free") return true;
+    if (model === "paid") return hasPaidTierWithNameAndPrice();
+    if (model === "donation" || model === "invite_only") return true;
+    return true;
+  }
+
+  function isEngagementComplete(){
+    const email = switchGet($("#collectEmail"));
+    const phone = switchGet($("#collectPhone"));
+    return email || phone;
+  }
+
+  function setSectionStatus(sectionId, status){
+    const dot = $("#" + sectionId + "Status");
+    if (dot) dot.setAttribute("data-status", status);
+  }
+
+  function getSectionStatus(sectionId){
+    const dot = $("#" + sectionId + "Status");
+    return dot ? dot.getAttribute("data-status") : "not_started";
+  }
+
+  function openSection(sectionId){
+    const section = $("#" + sectionId);
+    if (section) section.setAttribute("data-open", "true");
+  }
+
+  function closeSection(sectionId){
+    const section = $("#" + sectionId);
+    if (section) section.setAttribute("data-open", "false");
+  }
+
+  function isSectionOpen(sectionId){
+    const section = $("#" + sectionId);
+    return section ? section.getAttribute("data-open") === "true" : false;
+  }
+
+  var SECTION_NAMES = { secDetails: "Event Details", secAttendance: "Attendance", secEngagement: "Engagement", secSystem: "System" };
+  var REG_STEP_SUBTITLES = ["Define when and where your event happens.", "Decide how guests register and pay.", "Choose how you'll capture guests and track attendance.", "Enable sponsors and automated messaging."];
+  var _currentStep = 0;
+
+  function setStep(i){
+    i = Math.max(0, Math.min(3, i));
+    _currentStep = i;
+    $$(".stepCard").forEach((card, idx) => {
+      card.classList.toggle("active", idx === i);
+    });
+    $$(".stepBody").forEach((body, idx) => {
+      body.style.display = idx === i ? "block" : "none";
+    });
+    const titleEl = $("#editorStepTitle");
+    const subEl = $("#editorStepSubtitle");
+    if (titleEl) titleEl.textContent = Object.values(SECTION_NAMES)[i];
+    if (subEl) subEl.textContent = REG_STEP_SUBTITLES[i];
+    const backBtn = $("#editorBackBtn");
+    const nextBtn = $("#editorNextBtn");
+    if (backBtn) backBtn.style.visibility = i === 0 ? "hidden" : "visible";
+    if (nextBtn) nextBtn.textContent = i === 3 ? "Done" : "Next";
+  }
+
+  // --------- UI Sync (toggle reveal + completion state) ----------
+  function syncUI(){
+    const model = getAttendanceModel();
+    $("#blockFree").style.display = (model === "free") ? "block" : "none";
+    $("#blockPaid").style.display = (model === "paid") ? "block" : "none";
+    $("#blockDonation").style.display = (model === "donation") ? "block" : "none";
+    $("#blockInvite").style.display = (model === "invite_only") ? "block" : "none";
+
+    const codeReq = switchGet($("#codeRequired"));
+    $("#inviteCodeWrap").style.display = codeReq ? "block" : "none";
+
+    const phoneOn = switchGet($("#collectPhone"));
+    $("#smsToggleWrap").style.display = phoneOn ? "flex" : "none";
+    if(!phoneOn) switchSet($("#smsEnabled"), false);
+
+    const detailsOk = isEventDetailsComplete();
+    const attendanceOk = isAttendanceComplete();
+    const engagementOk = isEngagementComplete();
+
+    // Step rail: status dots and Missing / complete lines
+    const detailsMissing = [];
+    if (!($("#eventName").value || "").trim()) detailsMissing.push("Event name");
+    if (!$("#eventDate").value) detailsMissing.push("Event date");
+    if (!$("#startTime").value) detailsMissing.push("Start time");
+    if (!$("#timezone").value) detailsMissing.push("Timezone");
+    if (!($("#location").value || "").trim()) detailsMissing.push("Location");
+    const detailsStatus = detailsMissing.length === 0 ? "complete" : (detailsMissing.length < 5 ? "in_progress" : "not_started");
+    const d0 = $("#stepDot0");
+    if (d0) d0.setAttribute("data-status", detailsStatus);
+    const s0 = $("#stepCard0Status");
+    if (s0) { s0.textContent = detailsMissing.length > 0 ? "Missing: " + detailsMissing.join(", ") : "✓ Section complete"; s0.classList.toggle("complete", detailsOk); }
+
+    const attendanceMissing = [];
+    if (model === "paid" && !hasPaidTierWithNameAndPrice()) attendanceMissing.push("at least one ticket tier with name and price");
+    const attendanceStatus = attendanceOk ? "complete" : (attendanceMissing.length > 0 ? "in_progress" : "not_started");
+    const d1 = $("#stepDot1");
+    if (d1) d1.setAttribute("data-status", attendanceStatus);
+    const s1 = $("#stepCard1Status");
+    if (s1) { s1.textContent = attendanceMissing.length > 0 ? "Missing: " + attendanceMissing.join(", ") : "✓ Section complete"; s1.classList.toggle("complete", attendanceOk); }
+
+    const engagementMissing = [];
+    if (!engagementOk) engagementMissing.push("at least one of Collect Email or Collect Phone");
+    const engagementStatus = engagementOk ? "complete" : "in_progress";
+    const d2 = $("#stepDot2");
+    if (d2) d2.setAttribute("data-status", engagementStatus);
+    const s2 = $("#stepCard2Status");
+    if (s2) { s2.textContent = engagementMissing.length > 0 ? "Missing: " + engagementMissing.join(", ") : "✓ Section complete"; s2.classList.toggle("complete", engagementOk); }
+
+    const d3 = $("#stepDot3");
+    if (d3) d3.setAttribute("data-status", "complete");
+    const s3 = $("#stepCard3Status");
+    if (s3) { s3.textContent = "✓ Section complete"; s3.classList.add("complete"); }
+
+    const canSubmit = DEMO_MODE || (detailsOk && attendanceOk && engagementOk);
+    const submitBtn = $("#submitBtn");
+    if (submitBtn) {
+      if (DEMO_MODE) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enter Command Center (Demo)";
+      } else {
+        submitBtn.disabled = !canSubmit;
+        submitBtn.textContent = canSubmit ? "Create Event & Open Command Center" : "Complete required sections";
+      }
+    }
+
+    const statusPill = $("#statusPill");
+    if (statusPill) statusPill.textContent = (DEMO_MODE || canSubmit) ? "Ready" : "Draft";
+  }
+
+  function resetAll(){
+    $("#eventName").value = "";
+    $("#eventDate").value = "";
+    $("#startTime").value = "";
+    $("#endTime").value = "";
+    $("#location").value = "";
+    $("#eventType").value = "custom";
+    $("#timezone").value = "America/Chicago";
+
+    document.querySelector('input[name="model"][value="free"]').checked = true;
+    $("#capacity").value = "";
+    $("#suggestedAmounts").value = "";
+    $("#inviteCode").value = "";
+    switchSet($("#allowCustom"), true);
+    switchSet($("#codeRequired"), false);
+
+    $("#tiers").innerHTML = "";
+    tierId = 0;
+
+    switchSet($("#collectEmail"), true);
+    switchSet($("#collectPhone"), false);
+    switchSet($("#smsEnabled"), false);
+    switchSet($("#qrCheckin"), true);
+
+    switchSet($("#sponsorsEnabled"), false);
+    switchSet($("#automationEnabled"), true);
+
+    setStep(0);
+    syncUI();
+  }
+
+  // --------- Init ----------
+  function init(){
+    setStep(0);
+    $$(".stepCard").forEach(card => {
+      card.addEventListener("click", () => setStep(Number(card.getAttribute("data-step"))));
+    });
+    $("#editorBackBtn")?.addEventListener("click", () => setStep(_currentStep - 1));
+    $("#editorNextBtn")?.addEventListener("click", () => { if (_currentStep < 3) setStep(_currentStep + 1); });
+
+    // inputs -> sync
+    ["eventName","eventDate","startTime","endTime","location","eventType","timezone","capacity","suggestedAmounts","inviteCode"]
+      .forEach(id => {
+        const el = $("#" + id);
+        if (el) {
+          el.addEventListener("input", syncUI);
+          el.addEventListener("change", syncUI);
         }
+      });
 
-        if (activeFrame) {
-          activeFrame.querySelectorAll("[data-preview='headline']").forEach((el) => {
-            el.textContent = headlineInput.value;
-          });
-          activeFrame.querySelectorAll("[data-preview='subheadline']").forEach((el) => {
-            el.textContent = subheadlineInput.value;
-          });
-          activeFrame.querySelectorAll("[data-preview='cta']").forEach((el) => {
-            el.textContent = ctaInput.value;
-          });
+    $$('#attendanceModel input[type="radio"]').forEach(r => r.addEventListener("change", () => {
+      if(getAttendanceModel() === "paid" && $$("#tiers .tierRow").length === 0) addTier();
+      syncUI();
+    }));
 
-          const activeFormMode =
-            document.querySelector("[data-form-mode].active")?.dataset.formMode || "template";
-          const modeLabel = activeFormMode === "custom" ? "Custom Form" : formTemplate.value;
-          activeFrame.querySelectorAll("[data-preview='formTemplate']").forEach((el) => {
-            el.textContent = modeLabel;
-          });
+    bindSwitch("allowCustom");
+    bindSwitch("codeRequired");
+    bindSwitch("collectEmail");
+    bindSwitch("collectPhone");
+    bindSwitch("smsEnabled");
+    bindSwitch("qrCheckin");
+    bindSwitch("sponsorsEnabled");
+    bindSwitch("automationEnabled");
 
-          activeFrame
-            .querySelectorAll("[data-preview-section='video']")
-            .forEach((section) => {
-              section.style.display = videoToggle.checked ? "" : "none";
-            });
-          activeFrame
-            .querySelectorAll("[data-preview-section='gallery']")
-            .forEach((section) => {
-              section.style.display = galleryToggle.checked ? "" : "none";
-            });
-          activeFrame
-            .querySelectorAll("[data-preview-section='reviews']")
-            .forEach((section) => {
-              section.style.display = reviewsToggle.checked ? "" : "none";
-            });
-        }
+    $("#addTierBtn").addEventListener("click", addTier);
+    $("#resetBtn").addEventListener("click", resetAll);
+
+    $("#submitBtn").addEventListener("click", () => {
+      if (DEMO_MODE) {
+        const nameEl = $("#eventName"), dateEl = $("#eventDate"), startEl = $("#startTime"), tzEl = $("#timezone"), locEl = $("#location");
+        if (!(nameEl.value || "").trim()) nameEl.value = "Demo Event";
+        if (!dateEl.value) { const d = new Date(); dateEl.value = d.toISOString().slice(0, 10); }
+        if (!startEl.value) startEl.value = "18:00";
+        if (!tzEl.value) tzEl.value = "America/Chicago";
+        if (!(locEl.value || "").trim()) locEl.value = "Demo Venue";
+      }
+      const fresh = buildEventConfig();
+      const existing = getStoredConfig();
+      const cfg = {
+        ...fresh,
+        eventAssets: existing?.eventAssets || { landingPageId: null, videoAssetId: null },
+        system: { ...fresh.system, published: !!(existing?.system && existing.system.published) }
       };
+      saveConfig(cfg);
+      console.log("repqrEventConfig:", cfg);
+      showCommandCenter();
+      _ccActiveTab = "overview";
+      renderCommandCenter(cfg);
+    });
 
-      const updateTemplateSections = () => {
-        templateToggles.forEach((toggle) => {
-          const target = toggle.dataset.target;
-          const section = document.querySelector(`[data-section="${target}"]`);
-          if (section) {
-            section.style.display = toggle.checked ? "" : "none";
-          }
-        });
+    // seed
+    syncUI();
+
+    if (getStoredConfig()) $("#resumeStrip").classList.remove("hide");
+    $("#resumeEventBtn").addEventListener("click", () => {
+      const cfg = getStoredConfig();
+      if (cfg) {
+        window.repqrEventConfig = cfg;
+        showCommandCenter();
+        _ccActiveTab = "overview";
+        renderCommandCenter(cfg);
+      }
+    });
+  }
+
+  // --------- Command Center ----------
+  var _ccConfig = null;
+  var _ccActiveTab = "overview";
+
+  function runOverviewCountUp(){
+    const content = $("#ccContent");
+    if (!content || _ccActiveTab !== "overview") return;
+    const els = content.querySelectorAll("[data-cc-count]");
+    const duration = 600;
+    const start = Date.now();
+    function tick(){
+      const t = Math.min((Date.now() - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 2);
+      els.forEach(el => {
+        const end = Number(el.getAttribute("data-cc-count")) || 0;
+        const suffix = el.getAttribute("data-cc-suffix") || "";
+        const val = Math.round(ease * end);
+        el.textContent = val + suffix;
+      });
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function renderCommandCenter(config){
+    _ccConfig = config || getStoredConfig() || window.repqrEventConfig;
+    if (!_ccConfig && _demoMode) _ccConfig = getSampleConfig();
+    if (!_ccConfig) return;
+    const id = $("#commandCenterScreen");
+    if (!id) return;
+    const c = _ccConfig;
+    c.eventAssets = c.eventAssets || { landingPageId: null, videoAssetId: null };
+    c.system = c.system || {};
+    if (c.system.published === undefined) c.system.published = false;
+    const idn = c.identity || {};
+    const att = c.attendance || {};
+    const eng = c.engagement || {};
+    const sys = c.system || {};
+    const sponsorsOn = !!sys.sponsorsEnabled;
+    const assets = c.eventAssets || {};
+    const published = !!sys.published;
+    const publishReady = isPublishReady(c);
+
+    const navItems = [
+      { key: "overview", label: "Overview" },
+      { key: "assets", label: "Assets" },
+      { key: "messaging", label: "Messaging" },
+      { key: "contacts", label: "Contacts" }
+    ];
+    if (sponsorsOn) navItems.push({ key: "sponsors", label: "Sponsors" });
+    navItems.push({ key: "settings", label: "Settings" });
+
+    let navHtml = navItems.map(n => '<button type="button" class="ccNavBtn' + (n.key === _ccActiveTab ? ' active' : '') + '" data-tab="' + n.key + '">' + n.label + '</button>').join('');
+
+    const statusPillLabel = published ? "Published" : (publishReady ? "Ready to Publish" : "Draft");
+    const publishBtnDisabled = !publishReady || published;
+    const publishBtnTitle = publishBtnDisabled ? "Complete required items to publish." : "";
+    const demoToggleHtml = '<div class="ccDemoToggle"><span>Demo Mode</span><div class="switch" id="ccDemoToggle" data-on="' + (_demoMode ? 'true' : 'false') + '"><div class="knob"></div></div></div>';
+    id.innerHTML = '<div class="ccWrap"><div class="ccHeader"><h1>' + (idn.name || "Event") + '</h1><div class="ccActions"><span class="pill" id="ccStatusPill">' + statusPillLabel + '</span><button type="button" class="btn btnPrimary" id="ccPublishBtn" ' + (publishBtnDisabled ? 'disabled title="' + publishBtnTitle.replace(/"/g, "&quot;") + '"' : '') + '>Publish Event</button>' + demoToggleHtml + '<button type="button" class="btn ghost" id="ccEditSetup">Edit Setup</button></div></div><div class="ccLayout"><nav class="ccNav">' + navHtml + '</nav><div class="ccContent" id="ccContent"></div></div></div>';
+
+    id.querySelectorAll(".ccNavBtn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        _ccActiveTab = btn.getAttribute("data-tab");
+        renderCommandCenter(_ccConfig);
+      });
+    });
+    $("#ccEditSetup").addEventListener("click", () => {
+      hydrateRegistration(_ccConfig);
+      showRegistration();
+    });
+    const demoEl = $("#ccDemoToggle");
+    if (demoEl) demoEl.addEventListener("click", () => {
+      _demoMode = demoEl.getAttribute("data-on") !== "true";
+      demoEl.setAttribute("data-on", _demoMode ? "true" : "false");
+      renderCommandCenter(_ccConfig);
+    });
+    $("#ccPublishBtn")?.addEventListener("click", () => {
+      if (published || !publishReady) return;
+      if (_demoMode) showToast("Demo: Event published.");
+      const updated = { ..._ccConfig, system: { ..._ccConfig.system, published: true } };
+      saveConfig(updated);
+      _ccConfig = updated;
+      renderCommandCenter(updated);
+    });
+
+    const content = $("#ccContent");
+    if (!content) return;
+
+    if (_ccActiveTab === "overview") {
+      const enableSponsorsLink = (_demoMode && !sponsorsOn) ? '<p style="margin:12px 0 0;font-size:12px;"><a href="#" class="link" id="ccEnableSponsorsDemo">Enable Sponsors (Demo)</a></p>' : '';
+      content.innerHTML = '<div class="ccStatGrid">' +
+        '<div class="ccStatCard"><div class="ccStatValue" data-cc-count="142">0</div><div class="ccStatLabel">RSVPs</div></div>' +
+        '<div class="ccStatCard"><div class="ccStatValue" data-cc-count="89">0</div><div class="ccStatLabel">Check-ins</div></div>' +
+        '<div class="ccStatCard"><div class="ccStatValue" data-cc-count="156">0</div><div class="ccStatLabel">QR Scans</div></div>' +
+        '<div class="ccStatCard"><div class="ccStatValue" data-cc-count="63" data-cc-suffix="%">0</div><div class="ccStatLabel">Engagement %</div></div>' +
+        '</div>' +
+        '<div class="card ccCard"><div class="cardHead"><div class="ccActivityHeader"><span class="ccPulse"></span><h2 style="margin:0;">Live Activity</h2></div></div><div class="cardBody">' +
+        '<div class="ccActivityItem">12:14 PM — QR scanned at Check-in</div>' +
+        '<div class="ccActivityItem">12:18 PM — RSVP submitted</div>' +
+        '<div class="ccActivityItem">12:22 PM — Sponsor booth scan</div>' +
+        '<div class="ccActivityItem">12:25 PM — Check-in at door</div>' +
+        '<div class="ccActivityItem">12:28 PM — RSVP submitted</div>' +
+        enableSponsorsLink + '</div></div>';
+      runOverviewCountUp();
+      const enableSponsorsBtn = content.querySelector("#ccEnableSponsorsDemo");
+      if (enableSponsorsBtn) enableSponsorsBtn.addEventListener("click", (e) => { e.preventDefault(); const u = { ..._ccConfig, system: { ..._ccConfig.system, sponsorsEnabled: true } }; saveConfig(u); _ccConfig = u; renderCommandCenter(u); });
+    } else if (_ccActiveTab === "assets") {
+      const detailsOk = isEventDetailsCompleteFromConfig(c);
+      const attOk = isAttendanceCompleteFromConfig(c);
+      const engOk = isEngagementCompleteFromConfig(c);
+      const hasLanding = !!assets.landingPageId;
+      const hasVideo = !!assets.videoAssetId;
+      const check = "✓";
+      const req1 = detailsOk ? check : "—";
+      const req2 = attOk ? check : "—";
+      const req3 = engOk ? check : "—";
+      const req4 = hasLanding ? check : "—";
+      const req5 = hasVideo ? check : "—";
+      const optContacts = "—";
+      const optSponsors = sponsorsOn ? "—" : "";
+      const checklistHtml = '<div class="card ccCard"><div class="cardHead"><h2>Readiness Checklist</h2></div><div class="cardBody">' +
+        '<p style="margin:0 0 8px; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color: var(--muted);">Required</p>' +
+        '<ul class="ccChecklist">' +
+        '<li>' + req1 + ' Event Details complete</li>' +
+        '<li>' + req2 + ' Attendance configured</li>' +
+        '<li>' + req3 + ' Engagement configured</li>' +
+        '<li>' + req4 + ' Landing Page attached</li>' +
+        '<li>' + req5 + ' Event Video attached</li>' +
+        '</ul>' +
+        '<p style="margin:14px 0 8px; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color: var(--muted);">Optional</p>' +
+        '<ul class="ccChecklist">' +
+        '<li>' + optContacts + ' Contacts imported</li>' +
+        (sponsorsOn ? '<li>' + optSponsors + ' Sponsors set up</li>' : '') +
+        '</ul></div></div>';
+      const descHtml = '<p style="margin:0 0 16px; font-size:13px; color: var(--muted);">Attach the landing page and event video for this event. Edit them anytime in the RepQR libraries—changes update here automatically.</p>';
+      const landingEmpty = !hasLanding ? '<p style="margin:0 0 12px; font-size:13px; color: var(--muted);">Your event needs a landing page to collect RSVPs and deliver the experience.</p><button type="button" class="btn btnPrimary" id="assetsCreateLanding">Create Landing Page</button> <button type="button" class="btn ghost" id="assetsOpenLandingLib">Open in Landing Page Library</button>' : '<p style="margin:0 0 8px; font-size:13px;">Landing page attached.</p><button type="button" class="btn ghost" id="assetsOpenLandingLib">Open in Landing Page Library</button>';
+      const videoEmpty = !hasVideo ? '<p style="margin:0 0 12px; font-size:13px; color: var(--muted);">Add a welcome video to drive engagement and conversions.</p><button type="button" class="btn btnPrimary" id="assetsCreateVideo">Create Video</button> <button type="button" class="btn ghost" id="assetsOpenVideoLib">Open in Video Library</button>' : '<p style="margin:0 0 8px; font-size:13px;">Event video attached.</p><button type="button" class="btn ghost" id="assetsOpenVideoLib">Open in Video Library</button>';
+      content.innerHTML = checklistHtml + descHtml +
+        '<div class="card ccCard"><div class="cardHead"><h2>Landing Page</h2></div><div class="cardBody">' + landingEmpty + '</div></div>' +
+        '<div class="card ccCard"><div class="cardHead"><h2>Event Video</h2></div><div class="cardBody">' + videoEmpty + '</div></div>';
+      $("#assetsCreateLanding")?.addEventListener("click", () => { if (_demoMode) showToast("Demo: Opening RepQR Landing Page Builder…"); const u = { ..._ccConfig, eventAssets: { ..._ccConfig.eventAssets, landingPageId: _ccConfig.eventAssets.landingPageId || "demo-landing-" + Date.now() } }; saveConfig(u); _ccConfig = u; renderCommandCenter(u); });
+      $("#assetsCreateVideo")?.addEventListener("click", () => { if (_demoMode) showToast("Demo: Opening RepQR Video Studio…"); const u = { ..._ccConfig, eventAssets: { ..._ccConfig.eventAssets, videoAssetId: _ccConfig.eventAssets.videoAssetId || "demo-video-" + Date.now() } }; saveConfig(u); _ccConfig = u; renderCommandCenter(u); });
+      $("#assetsOpenLandingLib")?.addEventListener("click", () => { if (_demoMode) showToast("Demo: Opening Landing Page Library…"); });
+      $("#assetsOpenVideoLib")?.addEventListener("click", () => { if (_demoMode) showToast("Demo: Opening Video Library…"); });
+    } else if (_ccActiveTab === "messaging") {
+      const emailOff = !eng.collectEmail;
+      const smsOff = !eng.smsEnabled;
+      const callout = (emailOff || smsOff) ? '<div class="ccCallout">Currently disabled by Setup settings. (Demo mode allows preview anyway.)</div>' : '';
+      content.innerHTML = callout +
+        '<div class="card ccCard"><div class="cardHead"><h2>Email</h2></div><div class="cardBody">' +
+        '<div class="field"><label>Template</label><select id="msgEmailTemplate"><option>Confirmation</option><option>Reminder</option><option>Thank You</option></select></div>' +
+        '<div class="field"><label>Subject</label><input type="text" id="msgEmailSubject" placeholder="Event reminder" /></div>' +
+        '<div class="field"><label>Message</label><textarea id="msgEmailBody" rows="4" placeholder="Message body..."></textarea></div>' +
+        '<div class="field"><label>Recipients</label><select id="msgEmailSegment"><option>All RSVPs</option><option>VIP</option><option>No-shows</option></select></div>' +
+        '<button type="button" class="btn btnPrimary" id="msgEmailPreviewSend">Preview Send</button></div></div>' +
+        '<div class="card ccCard"><div class="cardHead"><h2>SMS</h2></div><div class="cardBody">' +
+        '<div class="field"><label>Template</label><select id="msgSmsTemplate"><option>Confirmation</option><option>Reminder</option><option>Thank You</option></select></div>' +
+        '<div class="field"><label>Message</label><textarea id="msgSmsBody" rows="4" placeholder="SMS body..."></textarea></div>' +
+        '<div class="field"><label>Recipients</label><select id="msgSmsSegment"><option>All RSVPs</option><option>VIP</option><option>No-shows</option></select></div>' +
+        '<button type="button" class="btn btnPrimary" id="msgSmsPreviewSend">Preview Send</button></div></div>';
+      $("#msgEmailPreviewSend")?.addEventListener("click", () => demoAction("email send simulated"));
+      $("#msgSmsPreviewSend")?.addEventListener("click", () => demoAction("SMS send simulated"));
+    } else if (_ccActiveTab === "contacts") {
+      content.innerHTML = '<div class="card ccCard"><div class="cardHead"><h2>Contacts Import</h2></div><div class="cardBody">' +
+        '<div class="field"><label>Upload</label><input type="file" id="contactsFile" accept=".csv,.xlsx" style="margin-bottom:8px;" /><span id="contactsFileName" style="font-size:12px;color:var(--muted);"></span></div>' +
+        '<div class="field"><label>Or paste list</label><textarea id="contactsPaste" rows="3" placeholder="Name, Email, Phone..."></textarea></div>' +
+        '<button type="button" class="btn btnPrimary" id="contactsPreviewImport">Preview Import</button></div></div>' +
+        '<div class="card ccCard"><div class="cardHead"><h2>Contacts</h2></div><div class="cardBody"><div style="overflow-x:auto;"><table class="table" style="width:100%;font-size:13px;"><thead><tr><th>Name</th><th>Email</th><th>Segment</th></tr></thead><tbody>' +
+        '<tr><td>Alex Morgan</td><td>alex@example.com</td><td><span style="background:var(--ok);color:#111;padding:2px 6px;border-radius:4px;font-size:11px;">VIP</span></td></tr>' +
+        '<tr><td>Jamie Lee</td><td>jamie@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '<tr><td>Sam Chen</td><td>sam@example.com</td><td><span style="background:var(--ok);color:#111;padding:2px 6px;border-radius:4px;font-size:11px;">VIP</span></td></tr>' +
+        '<tr><td>Jordan Taylor</td><td>jordan@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '<tr><td>Riley Davis</td><td>riley@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '<tr><td>Casey Brown</td><td>casey@example.com</td><td><span style="background:var(--ok);color:#111;padding:2px 6px;border-radius:4px;font-size:11px;">VIP</span></td></tr>' +
+        '<tr><td>Morgan Wright</td><td>morgan@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '<tr><td>Avery Clark</td><td>avery@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '<tr><td>Quinn Martinez</td><td>quinn@example.com</td><td><span style="background:var(--ok);color:#111;padding:2px 6px;border-radius:4px;font-size:11px;">VIP</span></td></tr>' +
+        '<tr><td>Skyler Adams</td><td>skyler@example.com</td><td><span style="background:rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:11px;">GA</span></td></tr>' +
+        '</tbody></table></div></div></div>';
+      $("#contactsFile")?.addEventListener("change", function(){ $("#contactsFileName").textContent = this.files?.length ? this.files[0].name : ""; });
+      $("#contactsPreviewImport")?.addEventListener("click", () => demoAction("import simulated"));
+    } else if (_ccActiveTab === "sponsors") {
+      content.innerHTML = '<div class="card ccCard"><div class="cardHead"><h2>Sponsor list</h2></div><div class="cardBody"><ul style="margin:0;padding-left:18px;font-size:13px;">' +
+        '<li>Acme Corp</li><li>TechStart Inc</li><li>Global Partners</li></ul></div></div>' +
+        '<div class="card ccCard"><div class="cardHead"><h2>Sponsor performance</h2></div><div class="cardBody"><div style="overflow-x:auto;"><table class="table" style="width:100%;font-size:13px;"><thead><tr><th>Sponsor</th><th>Scans</th><th>Leads</th></tr></thead><tbody>' +
+        '<tr><td>Acme Corp</td><td>42</td><td>18</td></tr><tr><td>TechStart Inc</td><td>28</td><td>12</td></tr><tr><td>Global Partners</td><td>35</td><td>9</td></tr></tbody></table></div>' +
+        '<button type="button" class="btn btnPrimary" id="sponsorsPreviewReport" style="margin-top:12px;">Preview Sponsor Report</button></div></div>';
+      $("#sponsorsPreviewReport")?.addEventListener("click", () => demoAction("sponsor report simulated"));
+    } else if (_ccActiveTab === "settings") {
+      content.innerHTML = renderSettingsTab();
+      bindSettingsTab();
+    }
+  }
+
+  function renderSettingsTab(){
+    const c = _ccConfig;
+    if (!c) return "";
+    const idn = c.identity || {};
+    const att = c.attendance || {};
+    const eng = c.engagement || {};
+    const sys = c.system || {};
+    return '<div class="card ccCard"><div class="cardHead"><h2>Settings</h2><p style="margin:6px 0 0;color:var(--muted);font-size:12.5px;">Edit event setup. Save to apply.</p></div><div class="cardBody">' +
+      '<div class="field"><label>Event Name</label><input type="text" id="ccSetName" value="' + (idn.name || "").replace(/"/g, "&quot;") + '" /></div>' +
+      '<div class="grid2"><div class="field"><label>Date</label><input type="date" id="ccSetDate" value="' + (idn.date || "") + '" /></div><div class="field"><label>Timezone</label><select id="ccSetTimezone"><option value="America/Chicago"' + (idn.timezone === "America/Chicago" ? " selected" : "") + '>America/Chicago</option><option value="America/Denver"' + (idn.timezone === "America/Denver" ? " selected" : "") + '>America/Denver</option><option value="America/Los_Angeles"' + (idn.timezone === "America/Los_Angeles" ? " selected" : "") + '>America/Los_Angeles</option><option value="America/New_York"' + (idn.timezone === "America/New_York" ? " selected" : "") + '>America/New_York</option><option value="UTC"' + (idn.timezone === "UTC" ? " selected" : "") + '>UTC</option></select></div></div>' +
+      '<div class="grid2"><div class="field"><label>Start Time</label><input type="time" id="ccSetStartTime" value="' + (idn.startTime || "") + '" /></div><div class="field"><label>End Time</label><input type="time" id="ccSetEndTime" value="' + (idn.endTime || "") + '" /></div></div>' +
+      '<div class="field"><label>Location</label><input type="text" id="ccSetLocation" value="' + (idn.location || "").replace(/"/g, "&quot;") + '" /></div>' +
+      '<div class="field"><label>Event Type</label><select id="ccSetType"><option value="charity"' + (idn.type === "charity" ? " selected" : "") + '>Charity</option><option value="sports"' + (idn.type === "sports" ? " selected" : "") + '>Sports</option><option value="trade"' + (idn.type === "trade" ? " selected" : "") + '>Trade</option><option value="property"' + (idn.type === "property" ? " selected" : "") + '>Property</option><option value="custom"' + (idn.type === "custom" ? " selected" : "") + '>Custom</option></select></div>' +
+      '<div class="divider"></div><p style="font-size:12px;color:var(--muted);margin:0 0 10px;">Attendance: ' + (att.model || "free") + '</p>' +
+      '<div class="divider"></div><div class="toggle"><div><strong>Collect Email</strong></div><div class="switch" id="ccSetCollectEmail" data-on="' + (eng.collectEmail ? "true" : "false") + '"><div class="knob"></div></div></div>' +
+      '<div class="toggle"><div><strong>Collect Phone</strong></div><div class="switch" id="ccSetCollectPhone" data-on="' + (eng.collectPhone ? "true" : "false") + '"><div class="knob"></div></div></div>' +
+      '<div class="toggle"><div><strong>QR Check-in</strong></div><div class="switch" id="ccSetQrCheckin" data-on="' + (eng.qrCheckin ? "true" : "false") + '"><div class="knob"></div></div></div>' +
+      '<div class="divider"></div><div class="toggle"><div><strong>Sponsors Enabled</strong></div><div class="switch" id="ccSetSponsors" data-on="' + (sys.sponsorsEnabled ? "true" : "false") + '"><div class="knob"></div></div></div>' +
+      '<div class="toggle"><div><strong>Automation Enabled</strong></div><div class="switch" id="ccSetAutomation" data-on="' + (sys.automationEnabled ? "true" : "false") + '"><div class="knob"></div></div></div>' +
+      '<div class="actions" style="margin-top:16px;"><button type="button" class="btn btnPrimary" id="ccSaveSettings">Save Settings</button> <button type="button" class="btn ghost" id="ccResetDemo">Reset to Demo Defaults</button></div></div></div>';
+  }
+
+  function bindSettingsTab(){
+    const wrap = $("#ccContent");
+    if (!wrap) return;
+    ["ccSetCollectEmail","ccSetCollectPhone","ccSetQrCheckin","ccSetSponsors","ccSetAutomation"].forEach(id => {
+      const el = $("#" + id);
+      if (!el) return;
+      el.addEventListener("click", () => {
+        const on = el.getAttribute("data-on") !== "true";
+        el.setAttribute("data-on", on ? "true" : "false");
+      });
+    });
+    const saveBtn = $("#ccSaveSettings");
+    if (!saveBtn) return;
+    saveBtn.addEventListener("click", () => {
+      const idn = _ccConfig.identity || {};
+      const eng = _ccConfig.engagement || {};
+      const sys = _ccConfig.system || {};
+      const updated = {
+        ..._ccConfig,
+        identity: { ...idn, name: $("#ccSetName").value.trim(), date: $("#ccSetDate").value, startTime: $("#ccSetStartTime").value, endTime: $("#ccSetEndTime").value, timezone: $("#ccSetTimezone").value, location: $("#ccSetLocation").value.trim(), type: $("#ccSetType").value },
+        engagement: { ...eng, collectEmail: $("#ccSetCollectEmail").getAttribute("data-on") === "true", collectPhone: $("#ccSetCollectPhone").getAttribute("data-on") === "true", qrCheckin: $("#ccSetQrCheckin").getAttribute("data-on") === "true" },
+        system: { ...sys, sponsorsEnabled: $("#ccSetSponsors").getAttribute("data-on") === "true", automationEnabled: $("#ccSetAutomation").getAttribute("data-on") === "true" }
       };
+      saveConfig(updated);
+      _ccConfig = updated;
+      renderCommandCenter(updated);
+    });
+    const resetBtn = $("#ccResetDemo");
+    if (resetBtn) resetBtn.addEventListener("click", () => {
+      const defaults = getSampleConfig();
+      saveConfig(defaults);
+      _ccConfig = defaults;
+      renderCommandCenter(defaults);
+      showToast("Demo: reset to defaults");
+    });
+  }
 
-      const setTemplate = (template) => {
-        state.template = template;
-        state.step = 0;
-        if (template !== "events") {
-          state.eventTier = null;
-          if (wizardContentDefault) wizardContentDefault.style.display = "";
-          if (wizardContentEventsV2) wizardContentEventsV2.style.display = "none";
-        } else {
-          if (wizardContentDefault) wizardContentDefault.style.display = "none";
-          if (wizardContentEventsV2) wizardContentEventsV2.style.display = "";
-          eventPageConfig = applyEventPreset(createDefaultEventPageConfig(), eventPageConfig.setupType || "event_ready");
-          syncEventPageConfigToForm();
-          renderEventsV2Preview();
-        }
-        templateButtons.forEach((btn) =>
-          btn.classList.toggle("active", btn.dataset.template === template)
-        );
-        previewFrames.forEach((frame) => {
-          frame.classList.toggle("active", frame.dataset.template === template);
-        });
-        templateToggleGroups.forEach((group) => {
-          group.classList.toggle("active", group.dataset.template === template);
-        });
-        updateEventTierUI();
-        showStep(0);
-        updatePreviewText();
-        updateTemplateSections();
-      };
+  function hydrateRegistration(cfg){
+    if (!cfg) return;
+    const idn = cfg.identity || {};
+    const att = cfg.attendance || {};
+    const don = att.donation || {};
+    const inv = att.invite || {};
+    const eng = cfg.engagement || {};
+    const sys = cfg.system || {};
+    $("#eventName").value = idn.name || "";
+    $("#eventDate").value = idn.date || "";
+    $("#startTime").value = idn.startTime || "";
+    $("#endTime").value = idn.endTime || "";
+    $("#timezone").value = idn.timezone || "America/Chicago";
+    $("#location").value = idn.location || "";
+    $("#eventType").value = idn.type || "custom";
+    const model = att.model || "free";
+    document.querySelectorAll('input[name="model"]').forEach(r => { r.checked = r.value === model; });
+    $("#capacity").value = att.capacity != null ? att.capacity : "";
+    $("#suggestedAmounts").value = (don.suggestedAmounts || []).join(", ");
+    $("#inviteCode").value = inv.code || "";
+    switchSet($("#allowCustom"), !!don.allowCustom);
+    switchSet($("#codeRequired"), !!inv.codeRequired);
+    const tiers = att.ticketTiers || [];
+    $("#tiers").innerHTML = "";
+    tierId = 0;
+    tiers.forEach(t => { addTier(); const rows = $$("#tiers .tierRow"); const row = rows[rows.length - 1]; if (row) { row.querySelector("[data-tier-name]").value = t.name || ""; row.querySelector("[data-tier-price]").value = t.price != null ? t.price : ""; row.querySelector("[data-tier-qty]").value = t.quantity != null ? t.quantity : ""; } });
+    switchSet($("#collectEmail"), !!eng.collectEmail);
+    switchSet($("#collectPhone"), !!eng.collectPhone);
+    switchSet($("#smsEnabled"), !!eng.smsEnabled);
+    switchSet($("#qrCheckin"), !!eng.qrCheckin);
+    switchSet($("#sponsorsEnabled"), !!sys.sponsorsEnabled);
+    switchSet($("#automationEnabled"), !!sys.automationEnabled);
+    syncUI();
+  }
 
-      const showStep = (index) => {
-        const stepList = getCurrentStepList();
-        state.step = Math.max(0, Math.min(index, stepList.length - 1));
-        stepList.forEach((s) => s.classList.remove("active"));
-        if (stepList[state.step]) stepList[state.step].classList.add("active");
-        stepLabel.textContent = `Step ${state.step + 1} of ${stepList.length}`;
-        backBtn.disabled = state.step === 0;
-        const isLast = state.step === stepList.length - 1;
-        nextBtn.textContent = isLast ? "Publish" : "Next";
-        if (state.template === "events" && state.step === 3) buildEpVideosList();
-        if (state.template !== "events") updateEventTierUI();
-        updatePreviewText();
-      };
-
-      templateButtons.forEach((button) => {
-        button.addEventListener("click", () => setTemplate(button.dataset.template));
-      });
-
-      document.getElementById("events-v2-preview-mode")?.addEventListener("change", function () {
-        eventPageConfig.previewMode = this.value;
-        renderEventsV2Preview();
-      });
-
-      document.getElementById("events-v2-setup-type")?.addEventListener("click", (e) => {
-        const btn = e.target.closest(".option-card[data-setup-type]");
-        if (!btn) return;
-        document.querySelectorAll("#events-v2-setup-type .option-card").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        eventPageConfig = applyEventPreset(createDefaultEventPageConfig(), btn.dataset.setupType);
-        syncEventPageConfigToForm();
-        renderEventsV2Preview();
-      });
-
-      ["ep-internal-name", "ep-public-title", "ep-tagline", "ep-event-link", "ep-host-org", "ep-event-type", "ep-theme", "ep-start-datetime", "ep-end-datetime", "ep-format", "ep-venue-name", "ep-venue-city-state"].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("input", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
-      });
-      document.getElementById("ep-event-type")?.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
-      document.getElementById("ep-format")?.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
-      ["ep-sec-attendees", "ep-sec-sponsors", "ep-sec-donors", "ep-sec-volunteers", "ep-sec-schedule", "ep-sec-prizes", "ep-sec-gallery", "ep-sec-faq", "ep-sec-contact", "ep-form-rsvp", "ep-form-contact", "ep-consent-email", "ep-consent-sms", "ep-auto-rsvp", "ep-auto-reminder-24", "ep-auto-reminder-1", "ep-auto-event-end"].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("change", () => { syncEventPageConfigFromForm(); renderEventsV2Preview(); });
-      });
-      document.getElementById("ep-video-count")?.addEventListener("change", function () {
-        const n = Math.min(6, Math.max(1, parseInt(this.value, 10) || 1));
-        this.value = n;
-        while (eventPageConfig.videos.length < n) {
-          const i = eventPageConfig.videos.length;
-          eventPageConfig.videos.push({ id: "v" + (i + 1), internalName: "Video " + (i + 1), publicTitle: "", purpose: "welcome", audienceTargets: ["attendees"], videoSource: "upload", videoUrl: "", cta: { type: "rsvp", label: "RSVP Now", destination: "" }, qrLabel: "event-v" + (i + 1) });
-        }
-        eventPageConfig.videos = eventPageConfig.videos.slice(0, n);
-        buildEpVideosList();
-        renderEventsV2Preview();
-      });
-
-      if (eventTierGrid) {
-        eventTierGrid.addEventListener("click", (e) => {
-          const card = e.target.closest(".event-tier-card");
-          if (!card || card.disabled) return;
-          state.eventTier = card.dataset.eventTier || null;
-          updateEventTierUI();
-          showStep(state.step);
-          updatePreviewText();
-        });
-      }
-
-      const eventQuickCta = document.getElementById("event-quick-cta");
-      if (eventQuickCta) eventQuickCta.addEventListener("input", updatePreviewText);
-
-      goalButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          goalButtons.forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
-      });
-
-      [headlineInput, subheadlineInput, ctaInput].forEach((input) =>
-        input.addEventListener("input", updatePreviewText)
-      );
-      formTemplate.addEventListener("change", updatePreviewText);
-      [videoToggle, galleryToggle, reviewsToggle].forEach((input) =>
-        input.addEventListener("change", updatePreviewText)
-      );
-
-      formModeButtons.forEach((button) =>
-        button.addEventListener("click", () => {
-          formModeButtons.forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-          updatePreviewText();
-        })
-      );
-
-      templateToggles.forEach((toggle) =>
-        toggle.addEventListener("change", updateTemplateSections)
-      );
-
-      function renderEventVideoLabels() {
-        const container = document.getElementById("event-video-labels");
-        const countInput = document.getElementById("event-video-count");
-        if (!container || !countInput) return;
-        const n = Math.max(1, parseInt(countInput.value, 10) || 1);
-        container.innerHTML = Array.from({ length: n }, (_, i) =>
-          `<div class="input-row" style="margin-bottom: 6px;"><label>Video ${i + 1}</label><input type="text" class="event-video-label-input" data-video-index="${i}" placeholder="Label (optional)" style="font-size: 12px; padding: 6px 8px;" /></div>`
-        ).join("");
-        container.querySelectorAll(".event-video-label-input").forEach((input) => {
-          input.removeEventListener("input", _eventVideoLabelChange);
-          input.addEventListener("input", _eventVideoLabelChange);
-        });
-      }
-      function _eventVideoLabelChange() {
-        updatePreviewText();
-      }
-
-      document.getElementById("event-products-link").addEventListener("click", function (e) {
-        e.preventDefault();
-        alert("Rep QR will open the products and shipping page here. You can replace this link with your actual URL.");
-      });
-
-      const eventNameEl = document.getElementById("event-name");
-      const eventDateEl = document.getElementById("event-date");
-      const eventVenueEl = document.getElementById("event-venue");
-      const eventMessageEl = document.getElementById("event-message");
-      const eventVideoCountEl = document.getElementById("event-video-count");
-      const eventSlugEl = document.getElementById("event-slug");
-      const eventSubheadlineEl = document.getElementById("event-subheadline");
-      const eventQuickVideoLabelEl = document.getElementById("event-quick-video-label");
-      [eventNameEl, eventDateEl, eventVenueEl, eventMessageEl, eventSlugEl, eventSubheadlineEl, eventQuickVideoLabelEl].forEach((el) => {
-        if (el) el.addEventListener("input", updatePreviewText);
-      });
-      ["event-rsvp-on", "event-email-capture-on", "event-sms-optin-on", "event-live-mode-on", "event-post-event-mode-on", "event-ai-chat-on", "event-photo-upload-on", "event-prize-giveaway-on", "event-audience-attendee", "event-audience-sponsor", "event-audience-donor", "event-post-thankyou", "event-post-followup", "event-post-analytics"].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener("change", updatePreviewText);
-      });
-      if (eventVideoCountEl) {
-        eventVideoCountEl.addEventListener("change", function () {
-          const n = Math.max(1, parseInt(this.value, 10) || 1);
-          this.value = n;
-          renderEventVideoLabels();
-          updatePreviewText();
-        });
-      }
-
-      backBtn.addEventListener("click", () => showStep(state.step - 1));
-      nextBtn.addEventListener("click", () => {
-        if (state.template === "events") {
-          const stepList = getCurrentStepList();
-          const isLast = state.step === stepList.length - 1;
-          if (isLast) {
-            syncEventPageConfigFromForm();
-            const c = eventPageConfig;
-            const hasTitle = (c.identity.publicTitle || "").trim().length >= 2;
-            const hasUrl = (c.identity.eventLinkSlug || "").trim().length >= 2;
-            const hasVideo = c.videos && c.videos.length >= 1;
-            const hasContact = c.forms.contact.enabled;
-            if (!hasTitle || !hasUrl || !hasVideo || !hasContact) {
-              alert("To publish: add a public title, event link (URL), at least one video, and keep Contact form enabled.");
-              return;
-            }
-            alert("Event saved. Your event link and QR set will be available in the Rep QR dashboard.");
-            return;
-          }
-        } else if (state.step === 0 && state.template === "events" && !state.eventTier) {
-          return;
-        }
-        showStep(state.step + 1);
-      });
-
-      showStep(0);
-      updatePreviewText();
-      updateTemplateSections();
-      renderEventVideoLabels();
-      if (wizardContentDefault) wizardContentDefault.style.display = "";
-      if (wizardContentEventsV2) wizardContentEventsV2.style.display = "none";
-    </script>
-  </body>
+  init();
+</script>
+</body>
 </html>
